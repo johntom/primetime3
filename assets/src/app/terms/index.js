@@ -17,7 +17,7 @@ angular.module('sailng.terms', [])
         //getOne = function (field,value) {
         // find 1 post from cache
         PostsModel.getOne('author', 'terms').then(function (post) {
-            console.log('getOne ', post)
+            //console.log('getOne ', post)
             $scope.post = post;
         })
 

@@ -51,7 +51,7 @@ module.exports = {
         //
 
 
-        console.log('-----success--------createPDF-----params------------', book, trip);
+        //console.log('-----success--------createPDF-----params------------', book, trip);
         //var par = req.param;
         //var potext, pohead , part, _i, _len;
         //var doc;
@@ -79,14 +79,14 @@ module.exports = {
         startcol3 = 450;
         doc.text('Boat ', startcol, linePos).text(trip.Owner, startcol2, linePos);
         linePos += 15;
-        doc.text('Date/Time', startcol, linePos).text(s1+' '+s2, startcol2, linePos);
+        doc.text('Date/Time', startcol, linePos).text(s1 + ' ' + s2, startcol2, linePos);
         linePos += 15;
 
         doc.text('Price', startcol, linePos).text(trip.tripprice, startcol2, linePos);//req.body.vendor.CompanyName
         linePos += 15;
-        doc.text('spots', startcol, linePos).text(trip.spots, startcol2, linePos).text('taken', startcol2+50, linePos).text(trip.taken, startcol2+100, linePos).text(' avail '  + (trip.spots - trip.taken), startcol2+150, linePos);
+        doc.text('spots', startcol, linePos).text(trip.spots, startcol2, linePos).text('taken', startcol2 + 50, linePos).text(trip.taken, startcol2 + 100, linePos).text(' avail ' + (trip.spots - trip.taken), startcol2 + 150, linePos);
 
-        if(trip.chartername) {
+        if (trip.chartername) {
             linePos += 15;
             doc.text('Charter', startcol, linePos).fillColor("blue").text(trip.chartername, startcol2, linePos);
 
@@ -129,9 +129,9 @@ module.exports = {
         doc.font('Palatino').fontSize(10).text('qty', 45, linePos)
             .text('name', 70, linePos)
             .text('phone', 190, linePos)
-            .text('total',445, linePos)
-                .text('deposit', 485, linePos, {width: 40, align: 'right'})
-                .text('balance', 540, linePos, {width: 40, align: 'right'});
+            .text('total', 445, linePos)
+            .text('deposit', 485, linePos, {width: 40, align: 'right'})
+            .text('balance', 540, linePos, {width: 40, align: 'right'});
 
         linePos += 20;
         //var upform = {}; name phone email qty total deposit deposit
@@ -141,12 +141,12 @@ module.exports = {
             var liDesc;
 
             doc.font('Palatino').fontSize(10).text(po.qty, 45, linePos)
-                .text(po.name , 70, linePos, {width: 120, align: 'left'})
+                .text(po.name, 70, linePos, {width: 120, align: 'left'})
                 .text(po.phone, 190, linePos, {width: 240, align: 'left'})
                 .text(accounting.formatMoney(po.total), 430, linePos, {width: 50, align: 'right'})
                 .text(accounting.formatMoney(po.deposit), 480, linePos, {width: 50, align: 'right'})
 
-                .text(accounting.formatMoney(po.total-po.deposit), 530, linePos, {width: 50, align: 'right'});
+                .text(accounting.formatMoney(po.total - po.deposit), 530, linePos, {width: 50, align: 'right'});
             linePos = doc.y + 20;
         });
         linePos = doc.y + 100;// 100
@@ -218,16 +218,22 @@ module.exports = {
     getList: function (req, res) {
         console.log('getListOrig=======THIS IS USED FROM ROUTES===========')
         var params = req.params.all();
+var start;
 
         // gt and dates from yesterday
+        if (req.user !== undefined) {
+            // cjeck for role = 4
+            start = new Date('1/1/2015');
+            start= moment().format('mm/dd/yyyy');
 
-        var start = new Date();
-        start.setHours(0,0,0,0);
-
+        } else {
+            start = new Date();
+            start.setHours(0, 0, 0, 0);
+        }
         //var end = new Date();
         //end.setHours(23,59,59,999);
         //
-      //  Tasks.find().sort({Start: 1})
+        //  Tasks.find().sort({Start: 1})
 
 //        var ddate_str1 = new Date('01/04/2014');
 //        var ddate_str2 = new Date('02/04/2014');
@@ -240,8 +246,8 @@ module.exports = {
 //        db.po.find( { Date:{$gte: ddate_str1, $lte: ddate_str2} } ).forEach( function(po) {
 
 
-//        Tasks.find({Start:{ $gte : start } }).sort({Start: 1})
-        Tasks.find().sort({Start: 1})
+        Tasks.find({Start: {$gte: start}}).sort({Start: 1})
+//        Tasks.find().sort({Start: 1})
 
             .exec(function (error, tasks) {
                 if (error) {
@@ -260,52 +266,52 @@ module.exports = {
                         if (mess.OwnerID === 1) mess.Owner = 'Prime Time 3';
                         if (mess.OwnerID === 2) mess.Owner = 'Jenglo';
                         if (mess.details === undefined) mess.details = [];
-                        if (mess.spots===undefined){
-                        switch (mess.TripType) {
+                        if (mess.spots === undefined) {
+                            switch (mess.TripType) {
 
-                            case  1:
-                                mess.spots = 20;
-                                mess.tripdesc = 'Seasonal Bottom';
-                                mess.tripprice = 100;
-                                break
-                            case  2:
-                                mess.spots = 16;
-                                mess.tripdesc = 'Rodbender';
-                                mess.tripprice = 125;
-                                break
-                            case  3:
-                                mess.spots = 12;
-                                mess.tripdesc = 'PT Bass/Blues ';
-                                mess.tripprice = 125;
-                                break
-                            case  4:
-                                mess.spots = 10;
-                                mess.tripdesc = 'JG Bass/Blues';
-                                mess.tripprice = 125;
-                                break
-                            case  5:
-                                mess.spots = 16;
-                                mess.tripdesc = 'Block Island';
-                                mess.tripprice = 150;
-                                break
-                            case  6:
-                                mess.spots = 20;
-                                mess.tripdesc = 'Sundown Bottom';
-                                mess.tripprice = 75;
-                                break
-                            case  7:
-                                mess.spots = 10;
-                                mess.tripdesc = 'Limited Special';
-                                mess.tripprice = 150;
-                                break
-                            case  8:
-                                mess.spots = 10;
-                                mess.tripdesc = 'Private Charter';
-                                mess.tripprice = 150;
-                                break
-                            //default:
-                            //    result[key] = num;
-                        }
+                                case  1:
+                                    mess.spots = 20;
+                                    mess.tripdesc = 'Seasonal Bottom';
+                                    mess.tripprice = 100;
+                                    break
+                                case  2:
+                                    mess.spots = 16;
+                                    mess.tripdesc = 'Rodbender';
+                                    mess.tripprice = 125;
+                                    break
+                                case  3:
+                                    mess.spots = 12;
+                                    mess.tripdesc = 'PT Bass/Blues ';
+                                    mess.tripprice = 125;
+                                    break
+                                case  4:
+                                    mess.spots = 10;
+                                    mess.tripdesc = 'JG Bass/Blues';
+                                    mess.tripprice = 125;
+                                    break
+                                case  5:
+                                    mess.spots = 16;
+                                    mess.tripdesc = 'Block Island';
+                                    mess.tripprice = 150;
+                                    break
+                                case  6:
+                                    mess.spots = 20;
+                                    mess.tripdesc = 'Sundown Bottom';
+                                    mess.tripprice = 75;
+                                    break
+                                case  7:
+                                    mess.spots = 10;
+                                    mess.tripdesc = 'Limited Special';
+                                    mess.tripprice = 150;
+                                    break
+                                case  8:
+                                    mess.spots = 10;
+                                    mess.tripdesc = 'Private Charter';
+                                    mess.tripprice = 150;
+                                    break
+                                //default:
+                                //    result[key] = num;
+                            }
                         }
                     });
 
@@ -318,49 +324,48 @@ module.exports = {
             });
     },
     create: function (req, res) {
-             console.log('in create', req.params.all())
-var OwnerID  = req.param('OwnerID');
-    if(OwnerID==='Primetime3') {
-        OwnerID=1;
-    } else
-    {
-        OwnerID=1;
-    }
+        console.log('in create', req.params.all())
+        var OwnerID = req.param('OwnerID');
+        if (OwnerID === 'Primetime3') {
+            OwnerID = 1;
+        } else {
+            OwnerID = 1;
+        }
         var model = {
-            "Start" : req.param('Start'),
-            "End" : req.param('End'),
-            "OwnerID" : OwnerID,
-          //  "TaskID" : 1,
-            "Title" :req.param('Title'),
-            "StartTimezone" : "",
-            "EndTimezone" : "",
-            "RecurrenceRule" : null,
-            "RecurrenceID" : null,
-            "RecurrenceException" : null,
-            "IsAllDay" : false,
-            "TripType" : 1,
-            "spots" : req.param('spots'),
-            "tripdesc" :req.param('tripdesc'),
-            "tripprice" : req.param('tripprice'),
+            "Start": req.param('Start'),
+            "End": req.param('End'),
+            "OwnerID": OwnerID,
+            //  "TaskID" : 1,
+            "Title": req.param('Title'),
+            "StartTimezone": "",
+            "EndTimezone": "",
+            "RecurrenceRule": null,
+            "RecurrenceID": null,
+            "RecurrenceException": null,
+            "IsAllDay": false,
+            "TripType": 1,
+            "spots": req.param('spots'),
+            "tripdesc": req.param('tripdesc'),
+            "tripprice": req.param('tripprice'),
 
-            "chartername" : req.param('chartername'),
-            "isCharter" : req.param('isCharter')
+            "chartername": req.param('chartername'),
+            "isCharter": req.param('isCharter')
 
-            };
+        };
 
-            // TODO: upon message creation, how to populate the user here, so the associated user gets sent back as a property of the message
-            Tasks.create(model)
-                .exec(function(err, rec) {
-                    if (err) {
-                        return console.log(err);
-                    }
-                    else {
-                        //console.log('in todo create')
-                        //console.log('User with socket id '+req.socket.id+' is now subscribed to all of the model create in \'todos\'.');
-                        //Todo.publishCreate(model);
-                        res.json(rec);
-                    }
-                });
+        // TODO: upon message creation, how to populate the user here, so the associated user gets sent back as a property of the message
+        Tasks.create(model)
+            .exec(function (err, rec) {
+                if (err) {
+                    return console.log(err);
+                }
+                else {
+                    //console.log('in todo create')
+                    //console.log('User with socket id '+req.socket.id+' is now subscribed to all of the model create in \'todos\'.');
+                    //Todo.publishCreate(model);
+                    res.json(rec);
+                }
+            });
     },
 
 
@@ -481,17 +486,17 @@ var OwnerID  = req.param('OwnerID');
         var upform = {};
         if (trip.taken === undefined) trip.taken = 0;
         upform.taken = trip.taken;
-        upform.chartername=trip.chartername;
-        upform.spots=trip.spots;
-        upform.tripprice=trip.tripprice;
-        upform.isCharter=trip.isCharter;
+        upform.chartername = trip.chartername;
+        upform.spots = trip.spots;
+        upform.tripprice = trip.tripprice;
+        upform.isCharter = trip.isCharter;
         upform.details = trip.details;
 
-           // added
-        upform.Start=trip.Start;
-        upform.End=trip.End;
+        // added
+        upform.Start = trip.Start;
+        upform.End = trip.End;
         upform.OwnerID = trip.OwnerID;
-        upform.Title=trip.Title;
+        upform.Title = trip.Title;
         upform.tripdesc = trip.tripdesc;
 //if ( upform.OwnerID===1){
 //    upform.Owner = 'Prime Time 3';
@@ -510,7 +515,7 @@ var OwnerID  = req.param('OwnerID');
                         return {data: 'error ' + err}//  console.log(err);
                     }
                     else {
-                        console.log('=======updated[0]', updated[0])
+                        //   console.log('=======updated[0]', updated[0])
 
                         //if (updated[0].id !== undefined) {
                         //    Billing.publishUpdate(updated[0].id, updated[0]);
@@ -552,7 +557,7 @@ var OwnerID  = req.param('OwnerID');
                         return {data: 'error ' + err}//  console.log(err);
                     }
                     else {
-                        console.log('=======updated[0]', updated[0])
+                        // console.log('=======updated[0]', updated[0])
                         //if (updated[0].id !== undefined) {
                         //    Billing.publishUpdate(updated[0].id, updated[0]);
                         //}

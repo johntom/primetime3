@@ -106,6 +106,7 @@ angular.module('sailng.booking', [])
 
 //console.log('startemup');
             $scope.prevtrip = {};
+            $scope.currentuser = config.currentUser;
             TasksModel.getAll($scope).then(function (data) {
                 $scope.trips = data;
                 $scope.totalItems = $scope.trips.length;
@@ -219,8 +220,20 @@ angular.module('sailng.booking', [])
 
 
                 TasksModel.create(trip).then(function (model) {
-$scope.trips.push(model);
+                //    $scope.trips.push(model);
+
+                    TasksModel.getAll($scope).then(function (data) {
+                        $scope.trips = data;
+                        $scope.totalItems = $scope.trips.length;
+                        //   $scope.currentPage = 1;
+
+                    });
+
                 });
+                // cant just push goes to end of list
+                // must find pos and do a splice
+
+
             };
             $scope.setTime = function (start) {
                 $scope.trip.End = start;
@@ -380,13 +393,13 @@ $scope.trips.push(model);
 
 //__currentPage
             $scope.pageChangeHandler = function (num) {
-                console.log('going to page ' + num);
+                //console.log('going to page ' + num);
                 $scope.currentPage = num;
             };
 
             $scope.setPage = function (pageNo) {
                 // $scope.currentPage = pageNo;
-                console.log('setPage to currentPage ', pageNo);
+               // console.log('setPage to currentPage ', pageNo);
                 $scope.currentPage = pageNo;
             };
 

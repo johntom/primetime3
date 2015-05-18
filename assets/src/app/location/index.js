@@ -16,7 +16,7 @@ angular.module('sailng.location', [])
 
         titleService.setTitle('Location');
         PostsModel.getOne('author', 'location').then(function (post) {
-            console.log('getOne ', post)
+            //console.log('getOne ', post)
             $scope.post = post;
         })
     }]);

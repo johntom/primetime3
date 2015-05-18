@@ -94,10 +94,10 @@ angular.module('sailng.upload', [
         $scope.getGallery = function() {
             //alert('getGallery are supported..')
             GalleryModel.getAll($scope).then(function (models) {
-                console.log('GalleryModel ', models)
+                //console.log('GalleryModel ', models)
                 $scope.images = models;
                 $scope.index = 0;
-                console.log( '   $scope.images ',  $scope.images)
+                //console.log( '   $scope.images ',  $scope.images)
             });
         }
 

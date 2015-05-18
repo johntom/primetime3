@@ -41,14 +41,14 @@ angular.module('sailng.crew', [])
 
                   $scope.param = $stateParams;
              // $scope.state = $state.current;
-              console.log(' $scope.state  ',$scope.param.id );
+              //console.log(' $scope.state  ',$scope.param.id );
        // console.log(' $scope.param  ',$scope.param );
        // console.log(' .$location  ',  $location.search());//;
 
         titleService.setTitle($scope.param.id);//'Crew');
         //fishingtrips  crew
         PostsModel.getOne('author', $scope.param.id).then(function (post) {
-            console.log('getOne ', post)
+            //console.log('getOne ', post)
             $scope.post = post;
         })
     }]);

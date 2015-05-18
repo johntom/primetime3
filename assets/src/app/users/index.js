@@ -43,7 +43,7 @@ angular.module('sailng.users', [
         };
 
         $scope.createUser = function (newUser) {
-            console.log('new ', newUser)
+            //console.log('new ', newUser)
             newUser.user = config.currentUser.id;
 
             UserModel.create(newUser).then(function (model) {
@@ -56,7 +56,7 @@ angular.module('sailng.users', [
         UserModel.getAll($scope).then(function (models) {
             $scope.users = models.data;
             var data = $scope.users;
-            console.log('data ', data)
+            //console.log('data ', data)
             $scope.tableParams = new ngTableParams({
                 page: 1,            // show first page
                 count: 25,          // count per page
@@ -83,7 +83,7 @@ angular.module('sailng.users', [
 
           //  $scope.buttonShow = false;
             if ((user === undefined) || (user === 0)) {
-                console.log(' editContract add mode ', user)
+                //console.log(' editContract add mode ', user)
                 $scope.user1 = {id: 0};
 
 
@@ -94,7 +94,7 @@ angular.module('sailng.users', [
 
                 $location.path('/users/0');
             } else {
-                console.log(' editContract edit mode ', user)
+                //console.log(' editContract edit mode ', user)
                 $scope.user1 = user;
 
                 $location.path('/users/' + user.id);
@@ -115,7 +115,7 @@ angular.module('sailng.users', [
                         });
                     } else {
 
-                        console.log('update id ', user.id)
+                        //console.log('update id ', user.id)
                         UserModel.update(user).then(function (model) {
                         });
 

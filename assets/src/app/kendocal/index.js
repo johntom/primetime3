@@ -96,7 +96,7 @@ angular.module('sailng.kendocal', [])
                        // var task = e.data.models[0];
                         //dataType: "json",
                         var task = e.data.models[e.data.models.length-1];
-                        console.log('create e ctrl ', task)
+                        //console.log('create e ctrl ', task)
                         //
                         TasksModel.create(task).then(function (model) {
                             //  $scope.currentBilling.title = '';

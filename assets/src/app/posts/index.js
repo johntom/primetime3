@@ -92,7 +92,7 @@ angular.module('sailng.posts', [])
                 } else {
                     $scope.currentPost = post;
                     $scope.currentPost.tag = '';
-                    console.log('edit post ', $scope.currentPost);//post);
+                    //console.log('edit post ', $scope.currentPost);//post);
 
                     $location.path('/posts/' + post.id);
                 }
@@ -113,7 +113,7 @@ angular.module('sailng.posts', [])
                     return file === data;
                 });
 
-                console.log('file.selectedproject ', apos, $scope.tag, ' bpos ', bpos)
+                //console.log('file.selectedproject ', apos, $scope.tag, ' bpos ', bpos)
                 if (bpos === -1) {
                     $scope.currentPost.tags.push($scope.tag)
                 }
@@ -125,7 +125,7 @@ angular.module('sailng.posts', [])
 
             PostsModel.gettags($scope).then(function (models) {
                 $scope.tags = models.data;
-                console.log('models ', $scope.tags)
+                //console.log('models ', $scope.tags)
             });
             PostsModel.getAll($scope).then(function (models) {
                 $scope.posts = models.data;
@@ -165,7 +165,7 @@ angular.module('sailng.posts', [])
             });
             //=============
             $scope.destroyTag = function (tag) {
-                console.log('destroyTag ', tag)
+                //console.log('destroyTag ', tag)
                 //lodash.remove($scope.tags, tag);
                 lodash.remove($scope.currentPost.tags, function (num) {
                     return num === tag;
@@ -204,7 +204,7 @@ angular.module('sailng.posts', [])
                             });
 
                         } else {
-                            console.log('models ');
+                            //console.log('models ');
                             // $scope.htmlSafe = $sce.trustAsHtml($scope.html);
                             //urrentPost.postContent = $sce.trustAsHtml(currentPost.postContent);
                             PostsModel.update(currentPost).then(function (model) {
@@ -216,7 +216,7 @@ angular.module('sailng.posts', [])
                                 if ($scope.tagadded === true) {
                                     PostsModel.gettags($scope).then(function (models) {
                                         $scope.tags = models.data;
-                                        console.log('models tagadded ', $scope.tags)
+                                        //console.log('models tagadded ', $scope.tags)
                                     });
                                     $scope.tagadded = false;
                                 }

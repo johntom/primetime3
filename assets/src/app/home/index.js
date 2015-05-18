@@ -112,7 +112,7 @@ angular.module('sailng.home', [])
 
                 ContactModel.create(contact)
                     .then(function (models) {
-                        console.log('DailyModel ', models);//.title)
+                        //console.log('DailyModel ', models);//.title)
                         //if (models.status!=="success"){
                         if (models !== "success") {
                             alert('data save failed')
@@ -140,7 +140,7 @@ angular.module('sailng.home', [])
             //});
 
             PostsModel.getOne('author', 'frontpage').then(function (post) {
-                console.log('getOne ', post)
+                //console.log('getOne ', post)
                 $scope.post = post;
             })
 
@@ -167,7 +167,7 @@ angular.module('sailng.home', [])
 
             // alert('CalendarModel')
             CalendarModel.getAll($scope).then(function (models) {
-                console.log('CalendarModel ', models)
+                //console.log('CalendarModel ', models)
                 $scope.calendars = models;//[0];//fishing report
                 //alert ('in cal '+$scope.calendars)
                 // alert('articles 0/tag'+$scope.articles);//$scope.articles);//.tags)

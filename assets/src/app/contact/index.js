@@ -16,7 +16,7 @@ angular.module('sailng.contact', [])
 
         titleService.setTitle('Contact');
         PostsModel.getOne('author', 'contact').then(function (post) {
-            console.log('getOne ', post)
+            //console.log('getOne ', post)
             $scope.post = post;
         })
     }]);

@@ -32,7 +32,7 @@ angular.module('sailng.gallery', [])
         });
 
         PostsModel.getOne('author', 'gallery').then(function (post) {
-            console.log('getOne ', post)
+            //console.log('getOne ', post)
             $scope.post = post;
         })
 
@@ -82,8 +82,8 @@ angular.module('sailng.gallery', [])
 
                 $scope.images = models;
                 $scope.dataHasLoaded = true;
-                console.log('GalleryModel ================', $scope.dataset+' '+$scope.images.length)
-                console.log(' $scope.images ', $scope.images )
+                //console.log('GalleryModel ================', $scope.dataset+' '+$scope.images.length)
+               // console.log(' $scope.images ', $scope.images )
 
             });
 
