@@ -63,11 +63,32 @@
             <div id="jumbo" class="jumbotron">
                 <legend>trip info</legend>
 
-                <div class="col-md-4" style="background-color:yellow">Charter:</div>
+                <div class="col-md-4"> Owner (1=Pt3 , 2=Jenglo)</div>
                 <div class="col-md-8">
-                    <input type="checkbox" ng-model="trip.isCharter"
-                           required/></div>
+                    <select ng-model="trip.OwnerID" ng-show="currentUser.role>='3'"
+                            ng-options="status for status in statuses"></select>
+                </div>
                 <br>
+                <br>
+
+                <div class="form-group row">
+                    <label class="col-xs-4 control-label">StartDateTime</label>
+
+                    <div class="col-xs-6">
+                        <div fs-datetime="" ng-model="trip.Start" ng-click="setTime(trip.Start)"> </div>
+                    </div>
+
+                </div>
+                <br>
+
+                <div class="form-group row">
+                    <label class="col-xs-4 control-label">EndDateTime</label>
+
+                    <div class="col-xs-6">
+                        <div fs-datetime="" ng-model="trip.End"></div>
+                    </div>
+
+                </div>
 
                 <div class="col-md-4"> spots:</div>
                 <div class="col-md-8">
@@ -98,32 +119,19 @@
 
                 <br>
 
-                <div class="col-md-4"> Owner (1=Pt3 , 2=Jenglo)</div>
+
+                <div class="col-md-4" style="background-color:yellow">Charter:</div>
                 <div class="col-md-8">
-                    <select ng-model="trip.OwnerID" ng-show="currentUser.role>='3'"
-                            ng-options="status for status in statuses"></select>
-                </div>
-                <br>
+                    <input type="checkbox" ng-model="trip.isCharter"
+                           required/></div>
                 <br>
 
-                <div class="form-group row">
-                    <label class="col-xs-4 control-label">StartDateTime</label>
-
-                    <div class="col-xs-6">
-                        <div fs-datetime="" ng-model="trip.Start" ng-click="setTime('07:00')"> 07:00</div>
-                    </div>
-
-                </div>
+                <div class="col-md-4">chartername:</div>
+                <div class="col-md-8">
+                    <input type="text" style="width:250px" ng-model='trip.chartername' name="chartername"
+                           required=""/></div>
                 <br>
 
-                <div class="form-group row">
-                    <label class="col-xs-4 control-label">EndDateTime</label>
-
-                    <div class="col-xs-6">
-                        <div fs-datetime="" ng-model="trip.End"></div>
-                    </div>
-
-                </div>
                 <fs-row label="Result">
                   <pre>
                       Entered datetime: {{ trip.Start | date:'medium'}}

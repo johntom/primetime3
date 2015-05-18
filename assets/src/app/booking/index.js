@@ -219,10 +219,12 @@ angular.module('sailng.booking', [])
 
 
                 TasksModel.create(trip).then(function (model) {
-
+$scope.trips.push(model);
                 });
             };
-
+            $scope.setTime = function (start) {
+                $scope.trip.End = start;
+            }
             $scope.bookTrip = function (trip) {
                 $scope.trip = trip;
                 $scope.billingopen = true;
@@ -426,7 +428,11 @@ angular.module('sailng.booking', [])
                 ;//$scope.book[index].qty * $scope.trip.tripprice;
             }
 
-            $scope.saveBook = function (bookedtrip) {
+
+
+                //save to mongo
+
+                $scope.saveBook = function (bookedtrip) {
                 //save to mongo
                 // delete all with 0
                 // bookedtrip=task

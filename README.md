@@ -1,4 +1,6 @@
 # MEANS #
+Bower install for all except kendo and ng-fader
+Npm install is good for all except pdfkit. make mods for new version
 
 ![image](http://sailsjs.org/images/bkgd_squiddy.png)
 

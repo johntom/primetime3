@@ -68,10 +68,10 @@ angular.module('models.tasks', ['lodash', 'services', 'ngSails'])
                 //customPOST returns an object Post return array
                 Tasks.customPOST(task).then(function (response) {
                     //alert(posts[0]);
-                    console.log('set myData cache data', response.data)
+                    console.log('set myData cache data', response)
 
 
-                    deferred.resolve(response.data);
+                    deferred.resolve(response);//.data);
                 });
                 return deferred.promise;
             },
@@ -84,10 +84,10 @@ angular.module('models.tasks', ['lodash', 'services', 'ngSails'])
                 //customPOST returns an object Post return array
                 Tasks.customPUT(task).then(function (response) {
                     //alert(posts[0]);
-                    console.log('set myData cache data', response.data)
+                    console.log('set myData cache data', response);//.data)
 
 
-                    deferred.resolve(response.data);
+                    deferred.resolve(response);//.data);
                 });
                 return deferred.promise;
             };
