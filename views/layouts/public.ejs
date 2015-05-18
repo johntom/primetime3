@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html ng-app="sailng" ng-controller="AppCtrl">
+<head>
+    <!--<title>BrookBridge - Sails.js and Angular starter app / boilerplate</title>-->
+    <title>BrookBridge Workflow by GRZ</title>
+
+    <base href="/">
+    <!-- Viewport mobile tag for sensible mobile support -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+            <!--- THIS IS THE PUBLIC LAYOUT --->
+    <!--
+        Stylesheets and Preprocessors
+        ==============================
+
+        You can always bring in CSS files manually with `<link>` tags, or asynchronously
+        using a solution like AMD (RequireJS).  Or, if you like, you can take advantage
+        of Sails' conventional asset pipeline (boilerplate Gruntfile).
+
+        By default, stylesheets from your `assets/linker/styles` folder are included
+        here automatically (between STYLES and STYLES END). Both CSS (.css) and LESS (.less)
+        are supported. In production, your styles will be minified and concatenated into
+        a single file.
+
+        To customize any part of the built-in behavior, just edit your Gruntfile.
+        For example, here are a few things you could do:
+
+            + Change the order of your CSS files
+            + Import stylesheets from other directories
+            + Use a different or additional preprocessor, like SASS, SCSS or Stylus
+    -->
+
+    <!--STYLES-->
+    <link rel="stylesheet" href="/styles/importer.css">
+    <!--STYLES END-->
+
+    <style>
+
+    </style>
+</head>
+
+<body>
+
+<!--reverse theme-->
+    <!--<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">-->
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+
+        <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span><span
+                    class="icon-bar"></span><span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">PrimeTime3</a>
+    </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+
+    </div>
+    <!-- /.navbar-collapse -->
+</nav>
+<div class="container-fluid">
+<%- body %>
+
+
+
+</div>
+
+<!--
+
+  Client-side Javascript
+  ========================
+
+  You can always bring in JS files manually with `script` tags, or asynchronously
+  on the client using a solution like AMD (RequireJS).  Or, if you like, you can
+  take advantage of Sails' conventional asset pipeline (boilerplate Gruntfile).
+
+  By default, filesin your `assets/linker/js` folder are included here
+  automatically (between SCRIPTS and SCRIPTS END).  Both JavaScript (.js) and
+  CoffeeScript (.coffee) are supported. In production, your scripts will be minified
+  and concatenated into a single file.
+
+  To customize any part of the built-in behavior, just edit your Gruntfile.
+  For example, here are a few things you could do:
+
+      + Change the order of your scripts
+      + Import scripts from other directories
+      + Use a different preprocessor, like TypeScript
+
+-->
+
+<!--SCRIPTS-->
+<script src="/bower_components/jquery/dist/jquery.js"></script>
+<script src="/bower_components/angular/angular.js"></script>
+<script src="/bower_components/restangular/dist/restangular.js"></script>
+<script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+<script src="/bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+<script src="/bower_components/socket.io-client/dist/socket.io.min.js"></script>
+<script src="/bower_components/sails.io.js/dist/sails.io.js"></script>
+<script src="/bower_components/angular-sails/dist/angular-sails.js"></script>
+<script src="/bower_components/lodash/dist/lodash.js"></script>
+<script src="/bower_components/moment/moment.js"></script>
+<script src="/bower_components/angular-moment/angular-moment.js"></script>
+<script src="/bower_components/angular-translate/angular-translate.js"></script>
+<script src="/bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
+<script src="/bower_components/ng-table/ng-table.js"></script>
+<script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="/bower_components/angular-file-upload/angular-file-upload.js"></script>
+<script src="/bower_components/angular-sanitize/angular-sanitize.js"></script>
+<script src="/bower_components/angular-xeditable/dist/js/xeditable.js"></script>
+<script src="/bower_components/angular-input-modified/dist/angular-input-modified.js"></script>
+<script src="/bower_components/marked/lib/marked.js"></script>
+<script src="/bower_components/angular-marked/angular-marked.js"></script>
+<script src="/bower_components/ngmap/build/scripts/googlemaps.js"></script>
+<script src="/bower_components/ngmap/build/scripts/ng-map.js"></script>
+<script src="/bower_components/angular-youtube-mb/dist/angular-youtube-embed.min.js"></script>
+<script src="/bower_components/Kendo/src/src/kendo.all.js"></script>
+<script src="/bower_components/Kendo/src/src/kendo.timezones.js"></script>
+<script src="/bower_components/angular-route/angular-route.js"></script>
+<script src="/bower_components/angular-animate/angular-animate.js"></script>
+<script src="/bower_components/angular-touch/angular-touch.js"></script>
+<script src="/bower_components/ngFader/ngFader.js"></script>
+<script src="/bower_components/angular-formstamp/formstamp.js"></script>
+<script src="/src/app/about/index.js"></script>
+<script src="/src/app/app.js"></script>
+<script src="/src/app/booking/index.js"></script>
+<script src="/src/app/contact/index.js"></script>
+<script src="/src/app/crew/index.js"></script>
+<script src="/src/app/footer/index.js"></script>
+<script src="/src/app/gallery/index.js"></script>
+<script src="/src/app/header/index.js"></script>
+<script src="/src/app/home/index.js"></script>
+<script src="/src/app/kendocal/index.js"></script>
+<script src="/src/app/location/index.js"></script>
+<script src="/src/app/policy/index.js"></script>
+<script src="/src/app/posts/index.js"></script>
+<script src="/src/app/renewal/index.js"></script>
+<script src="/src/app/terms/index.js"></script>
+<script src="/src/app/todos/index.js"></script>
+<script src="/src/app/upload/index.js"></script>
+<script src="/src/app/users/index.js"></script>
+<script src="/src/app/videogallery/index.js"></script>
+<script src="/src/common/directives/bandGallery.js"></script>
+<script src="/src/common/directives/blink.js"></script>
+<script src="/src/common/directives/dirPagination.js"></script>
+<script src="/src/common/directives/tabsetll.js"></script>
+<script src="/src/common/filters/filter.js"></script>
+<script src="/src/common/models/Booking.js"></script>
+<script src="/src/common/models/Calendar.js"></script>
+<script src="/src/common/models/Contact.js"></script>
+<script src="/src/common/models/Gallery.js"></script>
+<script src="/src/common/models/ImageService.js"></script>
+<script src="/src/common/models/Inventory.js"></script>
+<script src="/src/common/models/Mandrill.js"></script>
+<script src="/src/common/models/Posts.js"></script>
+<script src="/src/common/models/Tasks.js"></script>
+<script src="/src/common/models/Todo.js"></script>
+<script src="/src/common/models/User.js"></script>
+<script src="/src/common/models/index.js"></script>
+<script src="/src/common/services/config.js"></script>
+<script src="/src/common/services/index.js"></script>
+<script src="/src/common/services/lodash.js"></script>
+<script src="/src/common/services/offCanvas.js"></script>
+<script src="/src/common/services/title.js"></script>
+<script src="/src/common/services/utils.js"></script>
+<!--SCRIPTS END-->
+
+
+<!--
+    Client-side Templates
+    ========================
+
+    HTML templates are important prerequisites of modern, rich client applications.
+    To work their magic, frameworks like Backbone, Angular, Ember, and Knockout require
+    that you load these templates client-side.
+
+    By default, your Gruntfile is configured to automatically load and precompile
+    client-side JST templates in your `assets/linker/templates` folder, then
+    include them here automatically (between TEMPLATES and TEMPLATES END).
+
+    To customize this behavior to fit your needs, just edit your Gruntfile.
+    For example, here are a few things you could do:
+
+        + Import templates from other directories
+        + Use a different template engine (handlebars, jade, dust, etc.)
+        + Internationalize your client-side templates using a server-side
+          stringfile before they're served.
+-->
+
+<!--TEMPLATES-->
+<script type="text/javascript" src="/templates.js"></script>
+<!--TEMPLATES END-->
+
+
+</body>
+</html>

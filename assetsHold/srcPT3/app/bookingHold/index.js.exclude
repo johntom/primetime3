@@ -1,0 +1,302 @@
+angular.module('sailng.booking', [])
+
+    .config(['$stateProvider', function config($stateProvider) {
+        $stateProvider.state('booking', {
+            url: '/booking',
+            views: {
+                "main": {
+                    controller: 'BookingCtrl',
+                    templateUrl: 'booking/index.tpl.html'
+                }
+            }
+        });
+    }])
+// booking Booking BookingCtrl
+    //.controller('BookingCtrl', ['$scope', 'titleService', 'PostsModel', function AboutController($scope, titleService, PostsModel) {
+    .controller('BookingCtrl', ['$scope', '$sails', 'lodash', 'config', 'titleService', 'BookingModel', 'InventoryModel', '$filter', 'ngTableParams', 'PostsModel','TasksModel',
+        function BookingController($scope, $sails, lodash, config, titleService, BookingModel, InventoryModel, $filter, ngTableParams, PostsModel,TasksModel) {
+
+
+            TasksModel.getAll($scope).then(function (data) {
+
+            $scope.trips = data;
+
+            });
+
+            titleService.setTitle('Booking');
+            PostsModel.getOne('author', 'booking').then(function (post) {
+                console.log('getOne ', post)
+                $scope.post = post;
+            })
+
+            $scope.stats = [
+                {name: 'reserved', value: 0},
+                {name: 'reserved-away', value: 1},
+                {name: 'reserved-back', value: 2},
+                {name: 'desk available', value: 3}
+
+            ];
+
+            getDesks = function (cdt) {
+                var idz = lodash.findIndex($scope.desks, function (desk) {
+                    return desk.cdate === cdt;
+                });
+                console.log(idz);//cdt,
+
+                if (idz > 0) {
+                    $scope.desks1day = lodash.filter($scope.desks[idz].details, function (num) {
+
+                        return num.avail === 0;
+                    });
+                }
+            }
+
+            InventoryModel.getAll($scope).then(function (models) {
+                console.log('Ctrl InventoryModel')
+                $scope.desks = models.data;
+                console.log('Inventory::', $scope.desks)
+                var cdt = moment().format("MM/DD/YYYY");
+                getDesks(cdt);
+                console.log('Inventory1::', $scope.desks1day)
+            });
+
+
+//        $scope.$watch('newHotelling', function() {
+//           alert('in w')
+//            }
+//        );
+//http://plnkr.co/edit/WBt1BGAqBnecEdv1jqfu?p=preview
+            $scope.selectDate = function (dt) {
+
+                var cdt = moment(dt).format("MM/DD/YYYY");
+                getDesks(cdt);
+
+            }
+
+            $scope.desktotal = 17;
+            $scope.maxed = false;
+
+            $scope.newHotelling = {};
+// $scope.newHotelling.floor= 0;
+
+            $scope.hotellings = [];
+            $scope.currentUser = config.currentUser;
+            console.log('scope.currentUser.data:: ', $scope.currentUser)
+// old version $sails.on('message', function (envelope) {
+// see  assets/src/common/models/Hotelling.js
+            $sails.on('hotelling', function (envelope) {
+
+                switch (envelope.verb) {
+                    case 'created':
+// $scope.newHotelling.title ='';
+                        console.log('BookingModel.data ', envelope.data, envelope.data.floor);
+                        console.log('BookingModel.desks1day ', $scope.desks1day)
+                        console.log(' $scope.newHotelling', $scope.newHotelling);
+
+                        $scope.hotellings.unshift(envelope.data);
+
+//
+
+
+                        // console.log('envelope.data:: ',envelope.data.comoboday, envelope.data)
+                        $scope.tableParams.data = $scope.hotellings;
+                        $scope.taken = $scope.hotellings.length;
+                        $scope.available = $scope.desktotal - $scope.taken;
+                        if ($scope.hotellings.length === $scope.desktotal) $scope.maxed = true;
+                        $scope.tableParams.reload();
+                        var ncdate = moment($scope.newHotelling.date).format("MM/DD/YYYY");
+                    //if(envelope.data.floor === $scope.newHotelling.floor.no )
+                        lodash.remove($scope.desks1day, {no: envelope.data.floor});
+
+                        if ($scope.newHotelling.floor !== undefined) {
+                            if ((envelope.data.floor === $scope.newHotelling.floor.no) && (envelope.data.cdate === ncdate)) {
+
+                                $scope.newHotelling.floor = '';
+                                $scope.newHotelling.title = '';
+                                // not for the success test for user
+                                if (envelope.data.user.id !== $scope.newHotelling.user)  alert('resource has been used. please re-select')
+                            }
+                        }
+
+                        break;
+                    case
+                    'destroyed'
+                    :
+                        console.log('envelope del', envelope);
+                        // lets put the inventory back in for that date
+                        // find a better way
+                        InventoryModel.getAll($scope).then(function (models) {
+                            console.log('Ctrl InventoryModel')
+                            $scope.desks = models.data;
+                            console.log('Inventory::', $scope.desks)
+                            var cdt = moment().format("MM/DD/YYYY");
+                            getDesks(cdt);
+                            console.log('Inventory1::', $scope.desks1day)
+                        });
+
+
+                        lodash.remove($scope.hotellings, {id: envelope.id});
+                        $scope.tableParams.data = $scope.hotellings;
+
+                        $scope.taken = $scope.hotellings.length;
+                        $scope.available = $scope.desktotal - $scope.taken;
+                        if ($scope.hotellings.length === $scope.desktotal) $scope.maxed = true;
+
+                        $scope.tableParams.reload();
+                        break;
+
+
+                    case
+                    'updated'
+                    : //
+                        //lodash.remove($scope.messages, {id: envelope.id});
+                        console.log('in HCtrl updated ', envelope.status, envelope.id, envelope)
+
+                        //   lodash.update($scop    e.messages, {id: envelope.id});
+
+                        for (var i in $scope.hotellings) {
+                            if ($scope.hotellings[i].id == envelope.id) {
+                                $scope.hotellings[i].status = envelope.data.status;
+                                if (envelope.data.title !== undefined)   $scope.hotellings[i].title = envelope.data.title;
+                            }
+                        }
+                        $scope.tableParams.data = $scope.hotellings;
+                        $scope.tableParams.reload();
+                        break;
+                }
+            });
+
+            $scope.fetchHotelling = function (hotelling) {
+                hotelling.status = 1;
+                BookingModel.update(hotelling).then(function (model) {
+
+                });
+            };
+            $scope.fetchedHotelling = function (hotelling) {
+                hotelling.status = 2;
+                BookingModel.update(hotelling).then(function (model) {
+                    // message has been deleted, and removed from $scope.messages
+                });
+
+            };
+            $scope.destroyHotelling = function (hotelling) {
+                BookingModel.delete(hotelling).then(function (model) {
+                    // hotelling has been deleted, and removed from $scope.hotellings
+                    //   lodash.remove($scope.hotellings, {id: hotelling.id});
+                });
+            };
+
+            $scope.createHotelling = function (newHotelling) {
+                newHotelling.user = config.currentUser.id;
+                newHotelling.status = '1';
+                console.log('new:: ', newHotelling)
+                if (newHotelling.floor === '') {
+                    alert('resource has been used. please re-select')
+                }
+                else
+                    BookingModel.create(newHotelling).then(function (model) {
+                        $scope.newHotelling.title = '';
+                        console.log('BookingModel.create ', $scope.desks1day, $scope.newHotelling.floor);
+
+                    });
+            };
+
+            BookingModel.getAll($scope).then(function (models) {
+                $scope.hotellings = models.data;
+                var data = $scope.hotellings;
+                $scope.taken = $scope.hotellings.length;
+                $scope.available = $scope.desktotal - $scope.taken;
+                if ($scope.hotellings.length === $scope.desktotal) $scope.maxed = true;
+                console.log('data ', data)
+                $scope.tableParams = new ngTableParams({
+                    page: 1,            // show first page
+                    count: 25,          // count per page
+                    sorting: {
+                        //  comboday: 'asc'     // initial sorting
+                        date: 'asc'
+                    }
+                }, {
+
+                    groupBy: 'comboday',
+                    total: data.length,
+                    getData: function ($defer, params) {
+                        var orderedData = params.sorting() ?
+                            $filter('orderBy')(data, $scope.tableParams.orderBy()) :
+                            data;
+                        $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+                    }
+                });
+            });
+
+
+            $scope.today = function () {
+                $scope.newHotelling.date = new Date();
+            };
+            $scope.today();
+
+            $scope.showWeeks = true;
+            $scope.toggleWeeks = function () {
+                $scope.showWeeks = !$scope.showWeeks;
+            };
+
+            $scope.clear = function () {
+                $scope.newHotelling.date = null;
+            };
+
+// Disable weekend selection
+            $scope.disabled = function (date, mode) {
+                return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
+            };
+
+            $scope.toggleMin = function () {
+                $scope.minDate = ( $scope.minDate ) ? null : new Date();
+            };
+            $scope.toggleMin();
+
+            $scope.open = function ($event) {
+                $event.preventDefault();
+                $event.stopPropagation();
+
+                $scope.opened = true;
+            };
+
+            $scope.dateOptions = {
+                'year-format': "'yy'",
+                'starting-day': 1
+            };
+
+
+            $scope.format = "EEE MM/dd/yyyy";
+
+            $scope.newHotelling.date = new Date();
+
+            $scope.hstep = 1;
+            $scope.mstep = 15;
+
+
+            $scope.ismeridian = true;
+            $scope.toggleMode = function () {
+                $scope.ismeridian = !$scope.ismeridian;
+            };
+
+
+            $scope.changed = function () {
+                console.log('Time changed to: ' + $scope.newHotelling.date);
+            };
+
+            $scope.clear = function () {
+                $scope.newHotelling.date = null;
+            };
+
+            $scope.checkEvent = function (row) {
+
+                alert('row ' + row)
+            };
+            $scope.changeSelection = function (hotelling) {
+                console.info(hotelling);
+            }
+
+
+        }]);
+
+

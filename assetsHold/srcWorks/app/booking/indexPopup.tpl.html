@@ -1,0 +1,30 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h3 class="modal-title">Regulamin 105</h3>
+       </div>
+    <div class="modal-body">
+        $1. Give us all your money! for a trip on
+{{item}}
+        <h3> Date  {{trip.Start | moment:'dddd MMMM Do YYYY '}}</h3>
+        <h3>  {{item.Title}}</h3>
+        <h3>  {{item.Start| moment:'H:mm A'}}</h3>
+
+        <h3>  {{item.TripType}}</h3>
+
+        <input type="text" ng-model="item.qty"/>
+        </div>
+
+    <!--<ul>-->
+        <!--<li ng-repeat="item in items">-->
+            <!--<h3> Press OK to add <a ng-click="selected.item = item"> {{ item }}</a> to the database</h3>-->
+        <!--</li>-->
+    <!--</ul>-->
+
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="$dismiss()">OK</button>
+        </div>
+   </div>
+
+<!--<li ng-repeat="friend in friends">-->
+    <!--<b>{{friend.email.join(', ')}}</b>...-->
+<!--</li>-->

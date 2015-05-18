@@ -1,0 +1,79 @@
+<!--<h1> claim info 1</h1>-->
+<!--this modified on 11/19/13 for bs 3.0-->
+<style type="text/css">
+    span.title {
+        display: block;
+        font-size: 13px;
+        padding: 5px 0px 5px 0px;
+        /*margin: 0px 0px 0px 100px;*/
+        width: 300px;
+        color: #3CB4E7;
+    }
+
+    body {
+        padding: 50px !important;
+    }
+
+    .ng-table-rowselected tr {
+        cursor: pointer;
+    }
+
+    .table-hover > tbody > tr.active:hover > th {
+        background-color: #e8e8e8;
+    }
+</style>
+
+
+
+
+    <h4>Book a {{trip.tripdesc}} trip - Catch a fish. {{trip.spots - trip.taken}} spots available</h4>
+<div class="row clearfix">
+    <div class="col-md-12 column">
+        <label for="book.qty">Your Trip Info <i class="fa fa-comments"></i></label>
+        <label for="Book a trip">Date/Time </label>
+       <h4> <div> {{trip.Start | moment:'MM/DD/YYYY'}}</div></h4>
+        <div>{{trip.Start | moment:'h:mm a'}}-{{trip.End | moment:'hh:mm A'}}</div>
+        <form role="form" ng-submit="createBilling()">
+            <div class="form-group">
+                <label for="exampleInputName">name</label><input type="text" class="form-control" placeholder="Enter name" ng-model="book.name" id="exampleInputName"/>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPhone">phone</label><input  placeholder="Enter Phone/Cell" ng-model="book.phone" type="tel" class="form-control" id="exampleInputPhone" />
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail">Email address</label><input type="email" class="form-control" placeholder="Enter Email" ng-model="book.email" id="exampleInputEmail"/>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputDeposit">Qty</label><input type="number" style="width:150px" class="form-control" placeholder="Enter qty" ng-model="book.qty" id="exampleInputQty" min=1 max="{{trip.spots-trip.taken}}"/>
+            </div>
+            <div class="form-group">
+               <h4> <label for="exampleInputTotal">Total&nbsp;</label><span id="exampleInputTotal" ng-model="book.total">{{book.qty * trip.tripprice}} </span></h4>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputDeposit">Deposit</label><input type="number" style="width:150px" class="form-control" placeholder="Enter Deposit" ng-model="book.deposit" id="exampleInputDeposit"/>
+            </div>
+            <div class="form-group">
+                <h4>    <label for="exampleInputBalance">Balance&nbsp;</label><span id="exampleInputBalance" ng-model="book.balance">{{(book.qty * trip.tripprice) -  book.deposit}} </span></h4>
+            </div>
+            <div class="form-group">
+                <h4>    <label for="exampleInputBalance">AdminSoldOut&nbsp;</label><span id="exampleInputSO" ng-model="book.soldout">{{(book.qty * trip.tripprice) -  book.deposit}} </span></h4>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="row clearfix">
+<div class="col-md-12 column">
+<div class="col-md-6">
+    <button ng-click="cancel()" class="btn btn-warning">cancel/close</button>
+
+</div>
+        <div class="col-md-6">
+
+<!--<button type="submit" ng-click="createBilling(trip)"  ng-hide="book.qty===0 &&  currentUser.role!=4" class="btn btn-primary">Submit</button>-->
+    <button type="submit" ng-click="createBilling(book)"  ng-hide="book.qty===0 &&  currentUser.role!=4" class="btn btn-primary">Submit</button>
+      </div>
+    </button>
+
+</div>
+</div>
+</div>

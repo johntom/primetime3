@@ -1,0 +1,64 @@
+<script type="text/ng-template" id="myModalContent.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Add Code Dialog!</h3>
+    </div>
+    <div class="modal-body">
+
+        <ul>
+            <li ng-repeat="item in items">
+                <h3> Press OK to add <a ng-click="selected.item = item"> {{ item }}<b> </b></a>to the database</h3>
+            </li>
+        </ul>
+
+        <!--Press OK to add : <b>{{ selected.item }} </b> to the database</b>-->
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="ok()">OK</button>
+        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+    </div>
+</script>
+
+<form fs-form-for model="user1">
+
+    <fieldset class="form-horizontal">
+
+
+        <div class="col-md-8">
+            <div id="jumbo" class="jumbotron">
+                <legend>User</legend>
+                <fs-input as="text" name="username" required="" label="username"></fs-input>
+                <fs-input as="email" name="email" required="" label="email"></fs-input>
+                <fs-input as="text" name="first_name" required="" label="full_name"></fs-input>
+                <!--<fs-input as="text" name="last_name" required="" label="last_name"></fs-input>-->
+                <fs-input as="text" name="role" required="" label="role(1-4)"></fs-input>
+                <fs-input as="password" name="password" required="" label="password"></fs-input>
+                <fs-input as="checkbox" name="active" label="active"></fs-input>
+
+            </div>
+        </div>
+
+
+    </fieldset>
+
+
+</form >
+<!-- was hiding until created<div ng-show="contract1.id !== 0">-->
+
+
+<div class="col-md-12">
+    <div ng-bind="message" ng-show="message" class="alert alert-success"></div>
+    <div ng-bind="message_err" ng-show="message_err" class="alert alert-error"></div>
+</div>
+
+<div class="col-md-2">
+    <button class="btn btn-success" ng-click="saveUser(user1)" >save/close</button>
+</div>
+
+
+
+<div class="col-md-2">
+    <button ng-click="saveUser(0)" class="btn btn-warning">cancel/close</button>
+
+</div>
+
+

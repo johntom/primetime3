@@ -1,0 +1,234 @@
+angular.module( 'sailng.home', [])
+
+//.config(function config( $stateProvider ) {
+	.config( ['$stateProvider',function config( $stateProvider ) {
+		$stateProvider.state( 'home', {
+			url: '/home',
+			views: {
+				"main": {
+					controller: 'HomeCtrl',
+					templateUrl: 'home/index.tpl.html'
+				}
+			}
+		});
+	}])
+
+	//3-12    .controller( 'HomeCtrl',['$scope', '$sails', '$filter', '$interval','ngTableParams','$location','lodash', 'config',
+	//    'titleService', 'TodoModel','PostsModel','CalendarModel','ContactModel',  'marked',function HomeController( $scope, $sails, $filter,$interval, ngTableParams,$location,lodash, config, titleService, TodoModel,PostsModel,CalendarModel,ContactModel,marked ) {
+
+	.controller( 'HomeCtrl',['$scope',  '$filter', 'ngTableParams','$location','lodash', 'config',
+		'titleService', 'TodoModel','PostsModel','CalendarModel','ContactModel',  'marked',function HomeController( $scope, $filter, ngTableParams,$location,lodash, config, titleService, TodoModel,PostsModel,CalendarModel,ContactModel,marked ) {
+
+			//$scope.colors = ["#fc0003", "#f70008", "#f2000d", "#ed0012", "#e80017", "#e3001c", "#de0021", "#d90026", "#d4002b", "#cf0030", "#c90036", "#c4003b", "#bf0040", "#ba0045", "#b5004a", "#b0004f", "#ab0054", "#a60059", "#a1005e", "#9c0063", "#960069", "#91006e", "#8c0073", "#870078", "#82007d", "#7d0082", "#780087", "#73008c", "#6e0091", "#690096", "#63009c", "#5e00a1", "#5900a6", "#5400ab", "#4f00b0", "#4a00b5", "#4500ba", "#4000bf", "#3b00c4", "#3600c9", "#3000cf", "#2b00d4", "#2600d9", "#2100de", "#1c00e3", "#1700e8", "#1200ed", "#0d00f2", "#0800f7", "#0300fc"];
+            //
+			//function getSlide(target, style) {
+			//	var i = target.length;
+			//	return {
+			//		id: (i + 1),
+			//		label: 'slide #' + (i + 1),
+			//		img: 'http://lorempixel.com/450/300/' + style + '/' + ((i + 1) % 10) ,
+			//		color: $scope.colors[ (i*10) % $scope.colors.length],
+			//		odd: (i % 2 === 0)
+			//	};
+			//}
+            //
+			//function addSlide(target, style) {
+			//	target.push(getSlide(target, style));
+			//};
+            //
+			//$scope.carouselIndex = 3;
+			//$scope.carouselIndex2 = 0;
+			//$scope.carouselIndex2 = 1;
+			//$scope.carouselIndex3 = 5;
+			//$scope.carouselIndex4 = 5;
+            //
+			//function addSlides(target, style, qty) {
+			//	for (var i=0; i < qty; i++) {
+			//		addSlide(target, style);
+			//	}
+			//}
+            //
+			//// 1st ngRepeat demo
+			//$scope.slides = [];
+			//addSlides($scope.slides, 'sports', 50);
+            //
+			//// 2nd ngRepeat demo
+			//$scope.slides2 = [];
+			//addSlides($scope.slides2, 'sports', 10);
+            //
+			//// 3rd ngRepeat demo
+			//$scope.slides3 = [];
+			//addSlides($scope.slides3, 'people', 50);
+            //
+			//// 4th ngRepeat demo
+			//$scope.slides4 = [];
+			//addSlides($scope.slides4, 'city', 50);
+            //
+            //
+			//// 5th ngRepeat demo
+			//$scope.slides6 = [];
+			//$scope.carouselIndex6 = 0;
+			//addSlides($scope.slides6, 'sports', 10);
+			//$scope.addSlide = function(at) {
+			//	if(at==='head') {
+			//		$scope.slides6.unshift(getSlide($scope.slides6, 'people'));
+			//	} else {
+			//		$scope.slides6.push(getSlide($scope.slides6, 'people'));
+			//	}
+			//};
+            //
+
+
+
+/////////////////////////////////////////////////////
+		$scope.toggleText = 'show video';
+
+			$scope.conditional = {
+				video: 'a56O4dJcM6E',
+				visible: false,//true,
+				toggle: function () {
+					this.visible = !this.visible;
+					this.visible ? $scope.toggleText = 'hide video' : $scope.toggleText = 'show video';
+					// if ($scope.toggleText==='show video') { $scope.toggleText='hide video' } else ( $scope.toggleText='show video') ;
+				}
+			};
+
+			$scope.images = [
+				'images/banner1.jpg',
+				'images/banner3.jpg',
+				'images/banner5.jpg',
+				'images/banner4.png',
+				'images/banner2.jpg'
+			];
+
+
+			// alert('CalendarModel')
+			$scope.addContact = function(contact) {
+				//alert('add')
+
+				ContactModel.create(contact)
+					.then(function (models) {
+						console.log('DailyModel ', models);//.title)
+						//if (models.status!=="success"){
+						if (models!=="success"){
+							alert('data save failed')
+							$scope.data = {
+								isLoading: true//bad credentials
+							};
+						} else {
+							//alert('data saved')
+							$scope.contact={};
+							$scope.data = {
+								success: true
+							};
+						}
+
+					});
+			};
+
+
+			$scope.delay = 4000;//8000
+
+			//PostsModel.getOne($scope).then(function (models) {
+			//    console.log('models ', models)
+			//    $scope.articles = models[0];//fishing report
+			//    // alert('articles 0/tag'+$scope.articles);//$scope.articles);//.tags)
+			//});
+
+			PostsModel.getOne('author', 'frontpage').then(function (post) {
+				console.log('getOne ', post)
+				//alert(post+ ':post')
+				$scope.post = post;
+			});
+
+
+
+			CalendarModel.getAll ($scope).then(function (models) {
+				console.log('CalendarModel ', models)
+				$scope.calendars = models;//[0];//fishing report
+				//alert ('in cal '+$scope.calendars)
+				// alert('articles 0/tag'+$scope.articles);//$scope.articles);//.tags)
+			});
+
+		}]);
+
+//var stop;
+//$scope.fight = function() {
+//    alert('in fi')
+//    // Don't start a new fight if we are already fighting
+//    if ( angular.isDefined(stop) ) return;
+//
+//    $interval(function() {
+//        //if ($scope.blood_1 > 0 && $scope.blood_2 > 0) {
+//        //    $scope.blood_1 = $scope.blood_1 - 3;
+//        //    $scope.blood_2 = $scope.blood_2 - 4;
+//        //} else {
+//        //    $scope.stopFight();
+//        //}
+//        alert('in ts')
+//    }, 1000);
+//};
+//
+//$scope.updateTsPrevious = function() {
+//    $scope.tsPrevious = +new Date();
+//};
+//$scope.updateTsNext = function() {
+//    $scope.tsNext = +new Date();
+//};
+//3-21
+//$scope.format = 'M/d/yy h:mm:ss a';
+//$scope.blood_1 = 100;
+//$scope.blood_2 = 120;
+//
+//var stop;
+//$scope.fight = function() {
+//    alert(1)
+//
+//    // Don't start a new fight if we are already fighting
+//    if ( angular.isDefined(stop) ) return;
+//
+//    stop = $interval(function() {
+//        if ($scope.blood_1 > 0 && $scope.blood_2 > 0) {
+//            $scope.blood_1 = $scope.blood_1 - 3;
+//            $scope.blood_2 = $scope.blood_2 - 4;
+//        } else {
+//            $scope.stopFight();
+//        }
+//    }, 100);
+//};
+//
+//$scope.stopFight = function() {
+//    if (angular.isDefined(stop)) {
+//        $interval.cancel(stop);
+//        stop = undefined;
+//    }
+//};
+//$scope.resetFight = function() {
+//    $scope.blood_1 = 100;
+//    $scope.blood_2 = 120;
+//};
+//
+//$scope.$on('$destroy', function() {
+//    // Make sure that the interval is destroyed too
+//    $scope.stopFight();
+//});
+
+//PostsModel.getAll($scope).then(function (models) {
+//    console.log('getAll ', models)
+//    $scope.postsall = models.data;//fishing report
+//
+//    // alert('articles 0/tag'+$scope.articles);//$scope.articles);//.tags)
+//})
+//   .then(function () {
+//        var apos = lodash.findIndex($scope.postsall, function (file) {
+//            return file.author === "frontpage";
+//        });
+//        $scope.articles = $scope.postsall[apos];//fishing report   apos
+//    })
+
+//PostsModel.getAllDS().then(function (models) {
+//    console.log('getAllDS ', models)
+//    $scope.postsall = models.data;//fishing report
+//
+//    // alert('articles 0/tag'+$scope.articles);//$scope.articles);//.tags)
+//});

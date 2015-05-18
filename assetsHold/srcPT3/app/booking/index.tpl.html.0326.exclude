@@ -1,0 +1,427 @@
+<!--<style>-->
+
+<!--body {-->
+<!--/*min-height: 2000px;*/-->
+<!--padding-top: 90px;-->
+<!--}-->
+<!--</style>-->
+<style type="text/css">
+    containerMid {
+        margin: 430px auto 160px;
+        max-width: 660px;
+    }
+
+    ul2 {
+        list-style-type: none;
+        margin: 5px 5px 5px 5px;
+        padding: 5px 5px 5px 5px;
+    }
+
+    ul2:after {
+        clear: both;
+        content: "";
+        display: block;
+    }
+
+    li2 {
+        background-color: #F0F0F0;
+        border: 1px solid #CCCCCC;
+        border-radius: 4px 4px 4px 4px;
+        cursor: pointer;
+        float: left;
+        /*height: 130px 190;*/
+        height: 120px;
+        /*t,r,b,l*/
+        margin: 5px 5px 5px 5px;
+        text-align: left;
+        /*width: 220px;*/
+        width: 220px;
+        float: left; /* IMPORTANT */
+        list-style-type: none;
+        display: inline; /* IMPORTANT */
+        box-shadow: 5px 5px rgba(0, 0, 0, 0.30);
+    }
+
+    li2.selected {
+        border-color: #CC0000;
+    }
+
+    li2:hover {
+        border-color: #1052ee;
+        /*//#CC0000;*/
+        background-color: #ffff00;
+    }
+
+    li2:hover span.nickname {
+        display: block;
+    }
+
+    .cardHeader {
+        background-color: #027FF4;
+        font-size: 10pt;
+        color: white;
+        /*padding:5px;*/
+    }
+
+    .cardHeaderPT {
+        background-color: #f4380c;
+        font-size: 10pt;
+        color: white;
+        /*padding:5px;*/
+    }
+
+    a {
+        color: white;
+
+    }
+
+    a:hover {
+        border-color: #1052ee;
+        /*//#CC0000;*/
+        background-color: white;
+    }
+
+    span.name {
+        display: block;
+        font-size: 14px;
+        font-weight: bold;
+        margin: 0px 0px 0px 3px;
+        padding: 2px 0px 10px 0px;
+    }
+
+    span.nickname {
+        color: #1052ee;
+        /*display: block ;*/
+        /*font-size: 14px ;*/
+    }
+
+    body {
+        padding-top: 50px;
+    }
+
+</style>
+
+
+<!--<div ui-view name="main3" class="container-full">-->
+
+<!--<div class="col-md-12">-->
+<!--<h4>Select product 106</h4>-->
+<!--<select kendo-multi-select k-options="selectOptions" k-ng-model="selectedIds"></select>-->
+<!--<p ng-show="selectedIds.length"><br />Selected: {{ selectedIds }}</p>-->
+<!--</div>-->
+<!--<div class="col-md-12">-->
+
+<!--<select kendo-multi-select="" id ="kuMultiselect"-->
+<!--k-data-source = "sourceData"-->
+<!--k-data-text-field="'text'"-->
+<!--k-data-value-field="'id'"-->
+<!--k-auto-bind="false"-->
+<!--ng-model="selected2Ids"></select>-->
+<!--<p ng-show="selected2Ids.length"><br />Selected: {{ selected2Ids }}</p>-->
+<!--<input type="text" ng-model="form.point"/>-->
+<!--<button  class="btn btn-default" ng-click="add()">add</button>-->
+<!--</div>-->
+
+<div class="col-md-12">
+    <h3>{{claims.length}} open dates Prime Time 3 / Jenglo 101</h3>
+    <input style="width:100px" type="text" ng-model="filterText" placeholder="Filter" class="search-query"
+           tooltip-placement="bottom" tooltip="type any date,day, time or description to filter">
+
+</div>
+<div class="col-md-3">
+    <!--<p class="input-group">-->
+    <!--<input type="text" class="form-control" datepicker-popup="EEE MM/dd/yyyy"-->
+    <!--ng-model="filterText" is-open="opened" min="minDate" max="'2015-06-22'"-->
+    <!--datepicker-options="dateOptions" date-disabled="disabled(date, mode)"-->
+    <!--ng-required="true" close-text="Close"/>-->
+    <!--</p>{{filterText | moment:'YYYY-MM-DD'}}-->
+    <!--<p class="input-group">-->
+    <!--<input type="text" class="form-control" datepicker-popup="yyyy-MM-dd" ng-model="filterText" is-open="opened" min-date="minDate" max-date="'2015-06-22'"-->
+    <!--datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />-->
+    <!--<span class="input-group-btn">-->
+    <!--<button type="button" class="btn btn-default" date-type="string" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>-->
+    <!--</span>-->
+
+    <!--</p>-->
+
+    <!--<hr>-->
+
+</div>
+
+<!--//{{trips}}  | orderBy:Start  -->
+<!--<div ui-view name="main2" class="container">-->
+<!--</div>-->
+<!--<div class="cardHeader"><a ng-click="setCurrentClaim(trip)" tooltip-placement="bottom" tooltip="Click on Claim# to open dailies. # next to claim shows how many open. Down Icon opens Claim. Card Format: customer,received,ins co,claimant,desc">{{trip.Owner}}<span ng-hide="trip.trip==0">[open ct:{{trip.TripType}}]</span></a>-->
+<!--<div  ng-click="setCurrentClaimTest(trip)" tooltip="Click on downarrow to open up details on claim" class="pull-right a white"><i class="fa fa-pencil fa-lg"></i></div>-->
+
+<!--</div>-->
+<!--<div ui-view name="main2" class="container-full">-->
+</div>
+<div class="row clearfix">
+    <div class="col-md-12">
+    <div class="col-md-8">
+
+        <!--<ul2>-->
+            <!--&lt;!&ndash;<li2 ng-repeat="trip  in trips | filter:filterText | moment:YYYY-MM-DD ">&ndash;&gt;-->
+            <!--<li2 ng-repeat="trip  in trips | filter:filterText ">-->
+
+                      <!--<span ng-if="trip.OwnerID == 2">-->
+                        <!--<div class="cardHeader">{{trip.Owner}}<span-->
+                                <!--ng-hide="trip.trip==0">&nbsp;{{trip.tripdesc}}</span>-->
+
+                            <!--<div ng-click="setCurrentClaimTest(trip)" tooltip="Click to book a trip"-->
+                                 <!--class="pull-right a white"><i class="fa fa-pencil fa-lg"></i></div>-->
+
+                        <!--</div>-->
+                      <!--</span>-->
+                        <!--<span ng-if="trip.OwnerID == 1">-->
+                                <!--<div class="cardHeaderPT">{{trip.Owner}}<span ng-hide="trip.trip==0">&nbsp;{{trip.tripdesc}}</span>-->
+
+                                    <!--<div ng-click="setCurrentClaimTest(trip)"-->
+                                         <!--tooltip="Click on downarrow to open up details on claim"-->
+                                         <!--class="pull-right a white"><i class="fa fa-pencil fa-lg"></i></div>-->
+
+                                <!--</div>-->
+                      <!--</span>-->
+                <!--<span class="name">-->
+
+
+
+                    <!--<b>Launch Date/Time <br/>{{trip.Start | moment:'ddd MMMM Do YYYY '}} </b>  <br/>-->
+                    <!--Price:{{trip.tripprice}}/Spots:{{trip.tripspots}} <br/>-->
+                <!--&lt;!&ndash;&lt;!&ndash;Start:{{trip.Start | moment:'H:mm A'}}&ndash;&gt;&ndash;&gt;-->
+                <!--&lt;!&ndash;End: {{ trip.End | moment:'h:mm A' }}<br/>&ndash;&gt;-->
+
+                <!--&lt;!&ndash;Title:{{trip.Title}}  <br/>&ndash;&gt;-->
+                <!--&lt;!&ndash;TripDesc:{{trip.tripdesc}}&nbsp;&ndash;&gt;-->
+                <!--&lt;!&ndash;When:{{trip.diff}}<br/>&ndash;&gt;-->
+                <!--</span>-->
+
+            <!--</li2>-->
+        <!--</ul2>-->
+
+        <!--<li dir-paginate="meal in meals | filter:q | itemsPerPage: pageSize" current-page="currentPage">{{ meal }}</li>-->
+        <!--<table class="k-scheduler-table" ng-repeat="trip  in trips | filter:filterText"><tbody>-->
+        <!--<table class="k-scheduler-table" dir-paginate="trip  in trips | filter:filterText | itemsPerPage: pageSize" current-page="currentPage"><tbody>-->
+
+
+
+
+
+        <table class="k-scheduler-table" dir-paginate="trip  in trips | filter:filterText | itemsPerPage: pageSize" current-page="currentPage"><tbody>
+        <tr role="row" aria-selected="false" class="">
+            <td class="k-scheduler-datecolumn k-first" rowspan="1">
+                <strong class="k-scheduler-agendaday">{{trip.Start | moment:'DD' }}</strong>
+                <em class="k-scheduler-agendaweek">{{trip.cday}}</em>
+                <span class="k-scheduler-agendadate">{{trip.Start | moment:'MMMM,YYYY'}}</span></td>
+            <td class="k-scheduler-timecolumn">
+         <div>{{trip.Start | moment:'h:mm a'}}-{{trip.End | moment:'hh:mm A'}}</div>
+         </td>
+         <td>
+             <div class="k-task ng-scope" title="Prime Time 3 100 per head " data-uid="b6f1ebc1-a33d-46db-aad9-4eb6c6e4d0fa">
+          <span ng-if="trip.OwnerID == 1" class="k-scheduler-mark" style="background-color:#f8a398"></span>
+          <span ng-if="trip.OwnerID == 2" class="k-scheduler-mark" style="background-color:#4d72f8"></span>
+                 {{trip.Owner}}&nbsp;{{trip.tripdesc}}&nbsp;Price:{{trip.tripprice}}/Spots:{{trip.tripspots}}  - X Avail
+              <a href="#" class="k-link k-event-delete">
+                 <span class="k-icon k-si-close"></span>
+             </a>
+          </div>
+
+             <div ng-click="setCurrentClaim(trip)"
+                  tooltip="Click on downarrow to open up details on claim"
+                  class="pull-right a white"><i class="fa fa-pencil fa-lg"></i></div>
+
+
+
+        <!--<div ng-click="setCurrentClaimTest(trip)"-->
+             <!--tooltip="Click on downarrow to open up details on claim"-->
+             <!--class="pull-right a white"><i class="fa fa-pencil fa-lg"></i></div>-->
+
+
+
+         </td>
+        </tr>
+
+        </tbody>
+        </table>
+            <!--<small>pager</small>-->
+            <div class="text-center">
+                <dir-pagination-controls boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="booking/dirPagination.tpl.html"></dir-pagination-controls>
+            </div>
+
+
+    </div>
+
+        <div class="col-md-4">
+            <ui-view name="main2" class="container">
+</div>
+</div>
+ </div>
+
+
+<!--<div class="col-md-6">-->
+<!--<p><img align="left" style="width: 450px" ng-src="{{post.image}}"></p>-->
+<!--</div>-->
+<!--<div class="col-md-12">-->
+<!--<div class="post">-->
+<!--<h1>{{post.postTitle}}</h1>-->
+<!--<!--<div class="meta	form-group"-->-->
+<!--<!--marked="post.postContent">-->-->
+<!--<!--</div>-->-->
+
+
+<!--<div markdown-preview="" markdown-model="input.markdown">-->
+<!--<div class="panel panel-default">-->
+<!--<div class="panel-body form markdown-preview">-->
+
+
+<!--<div class="form-group col-sm-6">-->
+
+<!--<div markdown="post.postContent">-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+
+<!--<div class="clearfix"></div>-->
+<!--</div>-->
+
+
+<!--<h2>Book a trip</h2>-->
+<!--<span ng-if="currentUser.role === '3'" class="animate-if">-->
+<!--<h3> userInfo: {{currentUser.first_name}} / {{currentUser.no}}-->
+<!--</h3>-->
+<!--</span>-->
+
+
+<!--<p ng-show="!currentUser"><a href="/register">Register</a> to get a desk!</p>-->
+
+
+<!--<div class="row">-->
+<!--<div class="col-md-9">-->
+
+
+<!--<form role="form" ng-submit="createHotelling(newHotelling)">-->
+<!--<div class="form-group">-->
+<!--<label for="hotellingTitle">Your Hotelling <i class="fa fa-comments"></i></label>-->
+<!--<input type="text" ng-model="newHotelling.title" class="form-control" id="hotellingTitle"-->
+<!--ng-disabled="!currentUser">-->
+
+<!--<label for="hotellingDate">Date/Time  </label>-->
+
+<!--<div class="row">-->
+<!--<div class="col-sm-4">-->
+<!--<p class="input-group">-->
+<!--<input type="text" class="form-control" datepicker-popup="EEE MM/dd/yyyy"-->
+<!--ng-model="newHotelling.date" is-open="opened" min="minDate" max="'2015-06-22'"-->
+<!--datepicker-options="dateOptions" date-disabled="disabled(date, mode)"-->
+<!--ng-required="true" close-text="Close"/>-->
+<!--</p>-->
+
+<!--</div>-->
+<!--<div class="col-sm-6">-->
+<!---->
+
+<!--<div class="btn-group">-->
+<!--<label class="btn btn-primary" ng-model="newHotelling.floor" btn-radio="'5'">5th fl</label>-->
+<!--<label class="btn btn-primary" ng-model="newHotelling.floor" btn-radio="'9'">9th fl</label>-->
+<!--</div>-->
+<!--{{newHotelling.floor.value }}-->
+<!--</div>-->
+<!--<div class="col-sm-6">-->
+<!--<select id="account" ng-show="0==0" ng-model="newHotelling.floor" style="width:225px" ng-options='s.value +" "+s.status for s in desks' ng-change="setFloor(newHotelling.Template)"></select>-->
+
+
+<!--</div>-->
+<!--</div>-->
+
+
+<!--<div class="row">-->
+<!--<div class="col-xs-4">-->
+<!--<button class="btn btn-default" ng-click="open($event)"><i class="fa fa-calendar"></i></button>-->
+<!--<button class="btn btn-sm btn-info" ng-click="today()">Today</button>-->
+<!--<button class="btn btn-sm btn-danger" ng-click="clear()">Clear</button>-->
+<!--</div>-->
+
+
+<!--</div>-->
+
+
+<!--<hr/>-->
+<!---->
+
+
+<!--<button type="submit" class="btn btn-primary" ng-disabled="available<=0">Submit-->
+<!--</button>-->
+<!--<button type="button"  ng-csv="hotellings" filename='daily.csv' class="btn btn-primary" ng-disabled="available<=0">Export to CSV-->
+<!--</button>-->
+
+<!--<!--<h3>{{ desktotal }} Desks are available for each day  {{ taken  }} are taken {{ available }} are left</h3>-->-->
+<!--<h3>{{ desktotal }} Desks are available for each day for NYC</h3>-->
+<!--</form>-->
+<!--</div>-->
+
+<!--<div class="col-md-12">-->
+
+
+<!--<!--user {{currentUser.role}}-->-->
+<!--<table ng-table="tableParams" class="table ng-table-rowselected">-->
+
+
+<!--<tbody ng-repeat="group in $groups" >-->
+<!--<tr class="ng-table-group">-->
+<!--<td colspan="{{$columns.length}}">-->
+<!--<a href="" ng-click="group.$hideRows = !group.$hideRows">-->
+
+<!--<span class="fa" ng-class="{ 'fa-chevron-right': group.$hideRows, 'fa-chevron-down': !group.$hideRows }"></span>-->
+<!--<strong>{{ group.value }} {{ group.data.length }} desks assigned | {{ desktotal -  group.data.length  }} desks avaiable</strong>-->
+<!--</a>-->
+<!--</td>-->
+
+<!--</tr>-->
+<!--<!--<tr><td>ct:{{ $groups.data.length }}</td></tr>-->-->
+<!--<tr ng-hide="group.$hideRows" ng-repeat="hotelling in group.data "  ng-class="{ 'emp': hotelling.title == '666' }"-->
+<!--ng-click="hotelling.$selected = !hotelling.$selected; changeSelection(hotelling)"-->
+<!--ng-class="{'active': hotelling.$selected}">-->
+
+
+<!---->
+<!--<td sortable="username"   data-title="'username'">-->
+<!--{{hotelling.user.username  }}/ {{hotelling.user.no}}-->
+
+<!--</td>-->
+<!---->
+
+<!--<td sortable="status" data-title="'status'">-->
+<!--{{stats[hotelling.status].name}}-->
+<!--</td>-->
+<!---->
+<!--<td sortable="status" data-title="'req flr'">-->
+<!--{{hotelling.floor}}-->
+<!--</td>-->
+<!--<td data-title="'title'" sortable="title">-->
+<!--{{ hotelling.title}}-->
+<!--</td>-->
+
+
+<!--<td data-title="'away'">-->
+<!--<button type="button" class="btn btn-primary btn-xs" ng-click="fetchHotelling(hotelling)"-->
+<!--ng-show="currentUser.id === hotelling.user.id"><i class="fa fa-exchange"></i></button>-->
+<!--</td>-->
+<!--<td data-title="'back'">-->
+<!--<button type="button" class="btn btn-success btn-xs" ng-click="fetchedHotelling(hotelling)"-->
+<!--ng-show="currentUser.id === hotelling.user.id"><i class="fa fa-flag-checkered"></i></button>-->
+<!--</td>-->
+<!--<td data-title="'out'">-->
+<!--<button type="button" class="btn btn-danger btn-xs" ng-click="destroyHotelling(hotelling)"-->
+<!--ng-show="currentUser.id === hotelling.user.id"><i class="fa fa-trash-o"></i></button>-->
+<!--</td>-->
+
+
+<!--</tr>-->
+<!--</tbody>-->
+<!--</table>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->

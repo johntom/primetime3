@@ -1,0 +1,101 @@
+<style>
+
+    body {
+        /*min-height: 2000px;*/
+        padding-top: 90px;
+    }
+/** Decorating elements as valid only if they are modified */
+    .control input.ng-valid.ng-modified {
+        background-color: #EFE;
+        border-color: #6A6;
+    }
+    /* customize xeditable css */
+    a.editable-click {
+        background-color: #EFE;
+        color: green;
+        border-bottom: dotted 2px green;
+    }
+    a.editable-click:hover {
+        background-color: #EFE;
+        color: #47a447;
+        border-bottom-color: #47a447;
+    }
+
+    td.nowrap {
+        min-width: 129px;
+    }
+</style>
+
+<!--"tags" : [-->
+<!--"post",-->
+<!--"nina"-->
+<!--],-->
+<!--"postContent" : "## title level 2 \nSed augue ligula, pharetra vel fermentum sit amet",-->
+<!--"author" : "page",-->
+<!--"postTitle" : "Nina art work",-->
+<!--"createdAt" : NumberLong(1409493319967),-->
+<!--"image" : "/images/nina/8185266724_96c5d1434f_b.jpg"-->
+<h3>PhotoGallery Select: (please change in gallery before posting)  <select ng-model="dataset" ng-options="ds for ds in datasets"></select></h3>
+
+<div ui-view name="main2" class="container-full">
+
+    <h3 style="background-color:yellow">Articles Posted items: {{ posts.length}}</h3>
+    <button class="btn btn-default" ng-click="editPost(0)"><i class="glyphicon glyphicon-plus"></i>add new post</button>
+
+    <div class="col-md-12">
+        <!--{{posts}}-->
+        <!--ng-click="uiOneRecord(post,$index)"-->
+
+        <table ng-table="tableParams" class="table" show-filter="true" header-class="text-left">
+            <tr ng-repeat="post in  $data track by $id($index)">
+                <td data-title="'edit'" >
+                    <button class="btn btn-primary btn-xs"    ng-click="editPost(post)">
+
+                        <i class="fa fa-edit"></i></button>
+                </td>
+
+                <td data-title="'postTitle'" filter="{ 'postTitle': 'text' }"    sortable="'postTitle'" filter="{ 'postTitle': 'text' }" class="background:red">
+                    {{post.postTitle}}
+                </td>
+                <td data-title="'author'" filter="{ 'author': 'text' }"    sortable="'author'" filter="{ 'author': 'text' }" class="background:red">
+                    {{post.author}}
+                </td>
+                <td data-title="'author'" sortable="'author'" filter="{ 'author': 'text' }">
+                    {{post.author}}
+                </td>
+
+     <!---->
+
+                <!--<td data-title="'Address'" sortable="'Address'" filter="{ 'Address': 'text' }"-->
+                    <!--class="col-md-3" header-class="text-left;col-md-3">-->
+                    <!--{{contract.Address}}-->
+                <!--</td>-->
+
+                <!--<td data-title="'assignto_user'" sortable="'assignto_user'" filter="{ 'assignto_user': 'text' }"-->
+                    <!--header-class="text-left">-->
+                    <!--{{ contract.assignto_user}}</span>-->
+                <!--</td>-->
+                <!--<td data-title="'contractStatus'" sortable="'status'" filter="{ 'status': 'text' }">-->
+                    <!--{{contract.status}}-->
+                <!--</td>-->
+
+                <!--<td data-title="'grandTotal'" sortable="'grandTotal'">-->
+                    <!--{{contract.grandTotal}}-->
+                <!--</td>-->
+                <!--<td data-title="'allClosed'" sortable="'allClosed'"  tooltip="all billing items. add new should be visible ">-->
+                    <!--{{contract.allClosed}}-->
+                <!--</td>-->
+                <!--<td data-title="'canClose'"   style="text-align: left"  ng-model="canClose" filter="{ 'canClose': 'text' }"  tooltip="contract ready to close." >-->
+                    <!--{{contract.canClose}}-->
+                <!--</td>-->
+            </tr>
+        </table>
+<!---->
+        <b>Selection: {{contractforbilling.BCSNumber}} status: {{contractforbilling.status}} </b> allClosed: {{contractforbilling.allClosed}} {{contractforbilling.id}}
+
+
+
+    </div>
+
+
+</div>

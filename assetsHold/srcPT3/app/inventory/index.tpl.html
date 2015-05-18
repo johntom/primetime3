@@ -1,0 +1,181 @@
+<style>
+
+    body {
+        /*min-height: 2000px;*/
+        padding-top: 90px;
+    }
+</style>
+<h2>Hotelling v1.0.0 Beta</h2>
+<span ng-if="currentUser.role === '3'" class="animate-if">
+ <h3> userInfo: {{currentUser.first_name}} / {{currentUser.no}}
+    </h3>
+</span>
+
+
+
+<p ng-show="!currentUser"><a href="/register">Register</a> to get a desk!</p>
+
+
+<div class="row">
+    <div class="col-md-9">
+
+
+
+        <form role="form" ng-submit="createHotelling(newHotelling)">
+            <div class="form-group">
+                <label for="hotellingTitle">Your Hotelling <i class="fa fa-comments"></i></label>
+                <input type="text" ng-model="newHotelling.title" class="form-control" id="hotellingTitle"
+                       ng-disabled="!currentUser">
+
+                <label for="hotellingDate">Date/Time  </label>
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <p class="input-group">
+                            <input type="text" class="form-control" datepicker-popup="EEE MM/dd/yyyy"
+                                   ng-model="newHotelling.date" is-open="opened" min="minDate" max="'2015-06-22'"
+                                   datepicker-options="dateOptions" date-disabled="disabled(date, mode)"
+                                   ng-required="true" close-text="Close"/>
+                        </p>
+
+                    </div>
+                    <div class="col-sm-6">
+                    <!--<div class="radio-inline">-->
+                        <!--<label>-->
+                            <!--<input type="radio"  ng-model="newHotelling.floor"  value="option" checked>-->
+                            <!--5th fl-->
+                        <!--</label>-->
+                    <!--</div>-->
+                    <!--<div class="radio-inline">-->
+                        <!--<label>-->
+                            <!--<input type="radio"  ng-model="newHotelling.floor" value="option">-->
+                            <!--9th fl-->
+                        <!--</label>-->
+                    <!--</div>{{newHotelling.floor || 'null'}}-->
+                        <!--</div>-->
+
+                        <div class="btn-group">
+                            <label class="btn btn-primary" ng-model="newHotelling.floor" btn-radio="'5'">5th fl</label>
+                            <label class="btn btn-primary" ng-model="newHotelling.floor" btn-radio="'9'">9th fl</label>
+                        </div>
+                        {{newHotelling.floor.value }}
+                    </div>
+                    <div class="col-sm-6">
+                        <select id="account" ng-show="0==0" ng-model="newHotelling.floor" style="width:225px" ng-options='s.value +" "+s.status for s in desks' ng-change="setFloor(newHotelling.Template)"></select>
+
+
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-xs-4">
+                        <button class="btn btn-default" ng-click="open($event)"><i class="fa fa-calendar"></i></button>
+                        <button class="btn btn-sm btn-info" ng-click="today()">Today</button>
+                        <button class="btn btn-sm btn-danger" ng-click="clear()">Clear</button>
+                    </div>
+
+
+                </div>
+
+
+                <hr/>
+                <!--<div class="row">-->
+                    <!--<div class="col-sm-8">-->
+                        <!--<label class="checkbox-inline">-->
+                            <!--<input type="checkbox" id="inlineCheckbox1" value="option1"> 1-->
+                        <!--</label>-->
+                        <!--<label class="checkbox-inline">-->
+                            <!--<input type="checkbox" id="inlineCheckbox2" value="option2"> 2-->
+                        <!--</label>-->
+                        <!--<label class="checkbox-inline">-->
+                            <!--<input type="checkbox" id="inlineCheckbox3" value="option3"> 3-->
+                        <!--</label>-->
+
+                    <!--</div>-->
+
+            <!--</div>-->
+
+            <!--<button type="submit" class="btn btn-primary" ng-disabled="!currentUser || !newHotelling.title">Submit-->
+            <!--</button>-->
+
+            <button type="submit" class="btn btn-primary" ng-disabled="available<=0">Submit
+            </button>
+                <button type="button"  ng-csv="hotellings" filename='daily.csv' class="btn btn-primary" ng-disabled="available<=0">Export to CSV
+                </button>
+
+            <!--<h3>{{ desktotal }} Desks are available for each day  {{ taken  }} are taken {{ available }} are left</h3>-->
+            <h3>{{ desktotal }} Desks are available for each day for NYC</h3>
+        </form>
+    </div>
+
+    <div class="col-md-12">
+
+
+        <!--user {{currentUser.role}}-->
+        <table ng-table="tableParams" class="table ng-table-rowselected">
+
+
+            <tbody ng-repeat="group in $groups" >
+            <tr class="ng-table-group">
+                <td colspan="{{$columns.length}}">
+                    <a href="" ng-click="group.$hideRows = !group.$hideRows">
+
+                        <span class="fa" ng-class="{ 'fa-chevron-right': group.$hideRows, 'fa-chevron-down': !group.$hideRows }"></span>
+                        <strong>{{ group.value }} {{ group.data.length }} desks assigned | {{ desktotal -  group.data.length  }} desks avaiable</strong>
+                    </a>
+                </td>
+
+            </tr>
+            <!--<tr><td>ct:{{ $groups.data.length }}</td></tr>-->
+            <tr ng-hide="group.$hideRows" ng-repeat="hotelling in group.data "  ng-class="{ 'emp': hotelling.title == '666' }"
+                ng-click="hotelling.$selected = !hotelling.$selected; changeSelection(hotelling)"
+                ng-class="{'active': hotelling.$selected}">
+
+
+                <!--<td sortable="username" ng-show="currentUser.role==='3'"   data-title="'username'">-->
+                    <!--{{hotelling.user.username  }}/ {{hotelling.user.no}}-->
+
+                <!--</td>-->
+                <td sortable="username"   data-title="'username'">
+                    {{hotelling.user.username  }}/ {{hotelling.user.no}}
+
+                </td>
+                <!--<td sortable="status" data-title="'status'">-->
+                    <!--{{hotelling.status  }} {{stats[hotelling.status].name}}-->
+                <!--</td>-->
+
+                <td sortable="status" data-title="'status'">
+                   {{stats[hotelling.status].name}}
+                </td>
+                <!--<td data-title="'title'" sortable="title">-->
+                    <!--<span ng-class="{ 'fa fa-info-circle': message.title == '666','fa fa-dot-circle-o': message.title != '666' }">{{ hotelling.title}}</span>-->
+                <!--</td>-->
+                <td sortable="status" data-title="'req flr'">
+                    {{hotelling.floor}}
+                </td>
+                <td data-title="'title'" sortable="title">
+                  {{ hotelling.title}}
+                </td>
+
+
+                <td data-title="'away'">
+                    <button type="button" class="btn btn-primary btn-xs" ng-click="fetchHotelling(hotelling)"
+                            ng-show="currentUser.id === hotelling.user.id"><i class="fa fa-exchange"></i></button>
+                </td>
+                <td data-title="'back'">
+                    <button type="button" class="btn btn-success btn-xs" ng-click="fetchedHotelling(hotelling)"
+                            ng-show="currentUser.id === hotelling.user.id"><i class="fa fa-flag-checkered"></i></button>
+                </td>
+                <td data-title="'out'">
+                    <button type="button" class="btn btn-danger btn-xs" ng-click="destroyHotelling(hotelling)"
+                            ng-show="currentUser.id === hotelling.user.id"><i class="fa fa-trash-o"></i></button>
+                </td>
+
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>

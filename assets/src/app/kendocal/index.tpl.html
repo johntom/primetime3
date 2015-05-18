@@ -1,0 +1,170 @@
+<!--<h1>About Greater Than Zero, Inc</h1>-->
+
+<!--<p>Custom Software Solutions-->
+
+<!--</p>-->
+<style>
+
+    body {
+        /*min-height: 2000px;*/
+        padding-top: 130px;
+    }
+
+    .custom-event {
+        text-shadow: 0 1px 1px #000;
+    }
+
+    .custom-all-day-event {
+        text-align: center;
+        text-transform: uppercase
+    }
+
+</style>
+<style scoped>
+
+    .k-nav-current > .k-link span + span {
+        max-width: 200px;
+        display: inline-block;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        vertical-align: top;
+    }
+
+    #team-schedule {
+        background: url('../../content/web/scheduler/team-schedule.png') transparent no-repeat;
+        height: 115px;
+        position: relative;
+    }
+
+    #people {
+        /*background: url('../../content/web/scheduler/scheduler-people.png') no-repeat;*/
+        background: url('../../content/web/scheduler/2boats.png') no-repeat;
+        width: 345px;
+        height: 115px;
+        position: absolute;
+        right: 0;
+    }
+
+    #legend {
+        width: 145px;
+        height: 115px;
+        position: absolute;
+      /*//  left: 50px;*/
+         right: 0;
+        top: 175px;
+        /*background-color: rgba(255, 255, 255, 0);*/
+        /*display: inline; *//* IMPORTANT */
+
+        color: #3CB4E7;
+        font-size: 16px;
+    }
+
+    #pt3 {
+        position: absolute;
+        left: 4px;
+        top: 81px;
+    }
+
+    #jenglo {
+        position: absolute;
+        left: 119px;
+        top: 81px;
+    }
+
+    #charlie {
+        position: absolute;
+        left: 234px;
+        top: 81px;
+    }
+</style>
+<!--need the following 1 css for icons-->
+<link rel="stylesheet" href="http://cdn.kendostatic.com/2014.3.1119/styles/kendo.default.min.css"/>
+
+
+
+<!--<div class="col-md-6">-->
+<!--<p><img align="left" style="width: 450px" ng-src="{{post.image}}"></p>-->
+<!--</div>-->
+<!--<div class="col-md-12">-->
+<!--<div class="post">-->
+
+
+<!--<h1>{{post.postTitle}}</h1>-->
+
+
+<!--<div class="meta	form-group"-->
+<!--marked="post.postContent">-->
+<!--</div>-->
+
+
+<!--<pre>-->
+<!--<p ng-bind-html="currentPost.postContent"></p>-->
+
+<!--</pre>-->
+<!--<a href="#" title="all fishing reports"><i class="glyphicon glyphicon-share-alt"></i> View Full</a>-->
+
+<!--</div>-->
+<!--<div class="clearfix"></div>-->
+
+<!--<a class="offline-button" href="../index.html">Back</a>-->
+<!--<div kendo-scheduler k-options="schedulerOptions">-->
+<!--<span k-event-template class='custom-event'>{{dataItem.title}}</span>-->
+<!--<div k-all-day-event-template class='custom-all-day-event'>{{dataItem.title}}</div>-->
+<!--</div>-->
+
+<div id="example">
+    <input class="btn btn-warning"  type="button" onClick="history.go(0)" VALUE="Refresh"/>
+    <div id="team-schedule">
+        <div id="people">
+            <!--<input checked type="checkbox" id="alex" value="1" >-->
+            <!--<input checked type="checkbox" id="bob" value="2" >-->
+
+            <input type='checkbox'  id="pt3" ng-model='form.filer1'   ng-change='checkSched()'>
+            <input type='checkbox'  id="jenglo" ng-model='form.filer2'    ng-change='checkSched()'>
+
+
+
+            <!--<input checked type="checkbox" ng-model="1" ng-change="checkSched(1)"> <br/>-->
+
+            <!--<input type="checkbox" id="charlie" value="3">-->
+
+        </div>
+    </div>
+    <div id="legend">red=pt3 blue=jenglo</div>
+
+    <div kendo-scheduler="ksched" k-options="schedulerOptions" k-date="today">
+    </div>
+
+    <!--<div kendo-scheduler="ksched" k-options="schedulerOptions" k-date="today">-->
+        <!--<span k-event-template class='custom-event'>{{dataItem.title}}</span>-->
+        <!--<div k-all-day-event-template class='custom-all-day-event'>{{dataItem.title}}</div>-->
+    <!--</div>-->
+
+    <!--<style>-->
+        <!--.custom-event {-->
+            <!--text-shadow: 0 1px 1px #000;-->
+        <!--}-->
+        <!--.custom-all-day-event {-->
+            <!--text-align: center;-->
+            <!--text-transform: uppercase-->
+        <!--}-->
+    <!--</style>-->
+    <!--<button class="btn btn-default" ng-click="checkSched(1)"><i class="glyphicon glyphicon-plus"></i>test filter</button>-->
+
+    <!--<button class="btn btn-default" ng-click="bookemDano(1)"><i class="glyphicon glyphicon-plus"></i>bookemDano</button>-->
+    <!--<div class="box">-->
+        <h4>Console log</h4>
+        <div class="console"></div>
+    </div>
+
+</div>
+
+<!--<div kendo-scheduler-->
+     <!--k-date="date"-->
+     <!--k-options="flightOption"-->
+     <!--k-editable="false"-->
+     <!--k-on-navigate="handle_navigate(kendoEvent)"-->
+     <!--k-on-data-binding="handle_dataBinding(kendoEvent)"-->
+     <!--k-on-data-bound="handle_dataBound(kendoEvent)"-->
+     <!--k-views="views">-->

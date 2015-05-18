@@ -1,0 +1,242 @@
+<!--<h1> claim info 1</h1>-->
+<!--this modified on 11/19/13 for bs 3.0-->
+<style type="text/css">
+    span.title {
+        display: block;
+        font-size: 13px;
+        padding: 5px 0px 5px 0px;
+        /*margin: 0px 0px 0px 100px;*/
+        width: 300px;
+        color: #3CB4E7;
+    }
+
+    body {
+        padding: 70px !important;
+    }
+
+    .ng-table-rowselected tr {
+        cursor: pointer;
+    }
+
+    .table-hover > tbody > tr.active:hover > th {
+        background-color: #e8e8e8;
+    }
+    a.editable-click {
+        color: red;
+        border-bottom: dotted 2px green;
+        font-size:26px;
+    }
+    a.editable-click:hover {
+        color: #47a447;
+        border-bottom-color: #47a447;
+        font-size:26px;
+    }
+    a{
+        color:blue;
+    }
+    .well2 {
+        background-color: #d1ff00;
+    }
+</style>
+<!--Spots: {{trip.spots}}-->
+
+<div class="row clearfix">
+    <div class="col-md-6 column">
+
+        <h4>Manifest</h4>
+        <hr>
+        <h4> Date {{trip.Start | moment:'dddd MMMM Do YYYY '}} Time: {{trip.Start| moment:'H:mm A'}}</h4>
+        <h4> Boat: {{trip.Owner}} Desc: {{trip.tripdesc}}</h4>
+        <h4> Price: {{trip.tripprice}} &nbsp; Spots: {{trip.spots}} &nbsp; Taken: {{trip.taken}} &nbsp;Avail: {{trip.spots - trip.taken}}</h4>
+        <hr>
+
+    </div>
+
+            <div class="col-md-6 column">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label">CharterName</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" ng-model="trip.chartername"  />
+                        </div>
+                    </div>
+                    <!--<div class="form-group">-->
+                        <!--<label for="exampleInputDeposit">Qty</label>-->
+                        <!--<div class="col-sm-10">-->
+                        <!--<input type="number" style="width:150px" class="form-control" placeholder="Enter qty" ng-model="book.qty" id="exampleInputQty"-->
+                               <!--min=1 max="{{trip.spots-trip.taken}}"/>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <div class="form-group">
+                        <label for="inputPassword3"  class="col-sm-2 control-label">spots</label>
+                        <div class="col-sm-10">
+                            <input type="number" style="width:70px" ng-model="trip.spots" class="form-control" id="inputPassword3" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputtripprice"  class="col-sm-2 control-label">tripprice</label>
+                        <div class="col-sm-10">
+                            <input type="number" style="width:180px" ng-model="trip.tripprice" class="form-control" id="inputtripprice" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <div class="checkbox">
+                                <label><input type="checkbox" ng-model="trip.isCharter"  /> Charter</label>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="col-md-4 column">
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+
+<div class="row clearfix">
+    <div class="col-md-12 column">
+
+
+
+    <!--<h3 style="background-color:yellow" ng-hide="currentBilling.id===0"> Booking Details for:{{book.name}} --->
+        <!--{{trip.Start| date:"MM/dd/yyyy"}} </h3>-->
+
+    <table class="table table-bordered table-hover table-condensed">
+        <tr style="font-weight: bold;">
+            <td style="width:35%">name</td>
+            <td style="width:15%">phone</td>
+            <td style="width:20%">email</td>
+            <td style="width:5%;text-align:right;">qty</td>
+            <td style="width:5%;text-align:right;">total</td>
+            <td style="width:15%;text-align:right;">deposit</td>
+            <td style="width:5%">balance</td>
+            <td style="width:5%">Edit</td>
+        </tr>
+
+        <!--//     {{book.name}}  {{book.phone}}     {{book.qty}} {{book.email}}  {{book.total}}  {{book.deposit}}   {{book.balance}}-->
+
+
+        <tr ng-repeat="lineitem in book | orderBy:predicate:reverse  track by $id($index) ">
+
+
+            <td>
+         <span e-style="width:175px;" editable-text='lineitem.name' e-name='name' e-form='rowform'>
+
+              {{ lineitem.name || 'empty' }}
+        </span>
+            </td>
+            <td>
+         <span e-name='phone' editable-text='lineitem.phone' e-form='rowform' e-required>
+
+              {{ lineitem.phone || 'empty' }}
+        </span>
+            </td>
+
+            <td>
+        <span e-style="width:140px;" editable-text='lineitem.email' e-name='email' e-form='rowform' e-required>
+
+              {{ lineitem.email || 'empty' }}
+        </span>
+            </td>
+        <td style="text-align:right">
+        <span e-style="width:75px" editable-number='lineitem.qty' e-name='qty' e-step="1"
+              e-form='rowform'
+              onbeforesave="checkQty($data, id, lineitem,'qty')">
+        {{ lineitem.qty  }}
+        </span>
+        </td>
+
+        <td style="text-align:right">
+        <span e-style="width:160px" editable-number='lineitem.total' e-name='total'
+              e-form='rowform'>
+         {{lineitem.qty * trip.tripprice}}
+         </span>
+         </td>
+        <td style="text-align:right">
+
+         <span e-style="width:160px" editable-number='lineitem.deposit' e-name='deposit' e-form='rowform'>
+         {{ lineitem.deposit  }}
+         </span>
+         </td>
+
+            <td style="text-align:right">
+
+         <span e-style="width:60px" e-name='lineitem.balance' e-form='rowform'>
+        {{(lineitem.qty * trip.tripprice) -  lineitem.deposit}}
+         </span>
+            </td>
+
+
+
+         <td style="white-space: nowrap">
+                <form editable-form name="rowform" ng-show="rowform.$visible"
+                      class="form-buttons form-inline"
+                      onbeforesave='beforesaveDetail($data, $index,lineitem)'       onaftersave='aftersaveDetail($data, $index,lineitem)'
+                        >
+
+                    <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary"
+                          >
+                        save
+                    </button>
+                    <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()"
+                            ng-hide="currentBilling.closed" class="btn btn-default">
+                        cancel
+                    </button>
+                </form>
+                <div class="buttons" ng-show="!rowform.$visible">
+                    <button class="btn btn-primary" ng-click="rowform.$show()">edit
+                    </button>
+                    <!--<button confirmed-click="removeItem($index)" ng-confirm-click="Would you like to delete row {{$index}} " class="btn btn-danger">del </button>-->
+                    <!--<button class="btn btn-danger" ng-click="removeItem($index,1)" ng-hide="billingitems.closed">del</button>-->
+                </div>
+            </td>
+        </tr>
+        <tr class="jumbotron" style="font-weight: bold;">
+            <td></td>
+            <td></td>
+
+
+            <td>GrandTotal</td>
+           <td style="text-align:right"> {{trip.taken}}</td>
+            <td style="text-align:right"> {{trip.grandTotal}}</td>
+            <td style="text-align:right"> {{trip.grandTotal}}</td>
+            <td style="text-align:right"> {{trip.grandTotal}}</td>
+            <td style="text-align:right"> {{trip.grandTotal}}</td>
+
+        </tr>
+    </table>
+
+
+
+    <div class="col-md-12">
+        <div ng-bind="message" ng-show="message" class="alert alert-success"></div>
+        <div ng-bind="message_err" ng-show="message_err" class="alert alert-error"></div>
+    </div>
+
+    <div class="col-md-2">
+
+        <button class="btn btn-success" ng-click="saveBook(book)" tooltip="update booking record" >Save</button>
+    </div>
+
+    <div class="col-md-2" >
+        <!--http://sample3.gtz.com:8013/images/-->
+
+        <!--<a ng-href="/po/{{two1.poObj}}">-->
+        <!--{{ two1.poObj }}</a>-->
+        <!--Scan:<a ng-href="/uploads/two/{{two1.TWOID}}" target="_blank">{{two.TWOID}}</a>&nbsp;&nbsp;&nbsp;&nbsp;PDF-OLD:<a ng-href="/uploads/two/two{{two1.id}}.pdf" target="_blank">two{{two1.id}}</a>&nbsp;&nbsp;&nbsp;&nbsp;PDF-NEW:<a ng-href="/uploads/two/two{{two1.TWOID}}.pdf" target="_blank">two{{two1.TWOID}}</a></a>-->
+
+        <a ng-href="/docs/trip{{trip.id}}.pdf" target="_blank">
+        open pdf manifest</a>
+    </div>
+    <div class="col-md-2">
+        <button ng-click="cancel()" class="btn btn-warning">cancel/close</button>
+
+    </div>
+</div>
+</div>

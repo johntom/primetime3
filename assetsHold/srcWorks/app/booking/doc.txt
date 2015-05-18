@@ -1,0 +1,155 @@
+angular.module('sailng.booking', [])
+
+    .config(['$stateProvider', function config($stateProvider) {
+        $stateProvider.state('booking', {
+            url: '/booking',
+            views: {
+                "main": {
+                    controller: 'BookingCtrl',
+                    templateUrl: 'booking/index.tpl.html'
+                }
+            }
+        })
+            .state('booking.id', {
+                url: '/:id',
+                views: {
+                    'main2': {
+                       // controller: 'ClaimCtrlDaily',
+                        templateUrl: 'booking/index2.tpl.html'
+                    }
+                }
+                ,
+                data: {pageTitle: 'Detail'}
+            })
+
+            //http://www.jvandemo.com/how-to-resolve-angularjs-resources-with-ui-router/
+            .state('booking.item', {
+                /**
+                 * Only the URL is required, you don't need a controller or a template for the state
+                 */
+                url: '/item/:id',
+                /**
+                 * Open the modal window when the onEnter event is fired
+                 */
+                resolve: {
+
+                    // A string value resolves to a service
+                    titleService: 'titleService',
+
+                    // A function value resolves to the return
+                    // value of the function
+
+                    trip: function(titleService, $stateParams){
+                        var id = $stateParams.id;
+
+                        // Return a promise to make sure the customer is completely
+                        // resolved before the controller is instantiated
+
+                       // alert('ins '+id+' '+titleService.trip.Title)
+                        return titleService.trip.$promise;
+                    }
+                },
+                onEnter: function($modal){
+                    $modal.open({
+                        templateUrl: 'booking/index3.tpl.html',
+                        //template: [
+                        //    '<div class="modal-content">',
+                        //    '<div class="modal-header">',
+                        //    '<h3 class="modal-title">Regulamin</h3>',
+                        //    '</div>',
+                        //    '<div class="modal-body">',
+                        //    '$1. Give us all your money!',
+                        //    '</div>',
+                        //    '<div class="modal-footer">',
+                        //    '<button class="btn btn-primary" ng-click="$dismiss()">OK</button>',
+                        //    '</div>',
+                        //    '</div>'
+                        //].join(''),
+                        //resolve: {
+                        //
+                        //    // A string value resolves to a service
+                        //    titleService: 'titleService',
+                        //
+                        //    // A function value resolves to the return
+                        //    // value of the function
+                        //
+                        //    trip: function(titleService, $stateParams){
+                        //        var id = $stateParams.id;
+                        //
+                        //        // Return a promise to make sure the customer is completely
+                        //        // resolved before the controller is instantiated
+                        //
+                        //        alert('ins '+id+' '+titleService.trip.Title)
+                        //        return titleService.trip.$promise;
+                        //    }
+                        //},
+                        controller: function($scope,$stateParams,titleService){
+                            // do whatever you need here.
+                           // alert('inb '+$stateParams.id)//+' '+trip);//$scope.item)
+
+                            $scope.item=   titleService.trip;
+
+
+                        }
+                    });
+
+                }
+            })
+
+
+            //$stateProvider.state("items.add", {
+            //    url: "/add",
+            //    onEnter: ['$stateParams', '$state', '$modal', '$resource', function($stateParams, $state, $modal, $resource) {
+            //        $modal.open({
+            //            templateUrl: "items/add",
+         //   .state('booking.item', {
+         //       url: '/item/:id',
+         //
+         //       onEnter: ['$modal', '$state', function($modal, $state) {
+         //                  console.log('Open modal');
+         //                  $modal.open({
+         //                    //template: '<div ui-view="main2"></div>',
+         //                      template: 'booking/index3.tpl.html',
+         //                      backdrop: false,
+         //                    windowClass: 'right fade'
+         //                  }).result.finally(function() {
+         //                $state.go('booking');
+         //            });
+         //}]
+
+                //views: {
+                //    'main2': {
+                //
+                //        templateUrl: 'booking/index2.tpl.html'
+                //
+                //    }
+                //}
+                //,
+                //data: {pageTitle: 'Detail3'}
+              //  onEnter: ['$stateParams', '$state', '$modal', '$resource', function($stateParams, $state, $modal, $resource) {
+
+                //    onEnter: ['$stateParams', '$state', '$modal',  function($stateParams, $state, $modal) {
+                //    $modal.open({
+                //        templateUrl: "booking/index3.tpl.html",//"items/add",
+                //        resolve: {
+                //            item: function() { new Item(123).get(); }
+                //        },
+                //        controller: ['$scope', 'item', function($scope, item) {
+                //            $scope.dismiss = function() {
+                //                $scope.$dismiss();
+                //            };
+                //
+                //            $scope.save = function() {
+                //                item.update().then(function() {
+                //                    $scope.$close(true);
+                //                });
+                //            };
+                //        }]
+                //    }).result.finally(function() {
+                //            $state.go('^');
+                //        });
+                //}]
+
+
+           // })
+    }])

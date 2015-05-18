@@ -1,0 +1,363 @@
+//@import url(//fonts.googleapis.com/css?family=Roboto:400,700,400italic,700italic);
+//
+//body {
+//    font-family: 'Roboto', sans-serif;
+//}
+//
+//*
+//{
+//    -webkit-border-radius: 0 !important;
+//    -moz-border-radius: 0 !important;
+//    border-radius: 0 !important;
+//}
+//
+//a
+//{
+//    color: #01AAD5;
+//    text-decoration: none;
+//    outline: none;
+//}
+//
+//a:hover
+//{
+//    color: #5D5D5D;
+//    text-decoration: none;
+//    outline: none;
+//}
+//
+//.spacer {
+//    clear: both;
+//}
+//
+//.above_992 {
+//    display: none;
+//}
+//
+///* NAVBAR */
+//
+//.black_75 {
+//    background: #000000;
+//    background: url(/public/launch_site/img/black_75.png);
+//    background: rgba(0, 0, 0, .75);
+//}
+//
+//.navbar {
+//    -moz-border-radius: 0;
+//    border-radius: 0;
+//    border: none;
+//    padding-top: .5em;
+//    padding-bottom: .5em;
+//}
+//
+//.navbar-default .navbar-nav>li>a {
+//    color: #FFFFFF;
+//    font-weight: bold;
+//}
+//
+//.navbar-default .navbar-nav>li>a:hover {
+//    color: #AAAAAA;
+//}
+//
+//.navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:hover, .navbar-default .navbar-nav>.open>a:focus {
+//    background: none;
+//    color: #AAAAAA;
+//}
+//
+//.navbar-nav>li>.dropdown-menu {
+//    margin-top: .5em;
+//    background: #000000;
+//    background: url(/public/launch_site/img/black_75.png);
+//    background: rgba(0, 0, 0, .75);
+//    border: none;
+//    border-radius: 0;
+//    -moz-box-shadow: none;
+//    -webkit-box-shadow: none;
+//    box-shadow: none;
+//}
+//
+//.navbar-default .navbar-nav>li>a:hover, .navbar-default .navbar-nav>li>a:focus {
+//    color: #FFFFFF;
+//}
+//
+//.dropdown-menu>li>a {
+//    color: #FFFFFF;
+//}
+//
+//.dropdown-menu>li>a:hover {
+//    color: #AAAAAA;
+//    background: none;
+//}
+//
+//.navbar-default .navbar-collapse, .navbar-default .navbar-form {
+//    border: none;
+//}
+//
+//.navbar-brand img {
+//    max-height: 32px;
+//}
+//
+//.hero {
+//    position: relative;
+//    margin-bottom: 1em;
+//}
+//
+//.hero_shadow {
+//    display: none;
+//}
+//
+//.hero_container {
+//    position: relative;
+//}
+//
+//.hero_bg {
+//    min-width: 100%;
+//    max-width: 100%;
+//}
+//
+//.hero_tagline {
+//    text-align: center;
+//    margin-bottom: .5em;
+//}
+//
+//.hero_tagline h2 {
+//    margin: .25em;
+//}
+//
+//.hero_callouts {
+//    padding: 2em;
+//    color: #BBBBBB;
+//    font-size: .8em;
+//    text-align: center;
+//    -moz-box-sizing: border-box;
+//    box-sizing: border-box;
+//}
+//
+//.hero_callouts a {
+//    color: #BBBBBB;
+//}
+//
+//.hero_callouts h3 {
+//    margin-top: 0;
+//    color: #FFFFFF;
+//    font-size: 2em;
+//}
+//
+//.hero_callouts h3 a {
+//    color: #FFFFFF;
+//}
+//
+//.hero_callouts a:hover, .hero_callouts a h3:hover {
+//    color: #AAAAAA;
+//}
+//
+//.home_icon {
+//    float: left;
+//    margin-right: .5em;
+//}
+//
+//.home_icon .fa-circle {
+//    color: #01AAD5;
+//}
+//
+//.home_subheader {
+//    font-size: 1.75em;
+//    font-wieght: bold;
+//    margin-bottom: .125em;
+//}
+//
+//.value_prop {
+//    margin-bottom: 1.5em;
+//}
+//
+//.container.standalone {
+//    position: relative;
+//    padding-top: 1em;
+//}
+//
+//.example_logo {
+//    max-width: 300px;
+//    max-height: 90px;
+//    margin-right: 2em;
+//    margin-bottom: 2em;
+//}
+//
+//.example_logo:hover {
+//    opacity: .75;
+//}
+//
+///* ARTICLES */
+//
+//.article {
+//    margin-bottom: 1em;
+//}
+//
+//.article h1, .article h2, .article h3, .article h4 {
+//    margin-top: 0;
+//}
+//
+//.byline
+//{
+//    float: left;
+//    margin: 0 1em .5em 0;
+//    min-width: 16em;
+//}
+//
+//.byline .pull-left
+//{
+//    width: 5em;
+//    height: 5em;
+//    margin: 0;
+//    overflow: hidden;
+//}
+//
+//.byline .media-body
+//{
+//    margin: 0;
+//    padding: .5em;
+//    height: 5em;
+//}
+//
+//.byline .media-heading
+//{
+//    margin: 0;
+//}
+//
+//.timestamp
+//{
+//    color: #888888;
+//    font-size: .9em;
+//}
+//
+//.media_embed
+//{
+//    display: inline-block;
+//    position: relative;
+//    max-width: 100%;
+//}
+//
+//.media_embed img, .media_embed iframe
+//{
+//    border-radius: .25em .25em 0 0;
+//    max-width: 100%;
+//}
+//
+//.media_caption
+//{
+//    padding: .5em;
+//    font-size: .9em;
+//    border-radius: 0 0 .25em .25em;
+//    width: 100%;
+//    box-sizing: border-box;
+//    -moz-box-sizing: border-box;
+//}
+//
+//.topic_label {
+//    background: #CCCCCC;
+//    margin: 0 .25em .25em 0;
+//    float: left;
+//}
+//
+//.topic_label h5 {
+//    margin: .25em;
+//}
+//
+//.topic_label:hover {
+//    background: #666666;
+//}
+//
+//.social_icons {
+//    float: right;
+//    clear: both;
+//    margin-top: .5em;
+//}
+//
+//.social_icon {
+//    float: left;
+//    margin-right: .5em;
+//}
+//
+//.social_icon img {
+//    width: 2em;
+//}
+//
+//
+//footer {
+//    width: 100%;
+//    margin: 2em 0;
+//    font-size: .8em;
+//    text-align: center;
+//}
+//
+//@media (min-width: 768px) {
+//
+//    .dropdown-menu>li>a {
+//        text-align: right;
+//    }
+//
+//    .hero_tagline h2 {
+//        font-size: 3em;
+//        text-shadow: 0 1px #000000;
+//    }
+//
+//    .container.standalone {
+//        position: relative;
+//        padding-top: 5.5em;
+//    }
+//}
+//
+//@media (min-width: 992px) {
+//    .below_992 {
+//        display: none;
+//    }
+//
+//    .above_992 {
+//        display: block;
+//    }
+//
+//    .navbar {
+//        position: absolute;
+//        width: 100%;
+//        z-index: 10000;
+//    }
+//
+//    .navbar-brand img {
+//        max-height: 10em;
+//    }
+//
+//    .hero_shadow {
+//        display: block;
+//        position: absolute;
+//        width: 100%;
+//        top: 0;
+//    }
+//
+//    .hero_tagline {
+//        color: #FFFFFF;
+//        text-align: center;
+//        position: absolute;
+//        right: 0;
+//        top: 6em;
+//        z-index: 5;
+//    }
+//
+//    .hero_tagline h2 {
+//        font-size: 3em;
+//        text-shadow: 0 1px #000000;
+//    }
+//
+//    .hero_callouts {
+//        font-size: .9em;
+//        width: 100%;
+//        position: absolute;
+//        bottom: 0;
+//        z-index: 10000;
+//    }
+//
+//    .hero_callouts h3 {
+//        font-size: 1.75;
+//    }
+//
+//    .container.standalone {
+//        padding-top: 11em;
+//    }
+//}

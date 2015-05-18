@@ -1,0 +1,324 @@
+﻿body {
+	background-color: #f8f8f8;
+	font-family: -apple-system-font, 'Segoe UI', 'Roboto', sans-serif;
+    padding-top: 10px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: -apple-system-font, 'Segoe UI Light', 'Segoe UI', 'Roboto', sans-serif;
+	font-weight: 300;
+}
+
+.header {
+	background-color: #80044d;
+	margin-bottom: 14px;
+	padding: 12px 0px;
+	color: #e3bfd5;
+}
+
+	.header h1 {
+		font-size: 40px;
+		line-height: 1;
+		margin: 8px 0 5px 0;
+		color: #fff;
+	}
+
+	.header img {
+		float: left;
+		margin: 0 10px 5px 0;
+	}
+
+h2 {
+	margin: 15px 0 30px -12px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	color: #80044d;
+}
+
+.pane-content {
+	background-color: white;
+	padding: 0px 8px;
+	border: 1px solid #dddddd;
+	border-top: none;
+	white-space: pre;
+	overflow: auto;
+	font-size: 13px;
+	font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;
+}
+
+/* set default grid height and some shadow */
+.wj-flexgrid {
+	height: 300px;
+	background-color: white;
+	box-shadow: 4px 4px 10px 0px rgba(50, 50, 50, 0.75);
+	margin-bottom: 12px;
+}
+
+/* create a 'custom-flex-grid' theme for the FlexGrid */
+.custom-flex-grid .wj-header.wj-cell {
+	background-color: #000;
+	color: #fff;
+	font-weight: bold;
+	border-right: solid 1px #404040;
+	border-bottom: solid 1px #404040;
+}
+
+.custom-flex-grid .wj-cell {
+	border: none;
+	background-color: #fff;
+}
+
+.custom-flex-grid .wj-alt:not(.wj-state-selected):not(.wj-state-multi-selected) {
+	background-color: #fff;
+}
+
+.custom-flex-grid .wj-state-selected {
+	background: #000;
+	color: #fff;
+}
+
+.custom-flex-grid .wj-state-multi-selected {
+	background: #222222;
+	color: #fff;
+}
+
+.row {
+	margin-top: 40px;
+	margin-bottom: 25px;
+}
+
+@media(min-width: 992px) {
+	.collapse.app-lg-visible {
+		display: block;
+	}
+
+	.btn.collapse {
+		display: none !important;
+	}
+}
+
+
+
+@media(max-width: 991px) {
+	.header h1 {
+		font-size: 22px;
+		line-height: 1;
+		margin-top: 7px;
+		color: #fff;
+	}
+
+	h2 {
+		font-size: 22px;
+		margin: 10px 0 25px 0;
+	}
+
+	h4 {
+		display: none;
+	}
+
+	.wj-flexgrid {
+		box-shadow: 2px 2px 8px 0 rgba(50, 50, 50, 0.5);
+		margin-bottom: 12px;
+	}
+
+	.tabbable {
+		margin-bottom: 20px;
+	}
+
+	.wj-dropdown {
+		width: 100%;
+		margin-bottom: 10px;
+	}
+
+	.dl-horizontal, .btn-group, .input-group {
+		margin-bottom: 10px;
+	}
+
+	.btn[data-target] {
+		width: 100%;
+		margin-bottom: 20px;
+	}
+
+	.row {
+		margin-top: 20px;
+		margin-bottom: 10px;
+	}
+}
+
+@media(max-width: 767px) {
+
+	body {
+		font-size: 16px;
+	}
+
+
+
+	.dl-horizontal dd {
+		width: 48%;
+		float: right;
+	}
+
+	.dl-horizontal dt {
+		width: 48%;
+		float: left;
+		text-align: right;
+	}
+}
+
+/*xeditable*/
+div[ng-app] { margin: 10px; }
+.table {width: 100% }
+form[editable-form] > div {margin: 10px 0;}
+
+
+
+.ng-table tr.emphasis td {
+    background-color: #DDD;
+    font-weight: bold;
+}
+.ng-table th.text-right {
+    text-align: right;
+}
+.ng-table th.text-left {
+    text-align: left;
+}
+/*bs3 extra*/
+#jumbo {
+    padding: 10px;
+}
+#jumbo30 {
+    padding: 5px;
+    height: 50px;
+}
+#moveit {
+    margin-left: 120px;
+    padding-left: 10px;
+    padding-top: 10px;
+    margin-bottom: 40px;
+}
+
+#movetext {
+    margin-left: 10px;
+    padding-left: 50px;
+}
+
+
+/*bs3 triToggle*/
+.ng-toggle-wrap {
+  display: inline-block;
+  margin: 3px;
+  position: relative;
+  width: 62px;
+  height: 36px;
+  -webkit-backface-visibility: hidden;
+  -webkit-transform: translateZ(0) scale(1.0, 1.0);
+  z-index: 0;
+}
+.ng-toggle-wrap:hover {
+  z-index: 1;
+}
+.ng-toggle-wrap.vertical {
+  height: 62px;
+}
+.ng-toggle-wrap .ng-toggle-switch {
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+.ng-toggle-wrap.vertical .ng-toggle-switch {
+  -webkit-transform: translate(-50%, -50%) rotate(-90deg);
+  transform: translate(-50%, -50%) rotate(-90deg);
+}
+.ng-toggle-switch {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 56px;
+  height: 30px;
+  display: inline-block;
+  background-color: #ddd;
+  border-radius: 25px;
+  -webkit-transition: background-color .25s ease;
+  transition: background-color .25s ease;
+  cursor: pointer;
+}
+.ng-toggle-switch.true {
+  background-color: #68C527;
+}
+.ng-toggle-switch.false {
+  background-color: #ff4d35;
+}
+.ng-toggle-false {
+  position: absolute;
+  left: 0;
+  width: 50%;
+  height: 100%;
+}
+.ng-toggle-true {
+  position: absolute;
+  right: 0;
+  width: 50%;
+  height: 100%;
+}
+.ng-toggle-handle {
+  width: 24px;
+  height: 24px;
+  border-radius: 100%;
+  background-color: white;
+  position: absolute;
+  top: 3px;
+  left: 16px;
+  -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+  -webkit-transition: all .2s ease-out;
+  transition: all .2s ease-out;
+}
+.ng-toggle-switch.true .ng-toggle-handle {
+  left: 29px;
+}
+.ng-toggle-switch.false .ng-toggle-handle {
+  left: 3px;
+}
+.ng-toggle-tooltip {
+  display: inline-block;
+  position: absolute;
+  right: 100%;
+  top: 50%;
+  -webkittransition: opacity .3s ease;
+  transition: opacity .3s ease;
+  transform: translate(-5px, -50%) translateZ(0) scale(1.0, 1.0);
+  -webkit-transform: translate(-5px, -50%) translateZ(0) scale(1.0, 1.0);
+  -webkit-backface-visibility: hidden;
+  background: rgba(0, 0, 0, 0.8);
+  color: #CCC;
+  padding: 3px 11px;
+  font-size: 12px;
+  border-radius: 12px;
+  opacity: 0;
+  pointer-events: none;
+  text-align: right;
+  white-space: nowrap;
+}
+.ng-toggle-wrap:hover .ng-toggle-tooltip {
+  opacity: 1;
+}
+.ng-toggle-tooltip:before {
+  width: 5px;
+  height: 5px;
+  border-style: solid;
+  border-width: 4px 0px 4px 5px;
+  border-color: rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) rgba(0, 0, 0, 0.8);
+  position: absolute;
+  right: -6px;
+  top: 50%;
+  -webkit-transform: translate(0, -50%);
+  transform: translate(0, -50%);
+  content: '';
+  pointer-events: none;
+}
+.ng-toggle-tooltip .active {
+  color: white;
+  box-shadow: 0 0 3px rgba(0, 0, 0, .4);
+  -webkit-transition: all .2s ease;
+  transition: all .2s ease;
+}

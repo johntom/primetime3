@@ -1,0 +1,304 @@
+<style>
+    .masthead {
+        color: #FFFFFF;
+        background-image: url("../../images/logos/BrookBridge.png");
+        background-repeat: no-repeat;
+        height: 145px;
+    }
+
+    /*jrt need body here */
+    body {
+        padding-top: 10px;
+    }
+
+    /*// off canvas*/
+       .site-wrapper {
+           height: 800px; /* Temp */
+           overflow: hidden;
+           position: relative;
+           width: 100%;
+       }
+
+    .site-canvas {
+        height: 100%;
+        position: relative;
+        width: 100%;
+        -webkit-transform: translateX(0);
+        -moz-transform: translateX(0);
+        -ms-transform: translateX(0);
+        -o-transform: translateX(0);
+        transform: translateX(0);
+        -webkit-transform: translate3d(0, 0, 0);
+        -moz-transform: translate3d(0, 0, 0);
+        -ms-transform: translate3d(0, 0, 0);
+        -o-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+        -webkit-transition: 300ms ease all;
+        -moz-transition: 300ms ease all;
+        -ms-transition: 300ms ease all;
+        -o-transition: 300ms ease all;
+        transition: 300ms ease all;
+        -webkit-backface-visibility: hidden;
+        -moz-backface-visibility: hidden;
+        -ms-backface-visibility: hidden;
+        -o-backface-visibility: hidden;
+        backface-visibility: hidden;
+    }
+
+    .site-canvas--active,
+    #site-canvas:target {
+        -webkit-transform: translateX(300px);
+        -moz-transform: translateX(300px);
+        -ms-transform: translateX(300px);
+        -o-transform: translateX(300px);
+        transform: translateX(300px);
+        -webkit-transform: translate3d(300px, 0, 0);
+        -moz-transform: translate3d(300px, 0, 0);
+        -ms-transform: translate3d(300px, 0, 0);
+        -o-transform: translate3d(300px, 0, 0);
+        transform: translate3d(300px, 0, 0);
+    }
+
+    .site-menu {
+        background: #e74c3c;
+        color: White;
+        height: 100%;
+        left: -300px;
+        padding: 15px;
+        position: absolute;
+        top: 0;
+        width: 300px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -ms-box-sizing: border-box;
+        -o-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+
+    .site-content { position: relative; }
+
+    .close-canvas {
+        background-color: transparent;
+        bottom: 0;
+        cursor: pointer;
+        display: none;
+        height: 100%;
+        left: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 100%;
+    }
+
+    #site-canvas:target .close-canvas { display: block; }
+
+    /* Extra... */
+
+    a { color: CornflowerBlue; }
+
+    .header {
+        background-color: #2c3e50;
+        padding: 15px;
+        position: relative;
+    }
+
+    .header a {
+        color: White;
+        text-decoration: none;
+    }
+
+    .toggle-nav {
+        font-size: 2.8em;
+        left: .3em;
+        margin-top: -.7em;
+        position: absolute;
+        top: 50%;
+    }
+
+    h1 {
+        color: White;
+        margin: 0;
+        padding-left: 1em;
+    }
+
+    .content { padding: 15px; }
+
+
+
+</style>
+
+
+
+<div ng-controller="HeaderCtrl">
+
+
+    <!--<div class="site-wrapper">-->
+        <!--<div class="site-canvas" id="site-canvas">-->
+            <!--<nav class="site-menu">-->
+                <!--<h2>Menu</h2>-->
+                <!--<ul>-->
+                    <!--<li><a href="/booking"><span class="fa fa-question"></span> Booking Calandar</a></li>-->
+                    <!--<li><a href="/gallery"><span class="fa fa-question"></span> Gallery</a></li>-->
+                    <!--<li><a href="/crew"><span class="fa fa-question"></span> Crew</a></li>-->
+
+                <!--</ul>-->
+            <!--</nav>-->
+            <!--<div class="site-content">-->
+                <!--<header class="header"> <a href="#site-canvas" class="toggle-nav">&#x2261;</a>-->
+                    <!--<h1>Off-Canvas Menu with Pure CSS</h1>-->
+                <!--</header>-->
+
+            <!--</div>&lt;!&ndash;off canvas&ndash;&gt;-->
+            <!--<a href="#" class="close-canvas"></a> </div>-->
+    <!--</div>  &lt;!&ndash;off canvas&ndash;&gt;-->
+
+<!--theme reverse-->
+    <!--<nav class="navbar navbar-inverse" role="navigation">-->
+    <div class="site-wrapper">
+        <div class="site-canvas" id="site-canvas">
+        <nav class="navbar navbar-default site-menu" role="navigation">
+
+        <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header header"> <a href="#site-canvas" class="toggle-nav">&#x2261;</a>
+
+            <!--<li class="dropdown" dropdown><a href="#" class="dropdown-toggle" dropdown-toggle data-toggle="dropdown">-->
+                <!--<b-->
+                        <!--class="caret"></b></a>-->
+
+                <!--<ul class="dropdown-menu">-->
+                    <!--<li><a href="/booking"><span class="fa fa-question"></span> Booking Calandar</a></li>-->
+                    <!--<li><a href="/gallery"><span class="fa fa-question"></span> Gallery</a></li>-->
+                    <!--<li><a href="/crew"><span class="fa fa-question"></span> Crew</a></li>-->
+                    <!--<li><a href="/location"><span class="fa fa-question"></span> Location</a></li>-->
+                    <!--<li><a href="/about"><span class="fa fa-question"></span> About</a></li>-->
+                <!--</ul>-->
+            <!--</li>-->
+            <button type="button" class="navbar-toggle" ng-init="navCollapsed = true" ng-click="navCollapsed = !navCollapsed">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <!--<a class="navbar-brand" href="#">BrookBridge</a>-->
+            <a class="navbar-brand" href="/home" style="font-size:24px;"><b>PrimeTime3/Jenglo</b></br>
+            <p >Sports Fishing on the east end.</p>
+            </a>
+            </br>
+            </br>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" ng-class="!navCollapsed && 'in'">
+
+            <!--<li class="dropdown" dropdown><a href="#" class="dropdown-toggle" dropdown-toggle data-toggle="dropdown">-->
+            <!--<b-->
+            <!--class="caret"></b></a>-->
+
+            <!--<ul class="dropdown-menu">-->
+            <!--<li><a href="/booking"><span class="fa fa-question"></span> Booking Calandar</a></li>-->
+            <!--<li><a href="/gallery"><span class="fa fa-question"></span> Gallery</a></li>-->
+            <!--<li><a href="/crew"><span class="fa fa-question"></span> Crew</a></li>-->
+            <!--<li><a href="/location"><span class="fa fa-question"></span> Location</a></li>-->
+            <!--<li><a href="/about"><span class="fa fa-question"></span> About</a></li>-->
+            <!--</ul>-->
+            <!--</li>-->
+
+            <!--<ul class="nav navbar-nav">-->
+                <!--<ul class="nav navbar-nav navbar-right">-->
+                    <!--<li ng-if="currentUser" class="dropdown" dropdown   ><a href="#" class="dropdown-toggle" dropdown-toggle data-toggle="dropdown" >-->
+                       <!--Admin-->
+                       <!--<b class="caret"></b></a>-->
+
+                    <!--<ul class="dropdown-menu">-->
+                <!--<li ng-repeat="navItem in navItems">-->
+                    <!--<a ng-hide="!currentUser" href="{{navItem.url}}"><i class="{{navItem.cssClass}}"></i>&nbsp;-->
+                        <!--{{navItem.title}}</a>-->
+                <!--</li>-->
+                <!--&lt;!&ndash; only admin can view &ndash;&gt;-->
+                <!--<li ng-hide="currentUser.role!=4"><a href="/users"><span class="fa fa-group fa-lg"></span>User List</a>-->
+                <!--</li>-->
+
+                    <!--</ul>-->
+                <!--</li>-->
+
+            <!--</ul>-->
+
+            <!--<form class="navbar-form navbar-left" role="search">-->
+            <!--<div class="form-group">-->
+            <!--<input type="text" class="form-control" placeholder="Search">-->
+            <!--</div>-->
+            <!--<button type="submit" class="btn btn-default">Submit</button>-->
+            <!--</form>   https://www.facebook.com/pages/Prime-Time-3/124156410994090-->
+            <ul class="nav navbar-nav navbar-right">
+
+                <li ng-if="currentUser" class="dropdown" dropdown   ><a href="#" class="dropdown-toggle" dropdown-toggle data-toggle="dropdown" >
+                    Admin
+                    <b class="caret"></b></a>
+
+                    <ul class="dropdown-menu">
+                        <li ng-repeat="navItem in navItems">
+                            <a ng-hide="!currentUser" href="{{navItem.url}}"><i class="{{navItem.cssClass}}"></i>&nbsp;
+                                {{navItem.title}}</a>
+                        </li>
+                        <!-- only admin can view -->
+                        <li ng-hide="currentUser.role!=4"><a href="/users"><span class="fa fa-group fa-lg"></span>User List</a>
+                        </li>
+
+                    </ul>
+                </li>
+
+
+                <!--<li><a href="https://facebook.com/pranav.tayberrycreative" target="_blank"><i class="fa fa-facebook-square"></i> <span>Facebook</span></a></li>-->
+                <li><a href="https://www.facebook.com/pages/Prime-Time-3/124156410994090" target="_blank"><i class="fa fa-facebook-square"></i> <span>Facebook</span></a></li>
+                <li><a href="/booking"><span class="fa fa-question"></span> Booking Calandar</a></li>
+                <li><a href="/gallery"><span class="fa fa-question"></span> Gallery</a></li>
+                <li><a href="/crew"><span class="fa fa-question"></span> Crew</a></li>
+                <li><a href="/location"><span class="fa fa-question"></span> Location</a></li>
+                <li><a href="/about"><span class="fa fa-question"></span> About</a></li>
+                <!--<li ng-hide="currentUser"><a href="/login"><span class="fa fa-sign-in fa-lg"></span> Sign in</a>-->
+                <!--</li>-->
+                <!--<li ng-hide="currentUser"><a href="/register"><span class="fa fa-pencil fa-lg"></span> Register</a>-->
+                <!--</li>-->
+                <!--  <li><a href="/logout"><span class="fa fa-sign-out"></span> Logout</a></li>-->
+                <li ng-if="currentUser" class="dropdown" dropdown   ><a href="#" class="dropdown-toggle" dropdown-toggle data-toggle="dropdown" >
+                    {{ __('Hello') }}
+                    <span id="currentUserMenu" class="fa fa-user">{{currentUser.first_name}} </span> <b
+                        class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#"><span class="fa fa-user"></span> Profile</a></li>
+                        <li><a href="#"><span class="fa fa-cogs"></span> Settings</a></li>
+                        <li class="divider"></li>
+                        <li><a href="/logout"><span class="fa fa-sign-out"></span> Logout</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+        </div><!-- /.navbar-collapse -->
+
+        </nav>
+            <div class="site-content">
+                <a href="#site-canvas" class="toggle-nav">&#x2261;</a>
+
+
+            </div><!--off canvas-->
+            <a href="#" class="close-canvas"></a> </div>
+    </div>  <!--off canvas
+
+    <!--<div class="btn-group" dropdown is-open="status.isopen">-->
+    <!--<button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle ng-disabled="disabled">-->
+    <!--Button dropdown <span class="caret"></span>-->
+    <!--</button>-->
+    <!--<ul class="dropdown-menu" role="menu">-->
+    <!--<li><a href="#">Action</a></li>-->
+    <!--<li><a href="#">Another action</a></li>-->
+    <!--<li><a href="#">Something else here</a></li>-->
+    <!--<li class="divider"></li>-->
+    <!--<li><a href="#">Separated link</a></li>-->
+    <!--</ul>-->
+    <!--</div>-->
+
+
+
+</div>
+
+

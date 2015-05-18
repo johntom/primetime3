@@ -1,0 +1,37 @@
+<% if (currentUser !== undefined) { %>
+<script>
+	var currentUser = {
+		id: '<%= currentUser.id %>',
+		username: '<%= currentUser.username %>',
+        role: '<%= currentUser.role %>',
+		email: '<%= currentUser.email %>',
+		first_name: '<%= currentUser.first_name %>',
+        no:   '<%= currentUser.no %>',
+        createdAt: '<%= currentUser.createdAt %>',
+		updatedAt: '<%= currentUser.updatedAt %>'
+
+	}  ;
+</script>
+<% } %>
+
+<div ng-include="'header/index.tpl.html'"></div>
+<!--<%= __('Welcome') %>-->
+<!--<%= __('Hello') %>-->
+
+
+
+<!--<select name="locale">-->
+    <!--<% locales.forEach(function(locale) { %>-->
+    <!--<option value="<%=locale%>" <%=__.defaultLocale == locale ? 'selected' : ''%>><%=locale%></option>-->
+    <!--<% }); %>-->
+<!--</select>-->
+<!--<div class="container" ui-view="main">-->
+<!--this makes it wider-->
+<!--<div class="container-fluid" style="margin-left:20px"  ui-view="main">-->
+
+<!--fix the left border with no margin 1/9/2015 -->
+	<div class="container-fluid" style="margin-left:0px"  ui-view="main">
+
+</div><!-- /.container     <div ui-view class="col-xs-9"></div> -->
+
+<div ng-include="'footer/index.tpl.html'"></div>

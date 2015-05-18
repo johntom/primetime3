@@ -1,0 +1,33 @@
+<marked>
+### why? does this show as pre if starts with space
+Convert markdown to html at run time.
+</marked>
+<div class="col-md-12">
+    <div class="col-md-1">
+    </div>
+    <div class="col-md-10">
+        <div class="carousel-inner">
+            <div class="item	active">
+
+                <wallop-slider
+                        data-images="images"
+                        data-animation="rotate"
+                        data-current-item-index="index"
+                <!--data-on-previous="updateTsPrevious()"-->
+                <!--data-on-next="updateTsNext()"-->
+
+                >
+                <!--<button ng-show="images.length>1" class="st-button wallop-slider__btn wallop-slider__btn--next btn btn--next" ng-disabled="nextDisabled" ng-click="onNextButtonClicked()">Next</button>-->
+                </wallop-slider>
+                <div class="clearfix"></div>
+                <div class="col-md-8 carousel-caption">
+                    <p>PrimeTime3 Jenglo</p>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-md-1">
+    </div>
+</div>

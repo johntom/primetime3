@@ -1,0 +1,51 @@
+<style>
+
+    body {
+        /*min-height: 2000px;*/
+        padding-top: 90px;
+    }
+</style><h2>users's <i class="glyphicon glyphicon-user"></i> must first register before applying any updates</h2>
+<div ui-view name="main2" class="container">
+    <button class="btn btn-default" ng-click="editUser(0)" ng-show="buttonShow"><i class="glyphicon glyphicon-user"></i>add new user</button>
+
+
+            <p><strong>Sorting:</strong> {{tableParams.sorting()|json}}
+
+            <table ng-table="tableParams" class="table">
+                <tr ng-repeat="user in  $data">
+
+                    <td data-title="'Edit'" header-class="text-left">
+                        <button type="button" class="btn btn-primary btn-xs" ng-click="editUser(user)"><i
+                                class="fa fa-edit"></i></button>
+                    </td>
+                    <td data-title="'username'" sortable="'username'">
+                        <span ng-class="{ 'fa fa-info-circle': user.title == '666','fa fa-dot-circle-o': user.username != '666' }"> {{ user.username}}</span>
+                    </td>
+                    <td data-title="'email'" sortable="'email'">
+                        {{user.email }}
+                    </td>
+
+                    <td data-title="'full_name'" sortable="'first_name'">
+                        {{user.first_name }}
+                    </td>
+
+                    <!--<td data-title="'last_name'" sortable="'last_name'">-->
+                        <!--{{user.last_name }}-->
+                    <!--</td>-->
+
+                    <td data-title="'role'" sortable="'role'">
+                        {{user.role }}
+                    </td>
+                    <!--<td data-title="'active'" sortable="'active'">-->
+                        <!--{{user.active }}-->
+                    <!--</td>-->
+                    <td width="25" data-title="'active'" style="text-align: left"   ng-model="user.active"  ng-class="{ 'fa fa-check': user.active ,'fa fa-circle-o': !user.active  }">
+
+                    </td>
+
+                </tr>
+            </table>
+
+        </div>
+
+    </div>

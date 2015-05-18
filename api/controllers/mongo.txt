@@ -1,0 +1,189 @@
+db.contact.ensureIndex( { email: 1 }, { unique: true } )
+
+
+db.posts.distinct( 'tags' )
+
+sails gernerate api tasks
+http://localhost:8013/api/tasks
+
+
+
+//Mongodb
+//for dentalsave
+//    1) run _export save to excel to csv then from ibx
+//excel dies at 65k rows so
+//a. for select FIRST 50000 SKIP (0,50000,10000) D.ID,  D."First Name"  ||' '|| D."Last Name" "DentistName", D.MI, D."Do Not Publish", DOFF."Office Name", DOFF."Address",
+//    b. save as csv from excel
+//2) copy from C:\Firebird\Data\DentalData\*.csv to c:\mongodb
+//3)C:\Program Files\MongoDB 2.6 Standard\bin
+cd c:\data\db (this is where csv is copied to)
+mongoimport --db primetime --collection tasksImport --type csv --file pt3.csv --headerline
+mongoimport --db primetime --collection contactsImport --type csv --file ConstantContact.csv --headerline
+
+
+
+
+===========================================================
+-- mongo shell
+ var na = 0;
+     var dct = 0;
+     db.tasksImport.find().forEach( function(task) {
+       tasknew={};
+       var str = task.date;
+       var res = str.split("/");
+       var a = res[2];
+       var b = res[0];
+       var c = res[1];
+       var mth = parseInt(b);
+       var day = parseInt(c);
+
+       if (b.length===1) {b='0'+b};
+       if (c.length===1) {c='0'+c};
+       var idate = a+'-'+b+'-'+c;
+
+
+       //printjson(' date '+task.date +' idate '+idate);
+       var starttime = task.start;
+       var stime = starttime.split(":");
+       var a1 = stime[0];
+      var fixtime= a1
+      //printjson(' fixtime '+a1);
+
+       var aa1 = parseInt(a1);
+       aa1+=4;
+       var b1 = stime[1];
+       var c1 = stime[2];
+
+       if (aa1.length===1) {aa1='0'+aa1};
+       if (b1.length===1) {b1='0'+b1};
+       if (c1.length===1) {c1='0'+c1};
+       var newStime = aa1+':'+b1+':'+c1;
+
+       var dt = ISODate(idate+"T"+newStime+".000Z"); // "2015-03-19T06:01:17.171Z");
+       tasknew.Start =dt;
+   // printjson(' tasknew.newStime :'+newStime+' '+newStime);//tasknew.Start);
+
+
+       var stre = task.end;
+       var restime = stre.split(":");
+       var a1 = restime[0];
+       var b1 = restime[1];
+       var c1 = restime[2];
+      // var aa = parseInt(a1);//+(12*1)
+
+
+       var aa2 = parseInt(a1);
+       aa2+=4;
+      //if (aa2>23) { aa2=aa2-24};
+        if((mth===5) && (day>15) && (task.triptypeid===2) ) {
+    //  printjson('=========== mthnum '+mth+' '+day+' '+task.triptypeid);
+             var new2 = parseInt(a1);
+       new2+=5;
+            aa2=new2;
+         }
+
+       var b1 = stime[1];
+       var c1 = stime[2];
+
+       if (aa2.length===1) {aa2='0'+aa2};
+
+       var dte = ISODate(idate+"T"+aa2+':'+b1+':'+c1+':'+".000Z"); // "2015-03-19T06:01:17.171Z");
+       tasknew.End = dte;
+      // printjson(' tasknew.End :'+a1+': '+tasknew.End +' stre '+stre);
+
+       var d='';
+       if (task["boat 1=pt3,2=jenglo"]===1){d='Prime Time 3'} else {d='Jenglo'}
+       // if (task.boat===2){d='Jenglo'};
+         na+=1;
+         tasknew.OwnerID=parseInt(task["boat 1=pt3,2=jenglo"]);
+         tasknew.TaskID=parseInt(na);
+         tasknew.Title=d+' '+ task["price per head"]+ ' per head ';
+        //      tasknew.StartTimezone=null;
+        //      tasknew.EndTimezone=null;
+         tasknew.StartTimezone='';
+         tasknew.EndTimezone='';
+
+
+         tasknew.RecurrenceRule=null;
+         tasknew.RecurrenceID=null;
+         tasknew.RecurrenceException=null;
+         tasknew.IsAllDay=false;
+         tasknew.TripType= task.triptypeid;
+       if((mth===8)  && (task.triptypeid===2) && (fixtime==='15') && (tasknew.OwnerID===2)) {
+          printjson('=========== mthnum '+mth+' '+task.triptypeid+' '+' '+stime+' '+tasknew.OwnerID);
+          tasknew.TripType= 4;
+
+         }
+
+        db.tasks.save(tasknew);
+     });
+=============
+var ddate_str1 = new Date('05/16/2015');
+var ddate_str2 = new Date('05/31/2015');
+//console.log('findAllWrapped get ddate_str1/2', ddate_str1, ddate_str2)
+// Po.find( {'POID':{$gt: gtnum } })
+//   Po.find( { "Date": {$gte: date_str1,$lte: date_str2} } )
+//Po.find( {'POID': gtnum  })
+//db.po.find({ "Date": {$gte: ddate_str1, $lte: ddate_str2} }) .sort('POID -1')
+
+//   db.po.find( { POID:{$gt:26531} } ).forEach( function(po) {
+db.tasks.find( { Start:{$gte: ddate_str1, $lte: ddate_str2}} ).forEach( function(task) {
+   if (task.TripType===2){
+    printjson('============== trip '+ task.Start+' '+task.TripType);
+
+
+   //   db.tasks.save(tasknew);
+   });
+
+
+==================
+db.getCollection('tasks').find({"Start" : ISODate("2015-05-15T07:00:00.000Z")})
+db.getCollection('tasks').find({"Start" :{$gte : new ISODate("2015-05-15T07:00:00Z") }} ).sort({"Start":1})
+().sort({"Start":1})
+
+{
+    "_id" : ObjectId("550dca6be5fce169f5d1183a"),
+    "Start" : ISODate("2015-05-15T07:00:00.000Z"),
+    "End" : ISODate("2015-05-15T15:00:00.000Z"),
+    "OwnerID" : 1.0000000000000000,
+    "TaskID" : 15.0000000000000000,
+    "Title" : "Prime Time 3 100 per head ",
+    "StartTimezone" : null,
+    "EndTimezone" : null,
+    "RecurrenceRule" : null,
+    "RecurrenceID" : null,
+    "RecurrenceException" : null,
+    "IsAllDay" : false,
+    "TripType" : undefined
+}
+
+=========================================================
+
+  //10/15/2012  6:31:48   PM
+ //  var str = task.start;
+ //  var res = str.split(":");
+ //   printjson('res  '+res );
+  //  printjson('res  '+res );
+ // for (a in res ) {
+ //     printjson('res[a] '+res[a]);
+ //    }
+ // printjson('1 '+res[0]);
+ // printjson('2 '+res[1]);
+ // printjson('3 '+res[2]);
+ // var dt = ISODate("2015-03-19T0"+task.start+".000Z");
+
+// constant contacts
+
+ var dct = 0;
+     db.contactsImport.find().forEach( function(con) {
+       printjson('=========== connew  '+con._id+' '+con["First name"])//con."First name"+' '+con."Email address - other");
+
+       connew={};
+       connew.firstname = con["First name"];
+       connew.lastname = con["Last name"];
+       connew.email = con["Email address - other"];
+        printjson('=========== connew  '+connew.firstname+' '+connew.lastname+' '+connew.email);
+
+
+        db.contact.save(connew);
+     });

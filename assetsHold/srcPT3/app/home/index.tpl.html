@@ -1,0 +1,629 @@
+<style>
+
+    .container-fluid {
+        padding-right: 0px;
+        padding-left: 0px;
+        margin-right: auto;
+        margin-left: auto;
+        margin-top: 0px;
+        /*margin-top: -5px;*/
+    }
+    .demo-frame header, .demo-frame h1, .demo-frame .demo-conversion {
+        display: none;
+    }
+
+    .demo-wrapper {
+        min-height: 500px;
+    }
+
+    .bsap {
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+
+    .form-control {
+        position: relative;
+        background: #fff;
+        font-size: 16px;
+        height: auto;
+        padding: 10px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+
+</style>
+<style type="text/css">
+
+    /* simple */
+    .flip-container {
+        -webkit-perspective: 1000;
+        -moz-perspective: 1000;
+        -ms-perspective: 1000;
+        perspective: 1000;
+
+        -ms-transform: perspective(1000px);
+        -moz-transform: perspective(1000px);
+        -moz-transform-style: preserve-3d;
+        -ms-transform-style: preserve-3d;
+
+        border: 1px solid #ccc;
+    }
+
+    /*
+    .flip-container:hover .flipper, .flip-container.hover .flipper, #flip-toggle.flip .flipper {
+        -webkit-transform: rotateY(180deg);
+        -moz-transform: rotateY(180deg);
+        -ms-transform: rotateY(180deg);
+        transform: rotateY(180deg);
+        filter: FlipH;
+        -ms-filter: "FlipH";
+    }
+    */
+
+
+    /* START: Accommodating for IE */
+    .flip-container:hover .back, .flip-container.hover .back {
+        -webkit-transform: rotateY(0deg);
+        -moz-transform: rotateY(0deg);
+        -o-transform: rotateY(0deg);
+        -ms-transform: rotateY(0deg);
+        transform: rotateY(0deg);
+    }
+
+    .flip-container:hover .front, .flip-container.hover .front {
+        -webkit-transform: rotateY(180deg);
+        -moz-transform: rotateY(180deg);
+        -o-transform: rotateY(180deg);
+        transform: rotateY(180deg);
+    }
+
+    /* END: Accommodating for IE */
+
+    .flip-container, .front, .back {
+        width: 320px;
+        height: 427px;
+    }
+
+    .flipper {
+        -webkit-transition: 0.6s;
+        -webkit-transform-style: preserve-3d;
+        -ms-transition: 0.6s;
+
+        -moz-transition: 0.6s;
+        -moz-transform: perspective(1000px);
+        -moz-transform-style: preserve-3d;
+        -ms-transform-style: preserve-3d;
+
+        transition: 0.6s;
+        transform-style: preserve-3d;
+
+        position: relative;
+    }
+
+    .front, .back {
+        -webkit-backface-visibility: hidden;
+        -moz-backface-visibility: hidden;
+        -ms-backface-visibility: hidden;
+        backface-visibility: hidden;
+
+        -webkit-transition: 0.6s;
+        -webkit-transform-style: preserve-3d;
+        -webkit-transform: rotateY(0deg);
+
+        -moz-transition: 0.6s;
+        -moz-transform-style: preserve-3d;
+        -moz-transform: rotateY(0deg);
+
+        -o-transition: 0.6s;
+        -o-transform-style: preserve-3d;
+        -o-transform: rotateY(0deg);
+
+        -ms-transition: 0.6s;
+        -ms-transform-style: preserve-3d;
+        -ms-transform: rotateY(0deg);
+
+        transition: 0.6s;
+        transform-style: preserve-3d;
+        transform: rotateY(0deg);
+
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    .front {
+        -webkit-transform: rotateY(0deg);
+        -ms-transform: rotateY(0deg);
+        background: lightgreen;
+        z-index: 2;
+    }
+
+    .back {
+        background: lightblue;
+        -webkit-transform: rotateY(-180deg);
+        -moz-transform: rotateY(-180deg);
+        -o-transform: rotateY(-180deg);
+        -ms-transform: rotateY(-180deg);
+        transform: rotateY(-180deg);
+    }
+
+    .front .name {
+        font-size: 2em;
+        display: inline-block;
+        background: rgba(33, 33, 33, 0.9);
+        color: #f8f8f8;
+
+        font-family: Courier;
+        padding: 5px 10px;
+        border-radius: 5px;
+        bottom: 60px;
+        left: 25%;
+        position: absolute;
+        text-shadow: 0.1em 0.1em 0.05em #333;
+
+        display: none;
+
+        -webkit-transform: rotate(-20deg);
+        -moz-transform: rotate(-20deg);
+        -ms-transform: rotate(-20deg);
+        transform: rotate(-20deg);
+    }
+    .back-logo {
+        position: absolute;
+        top: 10px;
+        left: 100px;
+        width: 125px;
+        height: 58px;
+        background: url(images/boats/Primetime3-1small.jpg) 0 0 no-repeat;
+
+    }
+    /*.back-logo {*/
+        /*position: absolute;*/
+        /*top: 40px;*/
+        /*left: 35px;*/
+        /*width: 250px;*/
+        /*height: 117px;*/
+        /*background: url(images/boats/Primetime3-1small.jpg) 0 0 no-repeat;*/
+
+    /*}*/
+    .back-logojenglo {
+        position: absolute;
+        top: 40px;
+        left: 35px;
+        width: 250px;
+        height: 117px;
+        background: url(images/boats/jenglosmall.jpg) 0 0 no-repeat;
+
+    }
+    /*.back-logo {*/
+        /*position: absolute;*/
+        /*top: 40px;*/
+        /*left: 90px;*/
+        /*width: 160px;*/
+        /*height: 117px;*/
+        /*background: url(images/logo.png) 0 0 no-repeat;*/
+
+    /*}*/
+    /*background: url(../../images/logo.png) 0 0 no-repeat;*/
+    .back-title {
+        font-weight: bold;
+        color: #00304a;
+        position: absolute;
+        top: 180px;
+        left: 0;
+        right: 0;
+        text-align: center;
+        text-shadow: 0.1em 0.1em 0.05em #acd7e5;
+        font-family: Courier;
+        font-size: 22px;
+    }
+
+    .back p {
+        position: absolute;
+        bottom: 40px;
+        left: 0;
+        right: 0;
+        text-align: center;
+        padding: 0 20px;
+        font-size: 18px;
+    }
+
+    /* vertical */
+    .vertical.flip-container {
+        position: relative;
+    }
+
+    .vertical .back {
+        -webkit-transform: rotateX(180deg);
+        -moz-transform: rotateX(180deg);
+        -ms-transform: rotateX(180deg);
+        transform: rotateX(180deg);
+    }
+
+    .vertical.flip-container .flipper {
+        -webkit-transform-origin: 100% 213.5px;
+        -moz-transform-origin: 100% 213.5px;
+        -ms-transform-origin: 100% 213.5px;
+        transform-origin: 100% 213.5px;
+    }
+
+    /*
+    .vertical.flip-container:hover .flipper {
+        -webkit-transform: rotateX(-180deg);
+        -moz-transform: rotateX(-180deg);
+        -ms-transform: rotateX(-180deg);
+        transform: rotateX(-180deg);
+    }
+    */
+
+    /* START: Accommodating for IE */
+    .vertical.flip-container:hover .back, .vertical.flip-container.hover .back {
+        -webkit-transform: rotateX(0deg);
+        -moz-transform: rotateX(0deg);
+        -o-transform: rotateX(0deg);
+        -ms-transform: rotateX(0deg);
+        transform: rotateX(0deg);
+    }
+
+    .vertical.flip-container:hover .front, .vertical.flip-container.hover .front {
+        -webkit-transform: rotateX(180deg);
+        -moz-transform: rotateX(180deg);
+        -o-transform: rotateX(180deg);
+        transform: rotateX(180deg);
+    }
+    /* END: Accommodating for IE */
+    .row {
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+</style>
+<script>
+    // 2. This code loads the IFrame Player API code asynchronously.
+    var tag = document.createElement('script');
+
+    tag.src = "https://www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    // 3. This function creates an <iframe> (and YouTube player)
+    //    after the API code downloads.
+    var player;
+    function onYouTubeIframeAPIReady() {
+        player = new YT.Player('player', {
+            height: '390',
+            width: '640',
+            videoId: 'a56O4dJcM6E',
+            events: {
+                'onReady': onPlayerReady,
+                'onStateChange': onPlayerStateChange
+            }
+        });
+    }
+
+    // 4. The API will call this function when the video player is ready.
+    function onPlayerReady(event) {
+        event.target.playVideo();
+    }
+
+    // 5. The API calls this function when the player's state changes.
+    //    The function indicates that when playing a video (state=1),
+    //    the player should play for six seconds and then stop.
+    var done = false;
+    function onPlayerStateChange(event) {
+        if (event.data == YT.PlayerState.PLAYING && !done) {
+            setTimeout(stopVideo, 6000);
+            done = true;
+        }
+    }
+    function stopVideo() {
+        player.stopVideo();
+    }
+
+//     var donehist = false;
+//    function codeAddress() {
+//        alert('ok1 '+donehist+'...');
+//        if ( donehist!==true)  javascript:history.go(0);
+//        donehist=true;
+//    }
+//    // javascript:history.go(0);
+//    window.onload = codeAddress;
+    //    ord=Math.random()*10000000000000000;
+
+
+</script>
+<!--<div class="pea-slider">-->
+
+    <!--<peaslider class="peaslider" rotate="8000">&lt;!&ndash; peaslider &ndash;&gt;-->
+
+        <!--&lt;!&ndash;<img src="images" />&ndash;&gt;-->
+
+        <!--<slide-images >-->
+            <!--<img src="images" />-->
+            <!--<slide-img img-src="images/banner1.jpg"></slide-img>-->
+            <!--<slide-img img-src="images/banner3.jpg"></slide-img>-->
+            <!--<slide-img img-src="images/banner5.jpg"></slide-img>-->
+        <!--</slide-images>-->
+
+    <!--</peaslider>&lt;!&ndash; peaslider &ndash;&gt;-->
+
+    <!--<button class="pea-prev" ng-click="sliderPrev();"></Button>-->
+    <!--<button class="pea-next" ng-click="sliderNext();"></Button>-->
+
+<!--</div>&lt;!&ndash; Fim .pea-slider &ndash;&gt;-->
+
+<!--above just for test-->
+
+<div class="carousel-inner">
+    <div class="item	active">
+
+        <wallop-slider
+                data-images="images"
+                data-animation="rotate"
+                data-current-item-index="index"
+                timer="5"     >
+        </wallop-slider>
+
+
+        <div class="clearfix"></div>
+
+        <div class="col-md-8 carousel-caption">
+            </br>
+            <!--<div class="col-md-8 carousel-utube" id="player"></div>-->
+            <p>PRIME TIME 3 / JENGLO 1</p>
+            <!--<a  class="col-md-8 carousel-utube" ng-href="https://www.youtube.com/watch?v=xH3ZPnBH5Jc" target="_parent">watch video</a>-->
+            <!--<iframe allowfullscreen="" frameborder="0" height="280" src="//www.youtube.com/embed/9e5XKNY1zD8" width="440"></iframe>-->
+            <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
+
+
+            <!--<button type="button" class="btn btn-danger" ng-click="conditional.toggle()">{{toggleText}}</button>-->
+            <!--&lt;!&ndash;player-width="'100%'" player-height="'300px'&ndash;&gt;-->
+            <!--<youtube-video ng-if="conditional.visible" video-id="conditional.video"></youtube-video>-->
+
+        </div>
+        <!--<div class="col-md-8 carousel-caption">-->
+            <!--&lt;!&ndash;</br>&ndash;&gt;-->
+            <!---->
+            <!--<p>PRIME TIME 3 / JENGLO</p>-->
+
+        <!--</div>-->
+            <!--</div>-->
+            <div class="col-md-8 carousel-youtube">
+
+                   <button type="button" class="btn btn-success" ng-click="conditional.toggle()">{{toggleText}}</button>
+
+                <input class="btn btn-default"  type="button" onClick="history.go(0)" VALUE="Refresh"/>
+            </div>
+            <div class="col-md-10 carousel-youtube">
+                <!--player-width="'100%'" player-height="'300px'-->
+
+                <youtube-video ng-if="conditional.visible" video-id="conditional.video" ></youtube-video>
+                <!--<button type="button" class="btn btn-danger" ng-click="conditional.toggle()">play video</button>-->
+            </div>
+        <!--</div>-->
+
+    </div>
+</div>
+<!--/////////////////////////////////////////////////////-->
+<!--<hr>-->
+<!--I must store all images in \api\docs...-->
+<!--<h2>Styled Card (Vertical Flip)</h2>-->
+<!--/////////////////////////////////////////////////////-->
+
+<div class="row clearfix">
+    <!--col1-->
+    <div class="col-md-6 column">
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+
+                    <div class="col-md-3"></div>
+                    <div class="col-md-9 col-sm-9 value_prop">
+                    <span class="fa-stack fa-2x home_icon">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                     <a href="/crew/primetime3"> <i class="fa fa-anchor  fa-stack-1x fa-inverse"></i></a>
+                  </span>
+
+                        <div class="home_subheader"><a href="/crew/primetime3"  style="text-align: center">Meet the Prime Time 3</a></div>
+                    </div>
+
+
+        </div>
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+                <div class="col-md-3"></div>
+                <div class="col-md-9">
+                    <div class="flip-container vertical" ontouchstart="this.classList.toggle('hover');">
+                        <div class="flipper">
+                            <div class="front" style="background: url(images/boats/pt3-flip.jpg) 0 0 no-repeat;">
+
+                                <span class="name">PrimeTime3</span>
+                            </div>
+                            <div class="back" style="background:#f8f8f8;">
+                                <!--<div class="back-logo"></div>-->
+
+                                <p>The Prime Time 3 is Orient Point’s longest running Open Party Boat, fishing the North Fork full-time since 1983.  The Prime Time 3 is a custom-built 50’ walk-around Fishing Vessel, U.S. Coast Guard certified for 49 passengers and is available for open boat and large group charters, comfortably fishing up to 35 anglers.</p>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+
+    <!--col2-->
+    <div class="col-md-6 column">
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+
+                <div class="col-md-3"></div>
+                <div class="col-md-9 col-sm-9 value_prop">
+                    <span class="fa-stack fa-2x home_icon">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                     <a href="/crew/jenglo"> <i class="fa fa-anchor  fa-stack-1x fa-inverse"></i></a>
+
+
+                    </span>
+
+                    <div class="home_subheader"><a href="/crew/jenglo"  style="text-align: center">Meet the Jenglo</a></div>
+                </div>
+
+
+            </div>
+            <div class="row clearfix">
+                <div class="col-md-12 column">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-9">
+                        <div class="flip-container vertical" ontouchstart="this.classList.toggle('hover');">
+                            <div class="flipper">
+                                <div class="front" style="background: url(images/boats/jenglo1-flip.jpg) 0 0 no-repeat;">
+
+                                    <span class="name">Jenglo</span>
+                                </div>
+                                <div class="back" style="background:#f8f8f8;">
+                                    <p>The Jenglo is a 46’ Custom Carolina Sport Fishing Vessel built by master marine architect, Gary Davis.  This fishing platform has an excellent layout for groups of 8-24 anglers.  With a large cabin and comfortable accommodations, there is generous room for private bottom fishing trips to offshore shark and tuna adventures.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!--<hr>-->
+<section class="container	content-wrap">
+
+    <div class="col-md-12">
+        <div class="post">
+            <!--<p><img align="left" ng-src="/docs/8185266724_96c5d1434f_b.jpg"></p>-->
+            <p><img align="left" style="width: 350px" ng-src="{{articles.image}}"></p>
+            <h1>{{post.postTitle}}</h1>
+            <!--<div >-->
+                <!--<p ng-bind-html="post.postContent"></p>-->
+            <!--</div>-->
+            <div class="meta	form-group"
+                 marked="post.postContent">
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</section>
+
+
+<div class="container">
+    <div class="row clearfix">
+
+        <div class="col-md-4 column">
+            <span class="fa-stack fa-2x home_icon">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <!--<i class="fa fa-anchor  fa-stack-1x fa-inverse"></i>-->
+            <a href="/crew/fishingtrips"> <i class="fa fa-anchor  fa-stack-1x fa-inverse"></i></a>
+
+            </span>
+            <div class="home_subheader ">Fishing Trips</div>
+            Orient By The Sea Marina’s location on the East End of the North Fork offers easy access
+            to the best fishing off of Long Island.
+            Our trips navigate the waters of Long Island Sound,
+            from Plum Gut and the Race to Block Island Sound, Gardiner’s Bay,
+            Peconic Bay and the Atlantic Ocean.
+        </div>
+        <div class="col-md-4 column">
+            <span class="fa-stack fa-2x home_icon">
+           <i class="fa fa-circle fa-stack-2x"></i>
+            <!--<i class="fa fa-anchor  fa-stack-1x fa-inverse"></i>/crew/schedule-->
+               <a href="/booking"> <i class="fa fa-anchor  fa-stack-1x fa-inverse"></i></a>
+
+            </span>
+            <div class="home_subheader">Schedule and Rates</div>
+            Day Open Boat trips sail at 6AM and 7AM, returning approximately at 2PM and 3PM.  Night Open Boat trips sail at 3PM and 4PM, and generally return after sunset.  Please see our schedule for current availability of both vessels, and sailing times of Special or Seasonal trips.  Private Charter dates are booked through the office, for all information and available dates or should you have any questions regarding Split-Charters or Open Boat trips, please contact our office at 631 323 2618 and speak to Jenny.
+
+        </div>
+        <div class="col-md-4 column">
+            <span class="fa-stack fa-2x home_icon">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <!--<i class="fa fa-anchor  fa-stack-1x fa-inverse"></i>-->
+           <a href="/crew/meetthecrew"> <i class="fa fa-anchor  fa-stack-1x fa-inverse"></i></a>
+           </span>
+            <div class="home_subheader">Meet the Crew</div>
+            Creating a highly specialized boutique open boat and sport fishing charter venue, Capt. Mike Boccio and his wife Jenny run the quintessential mom and pop business.  Highly successful in organizing professional fishing trips for over 30+ years, they and their crew provide customers with friendly, informative and fun fishing adventures off of beautiful Orient Point.
+        </div>
+    </div>
+
+    <div class="row clearfix">
+        <div class="col-md-4 column">
+            <span class="fa-stack fa-2x home_icon">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <!--<i class="fa fa-anchor  fa-stack-1x fa-inverse"></i>-->
+            <a href="/gallery"> <i class="fa fa-anchor  fa-stack-1x fa-inverse"></i></a>
+            </span>
+            <div class="home_subheader">Photo Gallery</div>
+            All fish caught aboard the Prime Time 3 and Jenglo Fishing Vessels; Blackfish, Black Sea Bass, Bluefish,
+            Codfish, Fluke, Porgy or Scup, Striped Bass, Triggerfish, Tuna, Weakfish and various archival photos.
+        </div>
+    </div>
+
+
+
+ </div>
+
+
+<section class="container bg-blue-bottom form-group">
+    <div class="col-sm-12	col-md-4	row	form-group	section-heading">
+        Subscribe to our Newsletter
+    </div>
+    <div class="col-sm-4	col-md-2	form-group">
+        <input type="text" name="FNAME" placeholder="First Name" ng-model="contact.firstname" class="form-control"
+               required/>
+    </div>
+    <div class="col-sm-4	col-md-2	form-group">
+        <input type="text" name="LNAME" placeholder="Last Name" ng-model="contact.lastname" class="form-control"
+               required/>
+    </div>
+    <div class="col-sm-4	col-md-2	form-group">
+        <input type="text" name="EMAIL" placeholder="Contact Email" ng-model="contact.email" class="form-control"
+               required/>
+    </div>
+    <div class="col-sm-4	col-md-2	form-group">
+        <input type="submit" value="Subscribe" class="form-control" ng-click="addContact(contact)"
+               style="width: 100px">
+    </div>
+    <div class="clearfix"></div>
+
+</section>
+<!--<section class="container	bg-blue-bottom form-group text-right">-->
+    <!--<div class="col-md-10 col-sm-10 value_prop">-->
+                <!--<span class="fa-stack fa-2x home_icon">-->
+                    <!--<i class="fa fa-circle fa-stack-2x"></i>-->
+                    <!--<i class="fa fa-anchor  fa-stack-1x fa-inverse"></i>-->
+                <!--</span>-->
+
+        <!--<div class="home_subheader">Calendar of Events (next 4)</div>-->
+    <!--</div>-->
+    <!--<section class="container bg-blue-bottom form-group text-left">-->
+        <!--<div class="col-sm-9	col-md-9">-->
+
+
+            <!--<ul>-->
+
+                <!--<li ng-repeat="calendar in calendars track by calendar.id">-->
+                    <!--dock time <b>{{ calendar.time }} </b>-->
+                    <!--dock date {{calendar.date | date:'MMM-dd-yyyy'}}-->
+                    <!--note {{calendar.note}}-->
+                    <!--spots {{calendar.spots}}-->
+                    <!--<a href="/about" style="color: white"> help </a>-->
+                <!--</li>-->
+            <!--</ul>-->
+        <!--</div>-->
+    <!--</section>-->
+<!--</section>-->
+
+
+<div class="clearfix"></div>
+</div>

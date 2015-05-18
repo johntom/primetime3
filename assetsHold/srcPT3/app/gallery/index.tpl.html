@@ -1,0 +1,118 @@
+<style>
+
+    .container-fluid {
+        padding-right: 0px;
+        padding-left: 0px;
+        margin-right: auto;
+        margin-left: auto;
+        margin-top: 0px;
+        /*margin-top: -5px;*/
+    }
+
+    .demo-frame header, .demo-frame h1, .demo-frame .demo-conversion {
+        display: none;
+    }
+
+    .demo-wrapper {
+        min-height: 500px;
+    }
+
+    .bsap {
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+
+    .form-control {
+        position: relative;
+        background: #fff;
+        font-size: 16px;
+        height: auto;
+        padding: 10px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+/*/navg/*/
+    .navg {
+
+        bottom: -1px;
+        display: block;
+        height: 96px;
+        left: 0;
+        margin: 0 auto;
+        padding: 1em 0 0.8em;
+        position: absolute;
+        right: 0;
+        text-align: center;
+        width: 100%;
+        z-index: 5;
+        overflow: scroll;
+        overflow-x: hidden;
+
+
+    }
+
+    .navg li {
+        border: 5px solid #AAAAAA;
+        border-radius: 5px;
+        cursor: pointer;
+        display: inline-block;
+        height: 30px;
+        margin: 0 8px;
+        position: relative;
+        width: 50px;
+    }
+    .navg li.active {
+        border: 5px solid #FFFFFF;
+    }
+    .navg li img {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 100%;
+        max-width: 100%; max-height: 100%;
+    }
+
+</style>
+<!--<div class="container">-->
+    <!--</br></br>-->
+    <!--<h3>PhotoGallery Select:  <select ng-model="dataset" ng-options="ds for ds in datasets"></select></h3>-->
+
+<!--</div>-->
+<div class="container">
+</br></br>
+<div class="row clearfix">
+    <!--col1-->
+    <div class="col-md-2 column">
+        <h4>Gallery Select: </h4> <h4> <select ng-model="dataset" ng-options="ds for ds in datasets"></select></h4>
+    </div>
+    <div class="col-md-10 column" >
+        <div class="carousel-inner">
+            <div class="item	active">
+
+                <!--<wallop-slider-->
+                        <!--data-images="images"-->
+                        <!--data-animation="rotate"-->
+                        <!--data-current-item-index="index"-->
+                        <!--timer="5">-->
+                </wallop-slider>
+                <wallop-slider-propor
+                        data-images="images"
+                        data-animation="rotate"
+                        data-current-item-index="index"
+                        timer="5">
+                </wallop-slider-propor>
+
+            </div>
+        </div>
+
+        <!--<div class="col-md-1 column"></div>-->
+    </div>
+    <!--<ul class="navg">-->
+        <!--<li ng-repeat="image in images" ng-class="{'active':isActive($index)}">-->
+            <!--<img src="{{image}}" alt="" ng-click="showPhoto($index);" />-->
+        <!--</li>-->
+    <!--</ul>-->
+</div>
+</div>

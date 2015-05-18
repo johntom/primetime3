@@ -1,0 +1,526 @@
+angular.module('sailng.booking', [])
+
+    .config(['$stateProvider', function config($stateProvider) {
+        $stateProvider.state('booking', {
+            url: '/booking',
+            views: {
+                "main": {
+                    controller: 'BookingCtrl',
+                    templateUrl: 'booking/index.tpl.html'
+                }
+            }
+        })
+            .state('booking.id', {
+                url: '/:id',
+                views: {
+                    'main2': {
+                        // controller: 'ClaimCtrlDaily',
+                        templateUrl: 'booking/index2.tpl.html'
+                    }
+                }
+                ,
+                data: {pageTitle: 'Detail'}
+            })
+            .state('booking.item', {
+                url: '/item/:id',
+                views: {
+                    'main3': {
+
+                        templateUrl: 'booking/index3.tpl.html'
+                    }
+                }
+                ,
+                data: {pageTitle: 'Detail'}
+            })
+
+            //http://www.jvandemo.com/how-to-resolve-angularjs-resources-with-ui-router/
+            .state('bookingPopup.item', {
+                /**
+                 * Only the URL is required, you don't need a controller or a template for the state
+                 */
+                url: '/item/:id',
+                /**
+                 * Open the modal window when the onEnter event is fired
+                 */
+                resolve: {
+                    // A string value resolves to a service
+                    titleService: 'titleService',
+                    // A function value resolves to the return
+                    // value of the function
+                    trip: function (titleService, $stateParams) {
+                        var id = $stateParams.id;
+                        // Return a promise to make sure the customer is completely
+                        // resolved before the controller is instantiated
+                        // alert('ins '+id+' '+titleService.trip.Title)
+                        return titleService.trip.$promise;
+                    }
+                },
+                onEnter: function ($modal) {
+                    $modal.open({
+                        templateUrl: 'booking/indexPopup.tpl.html',
+
+                        controller: function ($scope, $stateParams, titleService) {
+                            // do whatever you need here.
+                            // alert('inb '+$stateParams.id)//+' '+trip);//$scope.item)
+                            $scope.item = titleService.trip;
+
+
+                        }
+                    });
+                }
+                //var deferred = $q.defer();
+                //    var modalInstance = $modal.open({
+                //    templateUrl: 'myCodes.html',
+                //    controller: 'ModalInstanceCtrlCodes',
+                //    size: 'sm',//size,
+                //    backdrop: 'static',
+                //    resolve: {
+                //        items: function () {
+                //
+                //            return $scope.items;
+                //        }
+                //    }
+                //});
+                //modalInstance.result.then(function (selectedItem) {
+                //
+                //});
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+            })
+
+
+    }])
+// booking Booking BookingCtrl
+    //.controller('BookingCtrl', ['$scope', 'titleService', 'PostsModel', function AboutController($scope, titleService, PostsModel) {
+    .controller('BookingCtrl', ['$scope', '$sails', 'lodash', 'config', 'titleService', 'BookingModel', 'InventoryModel', '$filter', 'ngTableParams', 'PostsModel', 'TasksModel',
+        '$location', function BookingController($scope, $sails, lodash, config, titleService, BookingModel, InventoryModel, $filter, ngTableParams, PostsModel, TasksModel, $location) {
+
+
+            TasksModel.getAll($scope).then(function (data) {
+
+                $scope.trips = data;
+                $scope.totalItems = $scope.trips.length;
+                $scope.currentPage = 1;
+
+                $scope.pageSize = 10;
+            });
+
+            titleService.setTitle('Booking');
+
+            $scope.billingopen = false;
+            $scope.book = {};
+
+            $scope.cancel = function () {
+                //   alert('cancel')
+                $scope.book = {};
+                $scope.billingopen = false;
+                $location.path('/booking');
+            };
+            $scope.createBilling = function (trip) {
+                alert('about to bill ' + trip.Start)
+                //   $scope.task.event =task;
+                //   $scope.task.push{$scope.book};
+
+                var formData = [{book: $scope.book, trip: $scope.trip}];
+
+
+                console.log('event ', formData)
+                TasksModel.updateBooking(formData).then(function (model) {
+                    //$scope.currentBilling.title = '';
+                    $scope.billingopen = false;
+                    // until we do sockets update model
+
+                    var idz = lodash.findIndex($scope.trips, function (trip) {
+                        return trip.id === model.id;
+                    });
+                    console.log(idz);//cdt,
+
+                    if (idz > -1) {
+                        console.log('model ', model)
+                        $scope.trips[idz] = model;
+
+
+                    }
+                    ;
+                    $scope.book = {};
+                    $location.path('/booking');
+                });
+            };
+
+            PostsModel.getOne('author', 'booking').then(function (post) {
+                console.log('getOne ', post)
+                $scope.post = post;
+            })
+
+            $scope.stats = [
+                {name: 'reserved', value: 0},
+                {name: 'reserved-away', value: 1},
+                {name: 'reserved-back', value: 2},
+                {name: 'desk available', value: 3}
+
+            ];
+            $scope.setCurrentClaim = function (trip) {
+                $scope.trip = trip;
+                $scope.billingopen = true;
+                $scope.book.qty = 0;
+                $location.path('/booking/' + trip.id);
+            };
+            $scope.setCurrentClaimTest = function (trip) {
+                 //alert('this will open claim form ' + trip.Start)
+                // this is admin page
+                $scope.trip = trip;
+                titleService.trip = trip;
+
+                var data;
+                $scope.trip = trip;
+                data =$scope.trip.details;
+                //  titleService.trip = trip; this is for popup
+                /*
+                 *  "_id" : ObjectId("551591901157230139c5f8f3"),
+                 "Start" : ISODate("2015-05-01T11:00:00.000Z"),
+                 "End" : ISODate("2015-05-01T19:00:00.000Z"),
+                 "OwnerID" : 1,
+                 "TaskID" : 1,
+                 "Title" : "Prime Time 3 100 per head ",
+                 "StartTimezone" : "",
+                 "EndTimezone" : "",
+                 "RecurrenceRule" : null,
+                 "RecurrenceID" : null,
+                 "RecurrenceException" : null,
+                 "IsAllDay" : false,
+                 "TripType" : 1,
+                 "spots" : 20,
+                 "tripdesc" : "Seasonal Bottom",
+                 "tripprice" : 100,
+                 "taken" : 1,
+                 "details" : [
+                 {
+                 "qty" : 1,
+                 "name" : "jrt",
+                 "phone" : "2129897385",
+                 "email" : "funmike@gtz.com",
+                 "deposit" : 25
+                 }
+                 ],
+                 "updatedAt" : ISODate("2015-03-27T18:39:40.010Z")*/
+
+                $scope.tableParamsBook = new ngTableParams({
+                    page: 1,            // show first page
+                    count: 10           // count per page
+                    , sorting: {
+                        contractdate: 'asc'     // initial sorting
+                    }
+                }, {
+                    counts: [], // hide page counts control
+                    total: 1,  // value less than count hide pagination
+                    getData: function ($defer, params) {
+                        // use build-in angular filter
+                        var orderedData = params.sorting() ?
+                            $filter('orderBy')(data, params.orderBy()) :
+                            data;
+                        orderedData = params.filter() ?
+                            $filter('filter')(orderedData, params.filter()) :
+                            orderedData;
+
+                        params.total(orderedData.length); // set total for recalc pagination
+                        //0.2.0  $defer.resolve($scope.users = orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+                        $defer.resolve($scope.users = orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+                    }
+                })
+
+                $location.path('/booking/item/' + trip.id);
+            };
+
+            getDesks = function (cdt) {
+                var idz = lodash.findIndex($scope.desks, function (desk) {
+                    return desk.cdate === cdt;
+                });
+                console.log(idz);//cdt,
+
+                if (idz > 0) {
+                    $scope.desks1day = lodash.filter($scope.desks[idz].details, function (num) {
+
+                        return num.avail === 0;
+                    });
+                }
+            }
+
+            InventoryModel.getAll($scope).then(function (models) {
+                console.log('Ctrl InventoryModel')
+                $scope.desks = models.data;
+                console.log('Inventory::', $scope.desks)
+                var cdt = moment().format("MM/DD/YYYY");
+                getDesks(cdt);
+                console.log('Inventory1::', $scope.desks1day)
+            });
+
+
+//        $scope.$watch('newHotelling', function() {
+//           alert('in w')
+//            }
+//        );
+//http://plnkr.co/edit/WBt1BGAqBnecEdv1jqfu?p=preview
+
+            $scope.selectDate = function (dt) {
+                var cdt = moment(dt).format("MM/DD/YYYY");
+                getDesks(cdt);
+
+            }
+
+            $scope.desktotal = 17;
+            $scope.maxed = false;
+            $scope.newHotelling = {};
+            $scope.hotellings = [];
+            $scope.currentUser = config.currentUser;
+            console.log('scope.currentUser.data:: ', $scope.currentUser)
+// old version $sails.on('message', function (envelope) {
+// see  assets/src/common/models/Hotelling.js
+
+//
+//            $sails.on('hotelling', function (envelope) {
+//
+//                switch (envelope.verb) {
+//                    case 'created':
+//// $scope.newHotelling.title ='';
+//                        console.log('BookingModel.data ', envelope.data, envelope.data.floor);
+//                        console.log('BookingModel.desks1day ', $scope.desks1day)
+//                        console.log(' $scope.newHotelling', $scope.newHotelling);
+//
+//                        $scope.hotellings.unshift(envelope.data);
+//                        // console.log('envelope.data:: ',envelope.data.comoboday, envelope.data)
+//                        $scope.tableParams.data = $scope.hotellings;
+//                        $scope.taken = $scope.hotellings.length;
+//                        $scope.available = $scope.desktotal - $scope.taken;
+//                        if ($scope.hotellings.length === $scope.desktotal) $scope.maxed = true;
+//                        $scope.tableParams.reload();
+//                        var ncdate = moment($scope.newHotelling.date).format("MM/DD/YYYY");
+//                    //if(envelope.data.floor === $scope.newHotelling.floor.no )
+//                        lodash.remove($scope.desks1day, {no: envelope.data.floor});
+//
+//                        if ($scope.newHotelling.floor !== undefined) {
+//                            if ((envelope.data.floor === $scope.newHotelling.floor.no) && (envelope.data.cdate === ncdate)) {
+//
+//                                $scope.newHotelling.floor = '';
+//                                $scope.newHotelling.title = '';
+//                                // not for the success test for user
+//                                if (envelope.data.user.id !== $scope.newHotelling.user)  alert('resource has been used. please re-select')
+//                            }
+//                        }
+//
+//                        break;
+//                    case
+//                    'destroyed'
+//                    :
+//                        console.log('envelope del', envelope);
+//                        // lets put the inventory back in for that date
+//                        // find a better way
+//                        InventoryModel.getAll($scope).then(function (models) {
+//                            console.log('Ctrl InventoryModel')
+//                            $scope.desks = models.data;
+//                            console.log('Inventory::', $scope.desks)
+//                            var cdt = moment().format("MM/DD/YYYY");
+//                            getDesks(cdt);
+//                            console.log('Inventory1::', $scope.desks1day)
+//                        });
+//
+//
+//                        lodash.remove($scope.hotellings, {id: envelope.id});
+//                        $scope.tableParams.data = $scope.hotellings;
+//
+//                        $scope.taken = $scope.hotellings.length;
+//                        $scope.available = $scope.desktotal - $scope.taken;
+//                        if ($scope.hotellings.length === $scope.desktotal) $scope.maxed = true;
+//
+//                        $scope.tableParams.reload();
+//                        break;
+//
+//
+//                    case
+//                    'updated'
+//                    : //
+//                        //lodash.remove($scope.messages, {id: envelope.id});
+//                        console.log('in HCtrl updated ', envelope.status, envelope.id, envelope)
+//
+//                        //   lodash.update($scop    e.messages, {id: envelope.id});
+//
+//                        for (var i in $scope.hotellings) {
+//                            if ($scope.hotellings[i].id == envelope.id) {
+//                                $scope.hotellings[i].status = envelope.data.status;
+//                                if (envelope.data.title !== undefined)   $scope.hotellings[i].title = envelope.data.title;
+//                            }
+//                        }
+//                        $scope.tableParams.data = $scope.hotellings;
+//                        $scope.tableParams.reload();
+//                        break;
+//                }
+//            });
+//
+//            $scope.fetchHotelling = function (hotelling) {
+//                hotelling.status = 1;
+//                BookingModel.update(hotelling).then(function (model) {
+//
+//                });
+//            };
+//            $scope.fetchedHotelling = function (hotelling) {
+//                hotelling.status = 2;
+//                BookingModel.update(hotelling).then(function (model) {
+//                    // message has been deleted, and removed from $scope.messages
+//                });
+//
+//            };
+//            $scope.destroyHotelling = function (hotelling) {
+//                BookingModel.delete(hotelling).then(function (model) {
+//                    // hotelling has been deleted, and removed from $scope.hotellings
+//                    //   lodash.remove($scope.hotellings, {id: hotelling.id});
+//                });
+//            };
+//
+            $scope.createHotelling = function (newHotelling) {
+                alert($scope.trip)
+                //newHotelling.user = config.currentUser.id;
+                //newHotelling.status = '1';
+                //console.log('new:: ', newHotelling)
+                //if (newHotelling.floor === '') {
+                //    alert('resource has been used. please re-select')
+                //}
+                //else
+                //    BookingModel.create(newHotelling).then(function (model) {
+                //        $scope.newHotelling.title = '';
+                //        console.log('BookingModel.create ', $scope.desks1day, $scope.newHotelling.floor);
+                //
+                //    });
+            };
+
+//            BookingModel.getAll($scope).then(function (models) {
+//                $scope.hotellings = models.data;
+//                var data = $scope.hotellings;
+//                $scope.taken = $scope.hotellings.length;
+//                $scope.available = $scope.desktotal - $scope.taken;
+//                if ($scope.hotellings.length === $scope.desktotal) $scope.maxed = true;
+//                console.log('data ', data)
+//                $scope.tableParams = new ngTableParams({
+//                    page: 1,            // show first page
+//                    count: 25,          // count per page
+//                    sorting: {
+//                        //  comboday: 'asc'     // initial sorting
+//                        date: 'asc'
+//                    }
+//                }, {
+//
+//                    groupBy: 'comboday',
+//                    total: data.length,
+//                    getData: function ($defer, params) {
+//                        var orderedData = params.sorting() ?
+//                            $filter('orderBy')(data, $scope.tableParams.orderBy()) :
+//                            data;
+//                        $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+//                    }
+//                });
+//            });
+//
+//
+//            $scope.today = function () {
+//                $scope.newHotelling.date = new Date();
+//            };
+//            $scope.today();
+//
+//            $scope.showWeeks = true;
+//            $scope.toggleWeeks = function () {
+//                $scope.showWeeks = !$scope.showWeeks;
+//            };
+//
+//            $scope.clear = function () {
+//                $scope.newHotelling.date = null;
+//            };
+
+
+// Disable weekend selection
+//            $scope.disabled = function (date, mode) {
+//                return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
+//            };
+
+            $scope.toggleMin = function () {
+                $scope.minDate = ( $scope.minDate ) ? null : new Date();
+            };
+            $scope.toggleMin();
+
+            $scope.open = function ($event) {
+                //$event.preventDefault();
+                //$event.stopPropagation();
+
+                $scope.opened = true;
+            };
+
+            //$scope.dateOptions = {
+            //    'year-format': "'yy'",
+            //    'starting-day': 1
+            //};
+
+
+            //$scope.format = "EEE MM/dd/yyyy";
+
+            $scope.newHotelling.date = new Date();
+
+            $scope.hstep = 1;
+            $scope.mstep = 15;
+
+
+            $scope.ismeridian = true;
+            $scope.toggleMode = function () {
+                $scope.ismeridian = !$scope.ismeridian;
+            };
+
+
+            $scope.changed = function () {
+                console.log('Time changed to: ' + $scope.newHotelling.date);
+            };
+
+            $scope.clear = function () {
+                $scope.newHotelling.date = null;
+            };
+
+            $scope.checkEvent = function (row) {
+
+                alert('row ' + row)
+            };
+            $scope.changeSelection = function (hotelling) {
+                console.info(hotelling);
+            }
+
+
+            $scope.pageChangeHandler = function (num) {
+                console.log('going to page ' + num);
+            };
+
+            $scope.setPage = function (pageNo) {
+                $scope.currentPage = pageNo;
+            };
+
+            $scope.pageChanged = function () {
+                $log.log('Page changed to: ' + $scope.currentPage);
+            };
+
+            $scope.maxSize = 5;
+            $scope.bigTotalItems = 175;
+            $scope.bigCurrentPage = 1;
+
+        }])
+
+
+    .controller('ModalInstanceCtrlCodes', ['$scope', '$modalInstance', 'items', function ($scope, $modalInstance, items) {
+
+        $scope.items = items;
+        $scope.selected = {
+            item: $scope.items[0]
+        };
+        //alert('$scope.selected.item '+items,$scope.selected);//$scope.selected.item)
+        $scope.ok = function () {
+            $modalInstance.close($scope.selected.item);
+        };
+
+        $scope.cancel = function () {
+
+            $modalInstance.dismiss('cancel');
+        };
+    }])
+
+

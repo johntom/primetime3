@@ -1,0 +1,166 @@
+<link rel="stylesheet" href="http://cdn.kendostatic.com/2014.3.1119/styles/kendo.default.min.css"/>
+<!--<link rel="stylesheet" scr="../../assets/bower_components/redactor/redactor.css"/>-->
+
+<style>
+    .box .k-editor-toolbar li {
+        margin-bottom: 0;
+    }
+</style>
+<!--<h3>PhotoGallery Select :  <select ng-model="dataset" ng-options="ds for ds in datasets"></select></h3>-->
+        <!--<script>-->
+<!--var oldDblClick = kendo.ui.ImageBrowser.prototype._dblClick;-->
+
+<!--kendo.ui.ImageBrowser.prototype._dblClick = function(e) {-->
+<!--var li = $(e.currentTarget);-->
+
+<!--if (li.filter("[" + kendo.attr("type") + "=d]").length) {-->
+<!--var folder = this.dataSource.getByUid(li.attr(kendo.attr("uid")));-->
+<!--if (folder) {-->
+<!--// "folder" is a Kendo UI Model instance-->
+<!--// http://docs.telerik.com/kendo-ui/api/framework/model-->
+<!--// obtain your custom folder ID from the model and assign it to a variable to be used in the function associated with transport.read.data-->
+<!--}-->
+<!--}-->
+
+<!--oldDblClick.call(this, e);-->
+<!--}-->
+        <!--</script>-->
+<div class="col-md-12">
+
+    <h3 style="background-color:yellow">Title :{{currentPost.postTitle}} </h3>
+    <tabset>
+        <tab heading="content" height="600px">
+            <!--<div text-angular="" ng-model="currentPost.postContent"></div>-->
+            <!--{{tooloptions}}-->
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="box">
+
+                        <textarea style="width:100%;height:500px" kendo-editor="editor" k-options="tooloptions"
+                                  k-encoded="false" ng-model="currentPost.postContent"></textarea>
+                    </div>
+
+                    <!--<textarea style="width:100%;height:500px" kendo-editor="editor"-->
+                              <!--k-tools="tooloptions" k-encoded="false" ng-model="currentPost.postContent"></textarea>-->
+                    <!--<div kendo-scheduler="ksched" k-options="schedulerOptions">-->
+
+                    <!--<div class="box">-->
+                        <!--<textarea ng-bind-html="currentPost.postContent" style="width: 100%; height: 5em"></textarea>-->
+                    <!--</div>-->
+                    <!--<textarea height="550px" kendo-editor ng-model="currentPost.postContent" ></textarea>-->
+                    <!--<strong>Markup</strong>-->
+                    <!--<pre>-->
+                      <!--<textarea ng-model="currentPost.postContent" redactor cols="30" rows="10"></textarea>-->
+                    <!--</pre>-->
+
+                    <!--<pre>-->
+                        <!--<p ng-bind-html="currentPost.postContent"></p>-->
+
+                    <!--</pre>-->
+
+                </div>
+            </div>
+
+        </tab>
+        <!--<tab heading="redactor" height="600px">-->
+            <!--&lt;!&ndash;<div text-angular="" ng-model="currentPost.postContent"></div>&ndash;&gt;-->
+            <!--<div class="panel panel-default">-->
+                <!--<div class="panel-body">-->
+                    <!--<strong>Markup</strong>-->
+                    <!--<pre>-->
+                    <!--<textarea ng-model="currentPost.postContent" redactor cols="30" rows="10"></textarea>-->
+                    <!--</pre>-->
+                <!--</div>-->
+            <!--</div>-->
+
+
+        <!--</tab>-->
+
+        <tab heading="title" height="300px">
+
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+
+
+                    <label>Title</label>
+
+                    <input ng-model="currentPost.postTitle">
+                    <br>
+                    <label>author</label>
+
+                    <input ng-model="currentPost.author">
+
+                </div>
+            </div>
+
+        </tab>
+        <tab heading="tags" height="300px">
+            <!--{{currentPost.tags}}-->
+            <div class="panel panel-default">
+                <div class="panel-body">
+
+                    <div class="col-md-3">
+
+                        <label>Tags:</label>{{tags}}
+                        <!--<div blog-it-tag-collection="currentPost.tags" class="very-small edit"></div>-->
+                        <a href="#" editable-text="currentPost.tag"
+                           e-typeahead="tag for tag in tags | filter:$viewValue | limitTo:12"
+                           onbeforesave="checkName($data,id)">
+                            {{ currentPost.tag || 'click me to add' }}
+                        </a>
+
+                        <ul class="form-group">
+                            <li class="form-control" ng-repeat="tag in currentPost.tags">
+                                <div class="col-md-10"> {{tag}}</div>
+                                <div class="col-md-2">
+                                    <button type="button" class="btn btn-danger btn-xs" ng-click="destroyTag(tag)"><i
+                                            class="fa fa-trash-o"></i></button>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </tab>
+        <tab heading="image" height="300px">
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+
+                    <div class="col-md-6">
+                        <label>image path</label>
+                        <input style="width: 450px" ng-model="currentPost.image">
+                    </div>
+                    <div class="col-md-10">
+                        <label>image</label>
+
+                        <p><img align="left" style="width: 450px" ng-src="{{currentPost.image}}"></p>
+
+                    </div>
+                </div>
+            </div>
+        </tab>
+    </tabset>
+</div>
+
+<div class="col-md-12">
+    <div ng-bind="message" ng-show="message" class="alert alert-success"></div>
+    <div ng-bind="message_err" ng-show="message_err" class="alert alert-error"></div>
+</div>
+<!--markdown:{{markdown}} markdown:{{currentPost.postContent}}-->
+<div class="col-md-1">
+    <button class="btn btn-success" ng-click="createBilling(currentPost, 0,markdown)">save</button>
+</div>
+
+
+<div class="col-md-2">
+    <button ng-click="createBilling(currentPost,-1)" class="btn btn-primary">cancel/close</button>
+</div>
+
+
+</div>
+
+
+

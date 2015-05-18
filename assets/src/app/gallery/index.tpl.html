@@ -1,0 +1,23 @@
+
+<div class="container">
+</br></br>
+<div class="row clearfix">
+    <!--col1-->
+    <div class="col-md-2 column" ></div>
+    <div class="col-md-10 column">
+        <h4>Gallery Select: <select ng-model="dataset" ng-options="ds for ds in datasets"></select></h4>
+    </div>
+</div>
+    <div class="row clearfix">
+        <div class="col-md-2 column" ></div>
+    <div class="col-md-8 column" >
+
+        <ng-fader data-images="images" autostart=true timer="6000" ng-if="dataHasLoaded"  showdots=false></ng-fader>
+
+        <!--<ng-fader data-images="images" autostart=true timer="5000"  showdots=true></ng-fader>-->
+
+
+    </div>
+        <div class="col-md-2 column" ></div>
+</div>
+</div>

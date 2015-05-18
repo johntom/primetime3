@@ -1,0 +1,56 @@
+<style>
+
+    body {
+        padding-top: 50px;
+    }
+
+</style>
+
+<h3>Renewal's v1.2</h3>
+<div class="container">
+<div class="row">
+    <div class="col-md-12">
+
+        <form role="form" >
+            <!--{{sform}}-->
+
+
+            <div class="row col-md-12">
+
+                Select a Template:  <select style="width:320px" ng-model="sform.template" ng-options="t.name as t.name for t in templates"></select>
+
+            </div>
+            <div class="row col-md-12" >
+                </br>
+            <!--<Enter> enter start/end date for daily renewal-->
+                <!--&lt;!&ndash;<input type="date" style="width:160px" ng-model="sform.date1" datepicker-popup="MM/dd/yyyy" required="required"/>&ndash;&gt;-->
+                <!--&lt;!&ndash;<input  type="date" style="width:160px" ng-model="sform.date2" datepicker-popup="MM/dd/yyyy" required="required"/>&ndash;&gt;-->
+                <!--<input type="text" style="width:160px" ng-model="sform.date1"  required="required"/>-->
+                <!--<input  type="text" style="width:160px" ng-model="sform.date2" required="required"/>-->
+
+            <!--<button type="button" class="btn btn-info btn-xs" ng-click="createRenewalDaily()" ><i class="fa fa-cogs"></i>Daily</button>-->
+            <!--</Enter>-->
+
+            </div>
+            <div class="col-md-12">
+                <!--</br>-->
+            <!--Select Month for monthy renewal: <select id="inputService" ng-model="sform.month" style="width:180px"-->
+            <!--ng-options="m.name for m in months | orderBy:'value'" required="required"></select>-->
+            <button type="button" class="btn btn-info btn-xs" ng-click="createEmails()" ><i class="fa fa-cogs"></i>Run Monthy Emails to Mandrill</button>
+            </div>
+            <div class="col-md-12">
+
+                <hr>
+                <h4 ng-hide="dailies.length===0">Reminders have been sent to the following</h4> </br>
+                <div ng-repeat="daily in dailies">
+                    {{daily.firstname}} &nbsp; {{daily.lastname}} - {{daily.clientcode}}
+                </div> <hr>
+            </div>
+
+        </form>
+
+
+
+    </div>
+</div>
+</div>
