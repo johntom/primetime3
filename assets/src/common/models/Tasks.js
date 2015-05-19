@@ -61,7 +61,7 @@ angular.module('models.tasks', ['lodash', 'services', 'ngSails'])
             //
             this.create = function (task) {
 
-
+                angular.toJson(task)
                 var deferred = $q.defer();
                 //var urlRest = 'api/posts';
                 var Tasks = Restangular.all(urlRest);

@@ -326,15 +326,15 @@ module.exports = {
     create: function (req, res) {
         console.log('in create', req.params.all())
         var OwnerID = req.param('OwnerID');
-        if (OwnerID === 'Primetime3') {
-            OwnerID = 1;
-        } else {
-            OwnerID = 1;
-        }
+        //if (OwnerID === 'Primetime3') {
+        //    OwnerID = 1;
+        //} else {
+        //    OwnerID = 1;
+        //}
         var model = {
             "Start": req.param('Start'),
             "End": req.param('End'),
-            "OwnerID": OwnerID,
+            "OwnerID": OwnerID.id,
             //  "TaskID" : 1,
             "Title": req.param('Title'),
             "StartTimezone": "",
