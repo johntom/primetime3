@@ -1,0 +1,84 @@
+.ng-fader {
+    background-color: #000;
+    position: relative;
+    padding: 0;
+    margin: 0;
+    z-index: 22;
+    ul {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    li {
+        height: 100%;
+        margin: 0;
+        position: relative;
+        list-style: none;
+        width: 100%;
+        img {
+            border: medium none;
+            margin: 0;
+            width: 100%;
+            opacity: 1;
+            position: relative;
+            width: 100%;
+            -webkit-transition: opacity 1s ease 0s;
+            -moz-transition: opacity 1s ease 0s;
+            -o-transition: opacity 1s ease 0s;
+            transition: opacity 1s ease 0s;
+        }
+        img.ng-hide {
+            opacity: 0;
+            height: 0;
+            position: absolute;
+        }
+    }
+}
+.ng-fader-pagination {
+    bottom: 10px;
+    height: 20px;
+    left: 0;
+    position: absolute;
+    width: auto;
+    li {
+        background-color: #fff;
+        border-radius: 10px;
+        display: inline-block;
+        height: 12px;
+        margin: 4px;
+        padding: 5px;
+        position: relative;
+        width: 12px;
+        cursor: pointer;
+    }
+    li:first-child {
+        background-color: #fff;
+        border-radius: 10px;
+        display: inline-block;
+        height: 12px;
+        margin: 4px 4px 4px 20px;
+        padding: 5px;
+        position: relative;
+        width: 12px;
+    }
+    li.current {
+        background-color: #666;
+    }
+}
+.ng-fader-controls {
+    bottom: 10px;
+    height: 20px;
+    position: absolute;
+    right: 20px;
+    li {
+        color: #FFF;
+        display: inline;
+        font-size: 1.2em;
+        padding: 10px;
+        position: relative;
+        cursor: pointer;
+    }
+    li.active {
+        color: #666;
+    }
+}
