@@ -247,7 +247,7 @@ angular.module('sailng.booking', [])
 
             };
             $scope.setTime = function (start) {
-                $scope.trip.End = start;
+                $scope.trip.End =   moment(start);//.format("MM/DD/YYYY");
             }
             $scope.bookTrip = function (trip) {
                 $scope.trip = trip;
