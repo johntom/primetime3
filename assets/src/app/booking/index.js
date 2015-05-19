@@ -104,7 +104,18 @@ angular.module('sailng.booking', [])
     .controller('BookingCtrl', ['$scope', '$sails', 'lodash', 'config', 'titleService', 'BookingModel', 'InventoryModel', '$filter', 'ngTableParams', 'PostsModel', 'TasksModel',
         '$location', '$modal', function BookingController($scope, $sails, lodash, config, titleService, BookingModel, InventoryModel, $filter, ngTableParams, PostsModel, TasksModel, $location, $modal) {
 
-//console.log('startemup');
+            $scope.meals = [
+                {id: 'me', label: 'Meat'},
+                {id: 'mi', label: 'Milk'},
+                {id: 'or', label: 'Orange'},
+                {id: 'ri', label: 'Rice'}
+            ];
+
+            $scope.boats = [
+                {id: '1', label: 'Primetime3'},
+                {id: '2', label: 'Jenglo'},
+
+               ];
             $scope.prevtrip = {};
             $scope.currentuser = config.currentUser;
             TasksModel.getAll($scope).then(function (data) {
@@ -116,7 +127,7 @@ angular.module('sailng.booking', [])
             });
 
             titleService.setTitle('Booking');
-            $scope.statuses = ['Primetime3', 'Jenglo'];
+
             $scope.billingopen = false;
             $scope.book = {};
             $scope.cancelAdmin = function (opt) {

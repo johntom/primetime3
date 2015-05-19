@@ -1,47 +1,47 @@
 <!--<h1> claim info 1</h1>-->
 <!--this modified on 11/19/13 for bs 3.0-->
-<style type="text/css">
-    span.title {
-        display: block;
-        font-size: 13px;
-        padding: 5px 0px 5px 0px;
-        /*margin: 0px 0px 0px 100px;*/
-        width: 300px;
-        color: #3CB4E7;
-    }
+<!--<style type="text/css">-->
+<!--span.title {-->
+<!--display: block;-->
+<!--font-size: 13px;-->
+<!--padding: 5px 0px 5px 0px;-->
+<!--/*margin: 0px 0px 0px 100px;*/-->
+<!--width: 300px;-->
+<!--color: #3CB4E7;-->
+<!--}-->
 
-    body {
-        padding: 70px !important;
-    }
+<!--body {-->
+<!--padding: 70px !important;-->
+<!--}-->
 
-    .ng-table-rowselected tr {
-        cursor: pointer;
-    }
+<!--.ng-table-rowselected tr {-->
+<!--cursor: pointer;-->
+<!--}-->
 
-    .table-hover > tbody > tr.active:hover > th {
-        background-color: #e8e8e8;
-    }
+<!--.table-hover > tbody > tr.active:hover > th {-->
+<!--background-color: #e8e8e8;-->
+<!--}-->
 
-    a.editable-click {
-        color: red;
-        border-bottom: dotted 2px green;
-        font-size: 26px;
-    }
+<!--a.editable-click {-->
+<!--color: red;-->
+<!--border-bottom: dotted 2px green;-->
+<!--font-size: 26px;-->
+<!--}-->
 
-    a.editable-click:hover {
-        color: #47a447;
-        border-bottom-color: #47a447;
-        font-size: 26px;
-    }
+<!--a.editable-click:hover {-->
+<!--color: #47a447;-->
+<!--border-bottom-color: #47a447;-->
+<!--font-size: 26px;-->
+<!--}-->
 
-    a {
-        color: blue;
-    }
+<!--a {-->
+<!--color: blue;-->
+<!--}-->
 
-    .well2 {
-        background-color: #d1ff00;
-    }
-</style>
+<!--.well2 {-->
+<!--background-color: #d1ff00;-->
+<!--}-->
+<!--</style>-->
 <div class="row clearfix">
     <div class="col-md-12 column">
         <h4>Add trip</h4>
@@ -54,105 +54,114 @@
         <hr>
     </div>
 </div>
-<form fs-form-for model="trip">
-    <fieldset class="form-horizontal">
+<div class="col-md-12">
+    <div class="col-md-8">
+        <div id="jumbo" class="jumbotron">
+            <form fs-form-for model="trip">
+                <fieldset class="form-horizontal">
 
 
-        <div class="col-md-10">
+                    <legend>trip info</legend>
 
-            <div id="jumbo" class="jumbotron">
-                <legend>trip info</legend>
 
-                <div class="col-md-4"> Owner (1=Pt3 , 2=Jenglo)</div>
-                <div class="col-md-8">
-                    <select ng-model="trip.OwnerID" ng-show="currentUser.role>='3'"
-                            ng-options="status for status in statuses"></select>
-                </div>
-                <br>
-                <br>
+                    <!--<select ng-model="trip.OwnerID" ng-show="currentUser.role>='3'"-->
+                    <!--ng-options="status for status in statuses"></select>-->
 
-                <div class="form-group row">
-                    <label class="col-xs-4 control-label">StartDateTime</label>
+                    <fs-input as="fs-select" name="OwnerID" label="OwnerID" items="boats"><b>{{ item.id }}</b> {{
+                        item.label }}
+                    </fs-input>
+                    <!--<div fs-select="" items="boats" ng-disabled="disabled" ng-model="OwnerID">-->
+                    <!--<span ng-show="item"> <b>{{item.id}}</b> {{item.label}} </span>-->
+                    <!--<span ng-hide="item"> pick a boat </span>-->
+                    <!--</div>-->
 
-                    <div class="col-xs-6">
-                        <div fs-datetime="" ng-model="trip.Start" ng-click="setTime(trip.Start)"> </div>
+
+                    <div class="form-group row">
+                        <label class="col-xs-4 control-label">StartDateTime</label>
+
+                        <div class="col-xs-6">
+                            <div fs-datetime="" ng-model="trip.Start" ng-click="setTime(trip.Start)"></div>
+                        </div>
+
+                    </div>
+                    <br>
+
+                    <div class="form-group row">
+                        <label class="col-xs-4 control-label">EndDateTime</label>
+
+                        <div class="col-xs-6">
+                            <div fs-datetime="" ng-model="trip.End"></div>
+                        </div>
+
                     </div>
 
-                </div>
-                <br>
+                    <div class="col-md-4"> spots:</div>
+                    <div class="col-md-8">
+                        <input type="number" style="width:250px" ng-model='trip.spots' name="spots"
+                               required=""/>
+                    </div>
+                    <br>
 
-                <div class="form-group row">
-                    <label class="col-xs-4 control-label">EndDateTime</label>
+                    <div class="col-md-4">tripprice:</div>
 
-                    <div class="col-xs-6">
-                        <div fs-datetime="" ng-model="trip.End"></div>
+                    <div class="col-md-8">
+                        <input type="text" style="width:250px" ng-model='trip.tripprice' name="tripprice"
+                               required=""/>
+                    </div>
+                    <br>
+
+                    <div class="col-md-4">tripdesc:</div>
+                    <div class="col-md-8">
+                        <input type="text" style="width:250px" ng-model='trip.tripdesc' name="tripdesc"
+                               required=""/></div>
+                    <br>
+
+
+                    <div class="col-md-4"> Title:</div>
+                    <div class="col-md-8">
+                        <input type="text" style="width:250px" ng-model='trip.Title' name="Title" required=""/>
                     </div>
 
-                </div>
-
-                <div class="col-md-4"> spots:</div>
-                <div class="col-md-8">
-                    <input type="number" style="width:250px" ng-model='trip.spots' name="spots"
-                           required=""/>
-                </div>
-                <br>
-
-                <div class="col-md-4">tripprice:</div>
-
-                <div class="col-md-8">
-                    <input type="text" style="width:250px" ng-model='trip.tripprice' name="tripprice"
-                           required=""/>
-                </div>
-                <br>
-
-                <div class="col-md-4">tripdesc:</div>
-                <div class="col-md-8">
-                    <input type="text" style="width:250px" ng-model='trip.tripdesc' name="tripdesc"
-                           required=""/></div>
-                <br>
+                    <br>
 
 
-                <div class="col-md-4"> Title:</div>
-                <div class="col-md-8">
-                    <input type="text" style="width:250px" ng-model='trip.Title' name="Title" required=""/>
-                </div>
+                    <div class="col-md-4" style="background-color:yellow">Charter:</div>
+                    <div class="col-md-8">
+                        <input type="checkbox" ng-model="trip.isCharter"
+                               required/></div>
+                    <br>
 
-                <br>
+                    <div class="col-md-4">chartername:</div>
+                    <div class="col-md-8">
+                        <input type="text" style="width:250px" ng-model='trip.chartername' name="chartername"
+                               required=""/></div>
+                    <br>
 
-
-                <div class="col-md-4" style="background-color:yellow">Charter:</div>
-                <div class="col-md-8">
-                    <input type="checkbox" ng-model="trip.isCharter"
-                           required/></div>
-                <br>
-
-                <div class="col-md-4">chartername:</div>
-                <div class="col-md-8">
-                    <input type="text" style="width:250px" ng-model='trip.chartername' name="chartername"
-                           required=""/></div>
-                <br>
-
-                <fs-row label="Result">
+                    <fs-row label="Result">
                   <pre>
                       Entered datetime: {{ trip.Start | date:'medium'}}
                        Entered datetime: {{ trip.End | date:'medium'}}
                   </pre>
-                </fs-row>
+                    </fs-row>
 
-            </div>
+
+                </fieldset>
+            </form>
         </div>
-    </fieldset>
-</form>
-
-<div class="col-md-2">
-
-    <button class="btn btn-success" ng-click="addtripTasks(trip)" tooltip="update booking record">Save</button>
+    </div>
+    <div class="col-md-4"></div>
 </div>
+<div class="row clearfix">
+    <div class="col-md-8">
+        <div class="col-md-2">
 
-<div class="col-md-2">
-    <button ng-click="cancelAdmin(1)" class="btn btn-warning">close</button>
+            <button class="btn btn-success" ng-click="addtripTasks(trip)" tooltip="update booking record">Save</button>
+        </div>
 
-</div>
+        <div class="col-md-2">
+            <button ng-click="cancelAdmin(1)" class="btn btn-warning">close</button>
 
+        </div>
 
+    </div>
 </div>

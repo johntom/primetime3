@@ -218,13 +218,13 @@ module.exports = {
     getList: function (req, res) {
         console.log('getListOrig=======THIS IS USED FROM ROUTES===========')
         var params = req.params.all();
-var start;
+        var start;
 
         // gt and dates from yesterday
         if (req.user !== undefined) {
             // cjeck for role = 4
             start = new Date('1/1/2015');
-            start= moment().format('mm/dd/yyyy');
+            start = moment().format('mm/dd/yyyy');
 
         } else {
             start = new Date();
@@ -567,45 +567,46 @@ var start;
         }
     },
     destroy: function (req, res) {
-        var taskid = parseInt(req.param('id'));
-        console.log('in destroy', req.params.all(), taskid)
-
-        if (!taskid) {
-            return res.badRequest('No taskid provided.');
-        }
-
-        console.log('=destroy=======', taskid)
+        //  var taskid = parseInt(req.param('id'));
+        var id = parseInt(req.param('id'));
+        //console.log('in destroy', req.params.all(), taskid)
+        //
+        //if (!taskid) {
+        //    return res.badRequest('No taskid provided.');
+        //}
+        //
+        //console.log('=destroy=======', taskid)
         // Otherwise, find and destroy the model in question
-        Tasks.findOne({"TaskID": taskid}).exec(function (err, model) {
-            console.log('model ', model)
-            // Tasks.find({"TaskID": id}).exec(function (err, model) {
+        //  Tasks.findOne({"TaskID": taskid}).exec(function (err, model) {
+        //   Tasks.findOne( id ).exec(function (err, model) {
+        //console.log('model ', model)
+        //// Tasks.find({"TaskID": id}).exec(function (err, model) {
+        //if (err) {
+        //    return res.serverError(err);
+        //}
+        //if (!model) {
+        //    return res.notFound();
+        //}
+        //Audit.create(model)
+        //    .exec(function (err, todo) {
+        //        if (err) {
+        //            return//  console.log(err);
+        //        }
+        //        else {
+        //
+        //        }
+        //    });
+        //var bcs = model.BCSNumber;
+        //else {
+        //    console.log('=model=======', model.id)
+        Tasks.destroy(id, function (err) {
             if (err) {
                 return res.serverError(err);
             }
-            //if (!model) {
-            //    return res.notFound();
-            //}
-            //Audit.create(model)
-            //    .exec(function (err, todo) {
-            //        if (err) {
-            //            return//  console.log(err);
-            //        }
-            //        else {
-            //
-            //        }
-            //    });
-            //var bcs = model.BCSNumber;
-            else {
-                console.log('=model=======', model.id)
-                Tasks.destroy(model.id, function (err) {
-                    if (err) {
-                        return res.serverError(err);
-                    }
 
-                    return res.json('success');
-                });
-            }
+            return res.json('success');
         });
+
     }
 
 };

@@ -126,8 +126,9 @@ angular.module('models.tasks', ['lodash', 'services', 'ngSails'])
             //var urlRest = 'api/posts';
             var Tasks = Restangular.all(urlRest);
             //customPOST returns an object Post return array
-            Tasks.customDELETE(task.TaskID).then(function (response) {
-                //alert(posts[0]);
+           //5-18 Tasks.customDELETE(task.TaskID).then(function (response) {
+                Tasks.customDELETE(task.id).then(function (response) {
+                    //alert(posts[0]);
                 console.log('set myData cache data', response.data)
                 deferred.resolve(response.data);
             });
