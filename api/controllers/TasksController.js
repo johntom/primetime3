@@ -568,8 +568,9 @@ module.exports = {
     },
     destroy: function (req, res) {
         //  var taskid = parseInt(req.param('id'));
-        var id = parseInt(req.param('id'));
-        //console.log('in destroy', req.params.all(), taskid)
+     //   var vid = parseInt(req.param('id'));
+        var vid = req.param('id');
+        console.log('in destroy', vid,req.params.all());
         //
         //if (!taskid) {
         //    return res.badRequest('No taskid provided.');
@@ -599,11 +600,14 @@ module.exports = {
         //var bcs = model.BCSNumber;
         //else {
         //    console.log('=model=======', model.id)
-        Tasks.destroy(id, function (err) {
+
+        console.log('=destroy=======', vid)
+        Tasks.destroy(vid, function (err) {
             if (err) {
+                console.log('=err=======', err)
                 return res.serverError(err);
             }
-
+            console.log('=success=======')
             return res.json('success');
         });
 

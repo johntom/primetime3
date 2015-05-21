@@ -95,6 +95,32 @@
 
                     </div>
 
+
+                    <div class="form-group row">
+                        <label class="col-xs-4 control-label">StartDateTime Native</label>
+
+                        <div class="col-xs-6">
+                            <fs-input as="datetime-local" ng-model="trip.Start" name="trip.Start"></fs-input>
+
+                        </div>
+
+                    </div>
+                    <br>
+
+                    <div class="form-group row">
+                        <label class="col-xs-4 control-label">EndDateTime Native</label>
+
+                        <div class="col-xs-6">
+                           <fs-input as="datetime" ng-model="trip.End" name="trip.End"></fs-input>
+
+
+
+
+                        </div>
+
+                    </div>
+
+
                     <div class="col-md-4"> spots:</div>
                     <div class="col-md-8">
                         <input type="number" style="width:250px" ng-model='trip.spots' name="spots"

@@ -77,6 +77,7 @@ angular.module('models.tasks', ['lodash', 'services', 'ngSails'])
             },
             this.updateTrip = function (task) {
                 //task = [{book: bookedtrip, trip: $scope.trip}];
+                angular.toJson(task);
                 var urlRest = utils.prepareUrlRestangular('tasksTrip');
                 var deferred = $q.defer();
                 //var urlRest = 'api/posts';
@@ -92,7 +93,7 @@ angular.module('models.tasks', ['lodash', 'services', 'ngSails'])
                 return deferred.promise;
             };
             this.update = function (task) {
-
+                angular.toJson(task);
                 var deferred = $q.defer();
                 //var urlRest = 'api/posts';
                 var Tasks = Restangular.all(urlRest);
@@ -109,6 +110,7 @@ angular.module('models.tasks', ['lodash', 'services', 'ngSails'])
             this.updateBookingNew = function (task) {
                 // this is used when we create a new booking detail
 //                alert('in model update ' + e);//.data.models[0].CLAIM_NO)
+                angular.toJson(task);
                 var urlRest = utils.prepareUrlRestangular('updatebookingnew');
                 var deferred = $q.defer();
                 var Tasks = Restangular.all(urlRest);
@@ -121,6 +123,7 @@ angular.module('models.tasks', ['lodash', 'services', 'ngSails'])
                 return deferred.promise;
             };
         this.destroy = function (task) {
+            angular.toJson(task);
             console.log('task ',task)
             var deferred = $q.defer();
             //var urlRest = 'api/posts';
