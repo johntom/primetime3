@@ -52,8 +52,11 @@ var jsFilesToInject = [
     'bower_components/angular-input-modified/dist/angular-input-modified.js',
     'bower_components/marked/lib/marked.js',     //I think this deisplay html the best
     'bower_components/angular-marked/angular-marked.js',
+
     'bower_components/ngmap/build/scripts/googlemaps.js',
-    'bower_components/ngmap/build/scripts/ng-map.js',
+    // 5-22-15 'bower_components/ngmap/build/scripts/ng-map.js',
+    'bower_components/ngmap/build/scripts/ng-map.min.js',
+
     'bower_components/angular-youtube-mb/dist/angular-youtube-embed.min.js',
     // kendo
     'bower_components/Kendo/src/src/kendo.all.js',

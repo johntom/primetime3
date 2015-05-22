@@ -1,9 +1,13 @@
 //<band-gallery gallery-imgs='myImgs' nav-top-btn="true" nav-down-btn="true" page-nr="true"></band-gallery>
 
-(function () {
-    'use strict';
-    angular.module('ngFader', [])
-	.directive('ngFader', function($interval) {
+//var blink = angular.module('directive.blink', [])
+//	.directive('blink', ['$timeout', function($timeout) {
+
+//(function () {
+//    'use strict';
+//    angular.module('ngFader', [])
+var ngFader = angular.module('directive.ngFader', [])
+	.directive('ngFader',['$interval', function($interval) {
 
 			return {
 
@@ -108,6 +112,7 @@
 
 
 	  };
-	});
+	}]);
 
-}());
+//}());
+//

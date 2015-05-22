@@ -9,8 +9,10 @@ angular.module('sailng', [
 	, 'models'
     , 'ngTable'
 	, 'directive.blink'
- // , 'directive.wallopSlider'
+    // , 'directive.wallopSlider'
 	, 'directive.tabsetll'
+	//, 'directive.ngFader'
+
 	, 'angularUtils.directives.dirPagination'
 	, 'filters.filter'
 	, 'sailng.header'
