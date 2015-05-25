@@ -170,7 +170,7 @@ module.exports = {
             fileParams = {},
             settings = {
                 allowedTypes: ['image/jpeg', 'image/png', 'application/pdf'],
-                maxBytes: 1000000 //100 * 1024 * 1024
+                maxBytes: 3000000 //100 * 1024 * 1024
             };
 
         // Check file type
