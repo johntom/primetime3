@@ -3,20 +3,22 @@ util = require('util')
     , Q = require('q')
     , path = require('path')
     , walk = require('walk')
+    , fsx = require('fs.extra')
+    , fs = require('fs')
+   // , gm = require('gm');  //GraphicsMagick
+   , gm = require('gm').subClass({imageMagick: true});
 
-    , fs = require('fs.extra');
 //  , uuid = require('node-uuid');
 /* IN FILE UPLOAD SAVE WITH A SAFE FILENAME */
 
 module.exports = {
 
-
     pdfview: function (req, res) {
-      // console.log('upload controlller ./api/docs... ', req.param('file'));
-      //  console.log("Request handler show was called.", './api/docs/' + req.param('pdf'));
+        // console.log('upload controlller ./api/docs... ', req.param('file'));
+        //  console.log("Request handler show was called.", './api/docs/' + req.param('pdf'));
         // file type
         filetype = req.param('file').substr(0, 3);
-       // console.log('filetype:: ', filetype)
+        // console.log('filetype:: ', filetype)
         filepath = './api/docs/_manifest/';
         fs.readFile(filepath + req.param("file"), "binary", function (error, file) {
             if (error) {
@@ -36,7 +38,7 @@ module.exports = {
     pdfviewAllTypes: function (req, res) {
         var fn = req.param('file');
         var extname = path.extname(fn);
-      //  console.log('pdfview.. ', fn, extname);
+        //  console.log('pdfview.. ', fn, extname);
         filepath = './api/docs/';
         fs.readFile(filepath + req.param("file"), "binary", function (error, file) {
             if (error) {
@@ -97,10 +99,9 @@ module.exports = {
         console.log('upload u imageview ./api/docs... ', req.param('file'));
         filetype = req.param('file').substr(0, 3);
         dir = req.param('dir');
-        if (dir!==undefined) {
-            filepath = './api/docs/'+dir+'/';
-        } else
-        {
+        if (dir !== undefined) {
+            filepath = './api/docs/' + dir + '/';
+        } else {
             filepath = './api/docs/';
         }
         fs.readFile(filepath + req.param("file"), "binary", function (error, file) {
@@ -143,7 +144,175 @@ module.exports = {
 //    this.Context.Response.Flush();
 //this.Context.Response.Close();
 //
+    uploadGallery: function (req, res) {
+        //var fn = req.file('file')._files[0].stream.filename;
+        // sails.log.info("uploadGallery");
+        //  console.log(req.params.all(), req.body)
+        var gallery = req.param('gallery');
+        var thepath = '../../api/docs/' + gallery[1];//+'/';// not sure why gallery is an array
+        var fn = _saveAs(req.file('file')._files[0].stream);
 
+        console.log('====uploadGallery=====================================', fn, thepath)
+        //allowedTypes: ['image/jpeg', 'image/png', 'application/pdf', 'application/msword', 'application/vnd.ms-excel'
+        //    , "application/xls", "application/xlsx", "text/plain",
+        //    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        //    'application/xml', 'image/gif', 'image/x-icon', 'video/x-ms-wmv', 'video/mp4',
+        //    'application/x-zip-compressed', 'application/vnd.ms-outlook', 'application/octet-stream',
+        //    'application/mpeg','audio/mpeg',
+        //    'video/quicktime' ,'video/x-sgi-movie','video/x-msvideo','video/x-msvideo','text/x-vcard']  ,
+        //    //maxBytes: 100 * 1024 * 1024
+        //    maxBytes: 30000000
+        var upload = req.file('file')._files[0].stream,
+            headers = upload.headers,
+            byteCount = upload.byteCount,
+            validated = true,
+            errorMessages = [],
+            fileParams = {},
+            settings = {
+                allowedTypes: ['image/jpeg', 'image/png', 'application/pdf'],
+                maxBytes: 1000000 //100 * 1024 * 1024
+            };
+
+        // Check file type
+        if (_.indexOf(settings.allowedTypes, headers['content-type']) === -1) {
+            validated = false;
+            errorMessages.push('Wrong filetype (' + headers['content-type'] + ').');
+        }
+        // Check file size
+        if (byteCount > settings.maxBytes) {
+            validated = false;
+            errorMessages.push('Filesize exceeded: ' + byteCount + '/' + settings.maxBytes + '.');
+        }
+        // Upload the file.
+        if (validated) {
+            sails.log.info("validated");
+            req.file('file')
+                .upload({
+                    // You can apply a file upload limit (in bytes)
+                    dirname: '../../api/docs/' + gallery[1] + '/',
+                    maxBytes: 10000000
+                    , saveAs: fn
+
+                },
+                function (err, files) {
+
+                    if (err) {
+                        sails.log.info("upload  -> Err:", err, "File: ");//, file);
+
+                        return res.serverError(err);
+                    }
+                    var origpath = 'C:/Sails10/PrimeTime3/api/docs/' + gallery[1] + '/' + fn;
+                    var fntarget_path = 'C:/Sails10/PrimeTime3/api/docs/' + gallery[1] + 'Thumbs/' + fn;
+                    var fntarget_path2 = 'C:/Sails10/PrimeTime3/api/docs/' + gallery[1] + 'Articles/' + fn;
+
+
+                   // fsx.copy(origpath, fntarget_path)  //, err
+                  //  fsx.copy(origpath, fntarget_path2)  //, err
+                    gm(origpath)
+                        .size(function (err, size) {
+                            if (!err) {
+                                console.log(size.width > size.height ? 'wider' : 'taller than you');
+                                if (size.width > size.height) {
+                                    gm(origpath)
+                                        .resize('250')
+                                        .stream(function (err, stdout, stderr) {
+                                            var writeStream = fs.createWriteStream(fntarget_path2);
+                                            stdout.pipe(writeStream);
+                                        });
+                                } else {
+                                    gm(origpath)
+                                        .resize('x250')
+                                        .stream(function (err, stdout, stderr) {
+                                            var writeStream = fs.createWriteStream(fntarget_path2);
+                                            stdout.pipe(writeStream);
+                                        });
+                                }
+                            }
+
+                        });
+                    gm(origpath)
+                        .resize('80', '80')
+                        .stream(function (err, stdout, stderr) {
+                            var writeStream = fs.createWriteStream(fntarget_path);
+                            stdout.pipe(writeStream);
+                        });
+                    //gm(fntarget_path)
+                    //    .resize(80, 80)
+                    //    .autoOrient()
+                    //    .write(writeStream, function (err) {
+                    //        if (!err) console.log(' hooray! ');
+                    //    });
+                    //gm(origpath).size(function(err, value){
+                    //    console.log(value)
+                    //    // note : value may be undefined
+                    //})
+
+                    //var oldPath  = '../../api/docs/'+gallery[1]+'/'+fn;
+                    //var newPath  = '../../api/docs/'+gallery[1]+'Thumbs/'+fn;
+                    //var newPath2 = '../../api/docs/'+gallery[1]+'Articles/'+fn;
+
+
+                    //fs.rename(oldPath, newPath, function (err){
+                    //
+                    //})
+                    //fs.rename(oldPath, newPath2,function (err) {
+                    //})}
+
+                    //  fs.rename('/tmp/hello', '/tmp/world', function (err) {
+                    //  fs.rename('oldPath', '/tmp/world', function (err) {
+                    //      if (err) throw err;
+                    //      fs.stat('/tmp/world', function (err, stats) {
+                    //          if (err) throw err;
+                    //          console.log('stats: ' + JSON.stringify(stats));
+                    //      });
+                    //  });
+
+
+                    //fs.copy(oldPath, newPath, function (err) {
+                    //    if (err) return console.error(err)
+                    //    console.log("fs.copy success!")
+                    //}); // copies file
+
+
+                    return res.json(200, {
+                            // required for redactor
+                            //    filelink: 'images/crew/'+fn
+//                     sails.log.info("upload UPLOADED !! ";
+                            // sails.log.info("upload  UPLOADED -> Err:", err, "File: ");
+                            //   'mogrify -resize 80x80 -background white -gravity center  -format jpg -path ..\'+gallery[1]+' thumbs *.jpg';
+                            //  To resize an image to a width of 40px while maintaining aspect ratio: gm("img.png").resize(40)
+                            //  To resize an image to a height of 50px while maintaining aspect ratio: gm("img.png").resize(null, 50)
+                            //  To resize an image to a fit a 40x50 rectangle while maintaining aspect ratio: gm("img.png").resize(40, 50)
+                            //  To override the image's proportions and force a resize to 40x50: gm("img.png").resize(40, 50, "!")
+
+
+                            message: files.length + ' file(s) uploaded successfully!'
+                        }
+                    );
+                    //return res.json(200, {
+                    //
+                    //    message: files.length + ' file(s) uploaded successfully!'
+                    //
+                    //});
+
+                    //gm('/path/to/image.jpg')
+                    //    .resize(353, 257)
+                    //    .autoOrient()
+                    //    .write(writeStream, function (err) {
+                    //        if (!err) console.log(' hooray! ');
+                    //    });
+
+
+                });
+        } else {
+            // sails.log.verbose(__filename + ':' + __line + ' [File not uploaded: ', errorMessages.join(' - ') + ']');
+            sails.log.info("File not  uploaded -> Err:", errorMessages.join(' - '));
+            return res.json(400, {
+                message: 'File not uploaded: ' + errorMessages.join(' - ')
+            });
+        }
+
+    },
     uploadPdf: function (req, res) {
         // using special below
         var fn = _saveAs(req.file('file')._files[0].stream);
@@ -265,7 +434,7 @@ module.exports = {
     },
     uploadCrewredactor: function (req, res) {
 
-        var fn =  req.file('file')._files[0].stream.filename;
+        var fn = req.file('file')._files[0].stream.filename;
         sails.log.info("uploadCrew");
         var upload = req.file('file')._files[0].stream,
             headers = upload.headers,
@@ -275,7 +444,7 @@ module.exports = {
             fileParams = {},
             settings = {
                 allowedTypes: ['image/jpeg', 'image/png', 'application/pdf'],
-               // maxBytes: 100 * 1024 * 1024
+                // maxBytes: 100 * 1024 * 1024
                 maxBytes: 1000 * 1024 * 1024
             };
 
@@ -310,7 +479,7 @@ module.exports = {
                     }
                     return res.json(200, {
                         // required for redactor
-                        filelink: 'images/crew/'+fn
+                        filelink: 'images/crew/' + fn
 
                     });
 
@@ -327,7 +496,7 @@ module.exports = {
     uploadCrew: function (req, res) {
 
         var fn = req.file('file')._files[0].stream.filename;
-        sails.log.info("uploadSpecial");
+        sails.log.info("uploadCrew");
         var upload = req.file('file')._files[0].stream,
             headers = upload.headers,
             byteCount = upload.byteCount,
@@ -370,7 +539,7 @@ module.exports = {
                     }
                     return res.json(200, {
                         // required for redactor
-                        filelink: 'images/crew/'+fn
+                        filelink: 'images/crew/' + fn
 
                     });
                     //return res.json(200, {
@@ -389,19 +558,20 @@ module.exports = {
         }
 
     },
+
     getGallery: function (req, res) {
         console.log('getGallery ')
         var files = [];
         var dd = '../MeansBasePT3/api/docs/crew';//workds
-        var walker  = walk.walk(dd, { followLinks: false });
-        walker.on('file', function(root, stat, next) {
+        var walker = walk.walk(dd, {followLinks: false});
+        walker.on('file', function (root, stat, next) {
             // Add this file to the list of files
             //files.push(root + '/' + stat.name);
             files.push('imagescrew/' + stat.name);
             next();
         });
 
-        walker.on('end', function() {
+        walker.on('end', function () {
             console.log(files);
             res.send(files);
         });
@@ -410,16 +580,20 @@ module.exports = {
         console.log('getGalleryNew ')
         var files = [];
         var dd = '../MeansBasePT3/api/docs/crew';//workds
-        var walker  = walk.walk(dd, { followLinks: false });
-        walker.on('file', function(root, stat, next) {
+        var walker = walk.walk(dd, {followLinks: false});
+        walker.on('file', function (root, stat, next) {
             // Add this file to the list of files
             //files.push(root + '/' + stat.name);
-     //       {"url":"img/sea.jpg", "title" : "Presenting big pictures", "description":"Showing fullscreen images to present all your best!"},
-            files.push({url:'imagescrew/' + stat.name, "title" : "Presenting big pictures", "description":"Showing fullscreen images to present all your best!"});
+            //       {"url":"img/sea.jpg", "title" : "Presenting big pictures", "description":"Showing fullscreen images to present all your best!"},
+            files.push({
+                url: 'imagescrew/' + stat.name,
+                "title": "Presenting big pictures",
+                "description": "Showing fullscreen images to present all your best!"
+            });
             next();
         });
 
-        walker.on('end', function() {
+        walker.on('end', function () {
             console.log(files);
             res.send(files);
         });
@@ -429,14 +603,27 @@ module.exports = {
 
 //
 ///* PARSE THUMBNAIL FILE NAME TO GET A SAFE NAME */
+//
+///* PARSE THUMBNAIL FILE NAME TO GET A SAFE NAME */
 function safeFilename(name) {
-    name = name.replace(/ /g, '-');
-    name = name.replace(/[^A-Za-z0-9-_\.]/g, '');
+    //4-16-2015  name = name.replace(/ /g, '-');// replace space with a dash
+
+    // name = name.replace(/[^A-Za-z0-9-_\.]/g, '');
+    name = name.replace(/[^A-Za-z0-9-_\.]/g, ' ');
     name = name.replace(/\.+/g, '.');
     name = name.replace(/-+/g, '-');
     name = name.replace(/_+/g, '_');
-    //  console.log('name ',name)
+    console.log('name ', name)
     return name;
+}
+
+function _saveAs(file) {
+    //return safeFilename(file.filename);
+    //  console.log('file ',file.filename)
+    sails.log.info("_saveAs  ", "File: ", file.filename);
+    return safeFilename(file.filename);
+    // return file.filename;
+    //var fn = req.file('file')._files[0].stream.filename;
 }
 //
 ///* CREATE FOLDER BOOK TO SAVE THE THUMBNAIL */

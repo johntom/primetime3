@@ -113,9 +113,9 @@ module.exports = {
 //mogrify -resize 80x80 -background white -gravity center  -format jpg -path ..\stripedbass thumbs *.jpg
 //mogrify -resize 80x80 -background white -gravity center  -format jpg -path ..\weakfish thumbs *.jpg
 
-//mogrify -resize 550000@ -background white -gravity center  -format jpg -path ..\blackfishnew  *.jpg
+//mogrify -resize 80x80 -background white -gravity center  -format jpg -path C:\Sails10\PrimeTime3\api\docs\aaThumbs  *.jpg
 
-
+ // cd to \aathumbs and  mogrify -resize 80x80 -background white -gravity center  -format jpg -path ..\aaThumbs  *.jpg
     getThumbsKendo: function (req, res) {
         var files = [];
         var gallery = req.param('id');

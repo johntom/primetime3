@@ -114,9 +114,13 @@ module.exports.routes = {
     //    action: 'uploadPdf' //pload
     //},
 
+    '/uploadx': {
+        controller: 'UploadController',
+        action: 'uploadCrew'
+    },
     '/upload': {
         controller: 'UploadController',
-        action: 'uploadCrew'//'uploadPdf'
+        action: 'uploadGallery'
     },
 
     '/uploadSpecial': {
