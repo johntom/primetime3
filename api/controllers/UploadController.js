@@ -149,7 +149,7 @@ module.exports = {
         // sails.log.info("uploadGallery");
         //  console.log(req.params.all(), req.body)
         var gallery = req.param('gallery');
-        var thepath = '../../api/docs/' + gallery[1];//+'/';// not sure why gallery is an array
+        var thepath = '../../api/docs/' + gallery[1]+'Orig';//+'/';// not sure why gallery is an array
         var fn = _saveAs(req.file('file')._files[0].stream);
 
         console.log('====uploadGallery=====================================', fn, thepath)
@@ -189,7 +189,7 @@ module.exports = {
             req.file('file')
                 .upload({
                     // You can apply a file upload limit (in bytes)
-                    dirname: '../../api/docs/' + gallery[1] + '/',
+                    dirname: '../../api/docs/' + gallery[1] + 'Orig/',
                     maxBytes: 30000000
                     , saveAs: fn
 
@@ -202,9 +202,10 @@ module.exports = {
                         return res.serverError(err);
                     }
                     if (files) {
-                        var origpath = 'C:/Sails10/PrimeTime3/api/docs/' + gallery[1] + '/' + fn;
+                        var origpath = 'C:/Sails10/PrimeTime3/api/docs/' + gallery[1] + 'Orig/' + fn;
                         var fntarget_path = 'C:/Sails10/PrimeTime3/api/docs/' + gallery[1] + 'Thumbs/' + fn;
                         var fntarget_path2 = 'C:/Sails10/PrimeTime3/api/docs/' + gallery[1] + 'Articles/' + fn;
+                        var fntarget_path3 = 'C:/Sails10/PrimeTime3/api/docs/' + gallery[1] + '/' + fn;
 
 
                         // fsx.copy(origpath, fntarget_path)  //, err
@@ -225,7 +226,14 @@ module.exports = {
                                             gm(origpath)
                                                 .resize('1000')
                                                 .stream(function (err, stdout, stderr) {
-                                                    var writeStream = fs.createWriteStream(origpath);
+                                                    var writeStream = fs.createWriteStream(fntarget_path3);
+                                                    stdout.pipe(writeStream);
+                                                });
+                                        } else {
+                                            gm(origpath)
+
+                                                .stream(function (err, stdout, stderr) {
+                                                    var writeStream = fs.createWriteStream(fntarget_path3);
                                                     stdout.pipe(writeStream);
                                                 });
                                         }
@@ -241,9 +249,20 @@ module.exports = {
                                             gm(origpath)
                                                 .resize('x600')
                                                 .stream(function (err, stdout, stderr) {
-                                                    var writeStream = fs.createWriteStream(origpath);
+                                                    var writeStream = fs.createWriteStream(fntarget_path3);
                                                     stdout.pipe(writeStream);
+
                                                 });
+
+                                        } else {
+                                            gm(origpath)
+
+                                                .stream(function (err, stdout, stderr) {
+                                                    var writeStream = fs.createWriteStream(fntarget_path3);
+                                                    stdout.pipe(writeStream);
+
+                                                });
+
                                         }
                                     }
                                 }
@@ -254,7 +273,11 @@ module.exports = {
                             .stream(function (err, stdout, stderr) {
                                 var writeStream = fs.createWriteStream(fntarget_path);
                                 stdout.pipe(writeStream);
+
                             });
+
+                        // fs.unlinkSync(origpath);// delete the /Orig imagec
+
                     }
                     //gm(fntarget_path)
                     //    .resize(80, 80)
