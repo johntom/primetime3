@@ -190,7 +190,7 @@ module.exports = {
                 .upload({
                     // You can apply a file upload limit (in bytes)
                     dirname: '../../api/docs/' + gallery[1] + '/',
-                    maxBytes: 10000000
+                    maxBytes: 30000000
                     , saveAs: fn
 
                 },
@@ -213,6 +213,14 @@ module.exports = {
                             if (!err) {
                                 console.log(size.width > size.height ? 'wider' : 'taller than you');
                                 if (size.width > size.height) {
+                                   if (size.width>1000) {
+                                       gm(origpath)
+                                           .resize('1000')
+                                           .stream(function (err, stdout, stderr) {
+                                               var writeStream = fs.createWriteStream(origpath);
+                                               stdout.pipe(writeStream);
+                                           });
+                                   }
                                     gm(origpath)
                                         .resize('250')
                                         .stream(function (err, stdout, stderr) {
@@ -220,6 +228,14 @@ module.exports = {
                                             stdout.pipe(writeStream);
                                         });
                                 } else {
+                                    if (size.height>600) {
+                                        gm(origpath)
+                                            .resize('x600')
+                                            .stream(function (err, stdout, stderr) {
+                                                var writeStream = fs.createWriteStream(origpath);
+                                                stdout.pipe(writeStream);
+                                            });
+                                    }
                                     gm(origpath)
                                         .resize('x250')
                                         .stream(function (err, stdout, stderr) {
