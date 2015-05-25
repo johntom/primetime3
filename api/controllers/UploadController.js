@@ -201,57 +201,61 @@ module.exports = {
 
                         return res.serverError(err);
                     }
-                    var origpath = 'C:/Sails10/PrimeTime3/api/docs/' + gallery[1] + '/' + fn;
-                    var fntarget_path = 'C:/Sails10/PrimeTime3/api/docs/' + gallery[1] + 'Thumbs/' + fn;
-                    var fntarget_path2 = 'C:/Sails10/PrimeTime3/api/docs/' + gallery[1] + 'Articles/' + fn;
+                    if (files) {
+                        var origpath = 'C:/Sails10/PrimeTime3/api/docs/' + gallery[1] + '/' + fn;
+                        var fntarget_path = 'C:/Sails10/PrimeTime3/api/docs/' + gallery[1] + 'Thumbs/' + fn;
+                        var fntarget_path2 = 'C:/Sails10/PrimeTime3/api/docs/' + gallery[1] + 'Articles/' + fn;
 
 
-                   // fsx.copy(origpath, fntarget_path)  //, err
-                  //  fsx.copy(origpath, fntarget_path2)  //, err
-                    gm(origpath)
-                        .size(function (err, size) {
-                            if (!err) {
-                                console.log(size.width > size.height ? 'wider' : 'taller than you');
-                                if (size.width > size.height) {
-                                   if (size.width>1000) {
-                                       gm(origpath)
-                                           .resize('1000')
-                                           .stream(function (err, stdout, stderr) {
-                                               var writeStream = fs.createWriteStream(origpath);
-                                               stdout.pipe(writeStream);
-                                           });
-                                   }
-                                    gm(origpath)
-                                        .resize('250')
-                                        .stream(function (err, stdout, stderr) {
-                                            var writeStream = fs.createWriteStream(fntarget_path2);
-                                            stdout.pipe(writeStream);
-                                        });
-                                } else {
-                                    if (size.height>600) {
+                        // fsx.copy(origpath, fntarget_path)  //, err
+                        //  fsx.copy(origpath, fntarget_path2)  //, err
+                        gm(origpath)
+                            .size(function (err, size) {
+                                if (!err) {
+                                    console.log(size.width > size.height ? 'wider' : 'taller than you');
+                                    if (size.width > size.height) {
+
                                         gm(origpath)
-                                            .resize('x600')
+                                            .resize('250')
                                             .stream(function (err, stdout, stderr) {
-                                                var writeStream = fs.createWriteStream(origpath);
+                                                var writeStream = fs.createWriteStream(fntarget_path2);
                                                 stdout.pipe(writeStream);
                                             });
-                                    }
-                                    gm(origpath)
-                                        .resize('x250')
-                                        .stream(function (err, stdout, stderr) {
-                                            var writeStream = fs.createWriteStream(fntarget_path2);
-                                            stdout.pipe(writeStream);
-                                        });
-                                }
-                            }
+                                        if (size.width > 1000) {
+                                            gm(origpath)
+                                                .resize('1000')
+                                                .stream(function (err, stdout, stderr) {
+                                                    var writeStream = fs.createWriteStream(origpath);
+                                                    stdout.pipe(writeStream);
+                                                });
+                                        }
+                                    } else {
 
-                        });
-                    gm(origpath)
-                        .resize('80', '80')
-                        .stream(function (err, stdout, stderr) {
-                            var writeStream = fs.createWriteStream(fntarget_path);
-                            stdout.pipe(writeStream);
-                        });
+                                        gm(origpath)
+                                            .resize('x250')
+                                            .stream(function (err, stdout, stderr) {
+                                                var writeStream = fs.createWriteStream(fntarget_path2);
+                                                stdout.pipe(writeStream);
+                                            });
+                                        if (size.height > 600) {
+                                            gm(origpath)
+                                                .resize('x600')
+                                                .stream(function (err, stdout, stderr) {
+                                                    var writeStream = fs.createWriteStream(origpath);
+                                                    stdout.pipe(writeStream);
+                                                });
+                                        }
+                                    }
+                                }
+
+                            });
+                        gm(origpath)
+                            .resize('80', '80')
+                            .stream(function (err, stdout, stderr) {
+                                var writeStream = fs.createWriteStream(fntarget_path);
+                                stdout.pipe(writeStream);
+                            });
+                    }
                     //gm(fntarget_path)
                     //    .resize(80, 80)
                     //    .autoOrient()
