@@ -180,7 +180,7 @@
                                         class="btn-xs btn-default">admin
                                 </button>
                                 <span ng-show="trip.isCharter===true"><b>Charter:{{trip.chartername}}</b></span>
-                                <span ng-show="trip.isCharter!==true"><b>Trip:{{trip.chartername}}</b></span>
+                                <span ng-show="trip.isCharter!==true && trip.chartername!==undefined"><b>Trip:{{trip.chartername}}</b></span>
                                 <div ng-hide="billingopen===true || trip.spots- trip.taken===0 || currentUser.role!=4"
                                      ng-click="bookTrip(trip)"
                                      tooltip="Click on icon to book a trip"
