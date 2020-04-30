@@ -42,7 +42,7 @@
     "pdfkit": "^0.7.1",
     "q": "^1.4.1",
     "rc": "~0.3.3",
-    "sails": "~0.10.3",
+    "sails": "~1.2.4",
     "sails-disk": "~0.10.1",
     "sails-generate-auth": "~0.1.2",
     "sails-mongo": "~0.10.1",
