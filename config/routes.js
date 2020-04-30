@@ -144,6 +144,8 @@ module.exports.routes = {
 
 
     'get /api/tasks': 'TasksController.getList',
+    'get /api/tasks/:id': 'TasksController.getListNew',
+ 
     'post /api/tasks': 'TasksController.create',
     'delete /api/tasks/:id': 'TasksController.destroy',
     'put /api/tasks': 'TasksController.update',

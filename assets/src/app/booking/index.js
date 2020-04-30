@@ -1,5 +1,5 @@
 angular.module('sailng.booking', [])
-// bookTrip setCurrentClaim
+    // bookTrip setCurrentClaim
     .config(['$stateProvider', function config($stateProvider) {
         $stateProvider.state('booking', {
             url: '/booking',
@@ -19,7 +19,7 @@ angular.module('sailng.booking', [])
                     }
                 }
                 ,
-                data: {pageTitle: 'Detail'}
+                data: { pageTitle: 'Detail' }
             })
             .state('booking.item', {
                 url: '/item/:id',
@@ -30,7 +30,7 @@ angular.module('sailng.booking', [])
                     }
                 }
                 ,
-                data: {pageTitle: 'Detail'}
+                data: { pageTitle: 'Detail' }
             })
             .state('booking.additem', {
                 url: '/additem/:id',
@@ -41,7 +41,7 @@ angular.module('sailng.booking', [])
                     }
                 }
                 ,
-                data: {pageTitle: 'add trip'}
+                data: { pageTitle: 'add trip' }
             })
             //http://www.jvandemo.com/how-to-resolve-angularjs-resources-with-ui-router/
             .state('bookingPopup.item', {
@@ -57,7 +57,7 @@ angular.module('sailng.booking', [])
                     titleService: 'titleService',
                     // A function value resolves to the return
                     // value of the function
-                    trip: function (titleService, $stateParams) {
+                    trip: function(titleService, $stateParams) {
                         var id = $stateParams.id;
                         // Return a promise to make sure the customer is completely
                         // resolved before the controller is instantiated
@@ -65,11 +65,11 @@ angular.module('sailng.booking', [])
                         return titleService.trip.$promise;
                     }
                 },
-                onEnter: function ($modal) {
+                onEnter: function($modal) {
                     $modal.open({
                         templateUrl: 'booking/indexPopup.tpl.html',
 
-                        controller: function ($scope, $stateParams, titleService) {
+                        controller: function($scope, $stateParams, titleService) {
                             // do whatever you need here.
                             // alert('inb '+$stateParams.id)//+' '+trip);//$scope.item)
                             $scope.item = titleService.trip;
@@ -94,43 +94,79 @@ angular.module('sailng.booking', [])
                 //modalInstance.result.then(function (selectedItem) {
                 //
                 //});
-///////////////////////////////////////////////////////////////////////////////////////////////////////////
+                ///////////////////////////////////////////////////////////////////////////////////////////////////////////
             })
 
 
     }])
-// booking Booking BookingCtrl
+    // booking Booking BookingCtrl
     //.controller('BookingCtrl', ['$scope', 'titleService', 'PostsModel', function AboutController($scope, titleService, PostsModel) {
     .controller('BookingCtrl', ['$scope', '$sails', 'lodash', 'config', 'titleService', 'BookingModel', 'InventoryModel', '$filter', 'ngTableParams', 'PostsModel', 'TasksModel',
         '$location', '$modal', function BookingController($scope, $sails, lodash, config, titleService, BookingModel, InventoryModel, $filter, ngTableParams, PostsModel, TasksModel, $location, $modal) {
 
-            $scope.meals = [
-                {id: 'me', label: 'Meat'},
-                {id: 'mi', label: 'Milk'},
-                {id: 'or', label: 'Orange'},
-                {id: 'ri', label: 'Rice'}
-            ];
+            // $scope.meals = [
+            //     {id: 'me', label: 'Meat'},
+            //     {id: 'mi', label: 'Milk'},
+            //     {id: 'or', label: 'Orange'},
+            //     {id: 'ri', label: 'Rice'}
+            // ];
+
+            // when open with login user then server send
+            //     start = new Date('1/1/2015');
+            // else         
+            // start     start = new Date();      
+ 
 
             $scope.boats = [
-                {id: '1', label: 'Primetime3'},
-                {id: '2', label: 'Jenglo'},
+                { id: '1', label: 'Primetime3' },
+                { id: '2', label: 'Jenglo' },
 
-               ];
+            ];
             $scope.prevtrip = {};
             $scope.currentuser = config.currentUser;
-            TasksModel.getAll($scope).then(function (data) {
+             $scope.startDate = '1';
+            TasksModel.getAll( $scope.startDate ).then(function(data) {
+               
                 $scope.trips = data;
                 $scope.totalItems = $scope.trips.length;
                 $scope.currentPage = 1;
                 // alert ('cp1--'+$scope.currentPage  );
                 $scope.pageSize = 10;
             });
+             $scope.filterTrips = function() {
 
+               // var cdt = moment('07/01/2016').format("MM/DD/YYYY");
+            //   var cdt = moment().format("MM/DD/YYYY");//today
+            //   var cdt = '5/1/2016';
+              $scope.startDate = '1';
+                TasksModel.getAll( $scope.startDate ).then(function(data) {
+                    $scope.trips = data;
+                    $scope.totalItems = $scope.trips.length;
+                    $scope.currentPage = 1;
+                    // alert ('cp1--'+$scope.currentPage  );
+                    $scope.pageSize = 10;
+                });
+            }
+            $scope.filterAllTrips = function() {
+             // var cdt = '1/1/2015';//moment('1/1/2015').format("MM/DD/YYYY");
+              // var cdt = moment().format("MM/DD/YYYY");//today
+              $scope.startDate = '0';
+                TasksModel.getAll( $scope.startDate ).then(function(data) {
+                    $scope.trips = data;
+                    $scope.totalItems = $scope.trips.length;
+                    $scope.currentPage = 1;
+                    // alert ('cp1--'+$scope.currentPage  );
+                    $scope.pageSize = 10;
+                });
+            }
+       
+            
+            
             titleService.setTitle('Booking');
 
             $scope.billingopen = false;
             $scope.book = {};
-            $scope.cancelAdmin = function (opt) {
+            $scope.cancelAdmin = function(opt) {
                 // opt = 0 cancel
                 // opt = 1 close
                 //alert('1')
@@ -138,7 +174,7 @@ angular.module('sailng.booking', [])
                 //$scope.trip =  titleService.trip ;
                 //$scope.trip = $scope.prevtrip;
                 if (opt === 0) {
-                    var idz = lodash.findIndex($scope.trips, function (trip) {
+                    var idz = lodash.findIndex($scope.trips, function(trip) {
                         return trip.id === $scope.prevtrip.id;
                     });
                     if (idz > -1) {
@@ -147,31 +183,31 @@ angular.module('sailng.booking', [])
                 }
                 $location.path('/booking');
             };
-            $scope.cancel = function () {
+            $scope.cancel = function() {
                 //  alert('cancel')
                 $scope.book = {};
                 $scope.billingopen = false;
                 $location.path('/booking');
             };
 
-//   $scope.createBilling = function (trip) {
-//                //$scope.book.total = $scope.book.qty * trip.tripprice;
-//                //$scope.book.balance = $scope.book.total - $scope.book.deposit;
-//                book.total = book.qty * trip.tripprice;
-//                book.balance = book.total - book.deposit;
-//
-////                var formData = [{book: $scope.book, trip: $scope.trip}];
-//                var formData = [{book: book, trip: $scope.trip}];
+            //   $scope.createBilling = function (trip) {
+            //                //$scope.book.total = $scope.book.qty * trip.tripprice;
+            //                //$scope.book.balance = $scope.book.total - $scope.book.deposit;
+            //                book.total = book.qty * trip.tripprice;
+            //                book.balance = book.total - book.deposit;
+            //
+            ////                var formData = [{book: $scope.book, trip: $scope.trip}];
+            //                var formData = [{book: book, trip: $scope.trip}];
 
-            $scope.createBooking = function (book) {
+            $scope.createBooking = function(book) {
                 book.total = book.qty * $scope.trip.tripprice;
                 book.balance = book.total - book.deposit;
                 //hi var formData = [{book: $scope.book, trip: $scope.trip}];
-                var formData = [{book: book, trip: $scope.trip}];
-                TasksModel.updateBookingNew(formData).then(function (model) {
+                var formData = [{ book: book, trip: $scope.trip }];
+                TasksModel.updateBookingNew(formData).then(function(model) {
                     $scope.billingopen = false;
                     // until we do sockets update model
-                    var idz = lodash.findIndex($scope.trips, function (trip) {
+                    var idz = lodash.findIndex($scope.trips, function(trip) {
                         return trip.id === model.id;
                     });
                     //console.log(idz);//cdt,
@@ -179,13 +215,13 @@ angular.module('sailng.booking', [])
                         //console.log('model ', model)
                         // display new updated model
                         $scope.trips[idz] = model;
-                    }      ;
+                    };
                     $scope.book = {};
                     $location.path('/booking');
                 });
             };
 
-            $scope.deleteTrip = function (trip) {
+            $scope.deleteTrip = function(trip) {
                 var message = "You are about to delete trip " + trip.Start + ". Are you sure ?";
 
 
@@ -197,9 +233,9 @@ angular.module('sailng.booking', [])
                     controller: 'ModalInstanceCtrlYN'
                 });
 
-                modalInstance.result.then(function () {
-                    TasksModel.destroy(trip).then(function (model) {
-                        lodash.remove($scope.trips, {id: trip.id});
+                modalInstance.result.then(function() {
+                    TasksModel.destroy(trip).then(function(model) {
+                        lodash.remove($scope.trips, { id: trip.id });
 
                     });
                     //$scope.cancelAdmin(1);//close form
@@ -207,33 +243,33 @@ angular.module('sailng.booking', [])
                 });
 
             };
-            PostsModel.getOne('author', 'booking').then(function (post) {
+            PostsModel.getOne('author', 'booking').then(function(post) {
                 //  //console.log('getOne ', post)
                 $scope.post = post;
             })
 
             $scope.stats = [
-                {name: 'reserved', value: 0},
-                {name: 'reserved-away', value: 1},
-                {name: 'reserved-back', value: 2},
-                {name: 'desk available', value: 3}
+                { name: 'reserved', value: 0 },
+                { name: 'reserved-away', value: 1 },
+                { name: 'reserved-back', value: 2 },
+                { name: 'desk available', value: 3 }
 
             ];
 
 
-            $scope.addTrip = function () {
-                $scope.trip={};//.Start=''
+            $scope.addTrip = function() {
+                $scope.trip = {};//.Start=''
                 $location.path('/booking/additem/0');
 
             };
 
-            $scope.addtripTasks = function (trip) {
+            $scope.addtripTasks = function(trip) {
 
 
-                TasksModel.create(trip).then(function (model) {
-                //    $scope.trips.push(model);
+                TasksModel.create(trip).then(function(model) {
+                    //    $scope.trips.push(model);
 
-                    TasksModel.getAll($scope).then(function (data) {
+                    TasksModel.getAll($scope).then(function(data) {
                         $scope.trips = data;
                         $scope.totalItems = $scope.trips.length;
                         //   $scope.currentPage = 1;
@@ -246,10 +282,10 @@ angular.module('sailng.booking', [])
 
 
             };
-            $scope.setTime = function (start) {
-                $scope.trip.End =   moment(start);//.format("MM/DD/YYYY");
+            $scope.setTime = function(start) {
+                $scope.trip.End = moment(start);//.format("MM/DD/YYYY");
             }
-            $scope.bookTrip = function (trip) {
+            $scope.bookTrip = function(trip) {
                 $scope.trip = trip;
                 $scope.billingopen = true;
                 $scope.book = {};// set object
@@ -260,7 +296,7 @@ angular.module('sailng.booking', [])
                 $scope.book.soldout = 0;
                 $location.path('/booking/' + trip.id);
             };
-            $scope.setCurrentClaimTest = function (trip, index) {
+            $scope.setCurrentClaimTest = function(trip, index) {
                 //alert('this will open claim form ' + trip.Start)
                 // this is admin page
                 $scope.trip = trip;
@@ -305,33 +341,34 @@ angular.module('sailng.booking', [])
 
             };
 
-            getDesks = function (cdt) {
-                var idz = lodash.findIndex($scope.desks, function (desk) {
-                    return desk.cdate === cdt;
-                });
-                //console.log(idz);//cdt,
+            // mar 2016 not sure why this code
+            // getDesks = function (cdt) {
+            //     var idz = lodash.findIndex($scope.desks, function (desk) {
+            //         return desk.cdate === cdt;
+            //     });
+            //     //console.log(idz);//cdt,
 
-                if (idz > 0) {
-                    $scope.desks1day = lodash.filter($scope.desks[idz].details, function (num) {
+            //     if (idz > 0) {
+            //         $scope.desks1day = lodash.filter($scope.desks[idz].details, function (num) {
 
-                        return num.avail === 0;
-                    });
-                }
-            }
+            //             return num.avail === 0;
+            //         });
+            //     }
+            // }
 
-            InventoryModel.getAll($scope).then(function (models) {
-                // //console.log('Ctrl InventoryModel')
-                $scope.desks = models.data;
-                ////console.log('Inventory::', $scope.desks)
-                var cdt = moment().format("MM/DD/YYYY");
-                getDesks(cdt);
-                // //console.log('Inventory1::', $scope.desks1day)
-            });
+            // InventoryModel.getAll($scope).then(function (models) {
+            //     // //console.log('Ctrl InventoryModel')
+            //     $scope.desks = models.data;
+            //     ////console.log('Inventory::', $scope.desks)
+            //     var cdt = moment().format("MM/DD/YYYY");
+            //     getDesks(cdt);
+            //     // //console.log('Inventory1::', $scope.desks1day)
+            // });
 
 
-//http://plnkr.co/edit/WBt1BGAqBnecEdv1jqfu?p=preview
+            //http://plnkr.co/edit/WBt1BGAqBnecEdv1jqfu?p=preview
 
-            $scope.selectDate = function (dt) {
+            $scope.selectDate = function(dt) {
                 var cdt = moment(dt).format("MM/DD/YYYY");
                 getDesks(cdt);
 
@@ -344,7 +381,7 @@ angular.module('sailng.booking', [])
             $scope.currentUser = config.currentUser;
             // //console.log('scope.currentUser.data:: ', $scope.currentUser)
 
-            $scope.createHotelling = function (newHotelling) {
+            $scope.createHotelling = function(newHotelling) {
                 //alert($scope.trip)
                 //newHotelling.user = config.currentUser.id;
                 //newHotelling.status = '1';
@@ -361,12 +398,12 @@ angular.module('sailng.booking', [])
             };
 
 
-            $scope.toggleMin = function () {
-                $scope.minDate = ( $scope.minDate ) ? null : new Date();
+            $scope.toggleMin = function() {
+                $scope.minDate = ($scope.minDate) ? null : new Date();
             };
             $scope.toggleMin();
 
-            $scope.open = function ($event) {
+            $scope.open = function($event) {
                 //$event.preventDefault();
                 //$event.stopPropagation();
 
@@ -381,40 +418,40 @@ angular.module('sailng.booking', [])
 
 
             $scope.ismeridian = true;
-            $scope.toggleMode = function () {
+            $scope.toggleMode = function() {
                 $scope.ismeridian = !$scope.ismeridian;
             };
 
 
-            $scope.changed = function () {
+            $scope.changed = function() {
                 //console.log('Time changed to: ' + $scope.newHotelling.date);
             };
 
-            $scope.clear = function () {
+            $scope.clear = function() {
                 $scope.newHotelling.date = null;
             };
 
-            $scope.checkEvent = function (row) {
+            $scope.checkEvent = function(row) {
 
                 //  alert('row ' + row)
             };
-            $scope.changeSelection = function (hotelling) {
+            $scope.changeSelection = function(hotelling) {
                 console.info(hotelling);
             }
 
-//__currentPage
-            $scope.pageChangeHandler = function (num) {
+            //__currentPage
+            $scope.pageChangeHandler = function(num) {
                 //console.log('going to page ' + num);
                 $scope.currentPage = num;
             };
 
-            $scope.setPage = function (pageNo) {
+            $scope.setPage = function(pageNo) {
                 // $scope.currentPage = pageNo;
-               // console.log('setPage to currentPage ', pageNo);
+                // console.log('setPage to currentPage ', pageNo);
                 $scope.currentPage = pageNo;
             };
 
-            $scope.pageChanged = function () {
+            $scope.pageChanged = function() {
                 $log.log('Page changed to: ' + $scope.currentPage);
             };
 
@@ -425,11 +462,11 @@ angular.module('sailng.booking', [])
                 return +(Math.round(num + "e+2") + "e-2");
             }
 
-            $scope.beforesaveDetail = function (data, index, lineitem) {
+            $scope.beforesaveDetail = function(data, index, lineitem) {
                 // data is new value;  lineitem is still old value
                 var subttotal = 0;
                 var subqty = 0;
-                lodash.each($scope.book, function (num, key) {
+                lodash.each($scope.book, function(num, key) {
 
                     //subttotal =  roundToTwo(num.qty * $scope.trip.tripprice);
                     if (key === index) {
@@ -445,7 +482,7 @@ angular.module('sailng.booking', [])
                 ;//$scope.book[index].qty * $scope.trip.tripprice;
             };
             // $scope.aftersaveDetail = function (data) {
-            $scope.aftersaveDetail = function (data, index, lineitem) {
+            $scope.aftersaveDetail = function(data, index, lineitem) {
                 // if we are here that means the line changes has been accepted
                 $scope.book[index].qty = data.qty;
                 $scope.book[index].total = data.qty * $scope.trip.tripprice;
@@ -454,9 +491,9 @@ angular.module('sailng.booking', [])
 
 
 
-                //save to mongo
+            //save to mongo
 
-                $scope.saveBook = function (bookedtrip) {
+            $scope.saveBook = function(bookedtrip) {
                 //save to mongo
                 // delete all with 0
                 // bookedtrip=task
@@ -467,7 +504,7 @@ angular.module('sailng.booking', [])
                     $scope.trip.Owner = 'Jenglo';
                 }
 
-                lodash.each(bookedtrip, function (num, key) {
+                lodash.each(bookedtrip, function(num, key) {
                     //subttotal =  roundToTwo(num.qty * $scope.trip.tripprice);
                     if (num.qty === 0) {
                         bookedtrip.splice(key, 1)
@@ -476,14 +513,14 @@ angular.module('sailng.booking', [])
                         bookedtrip[key].total = $scope.trip.tripprice * num.qty;
                     }
                 });
-                var formData = [{book: bookedtrip, trip: $scope.trip}];
+                var formData = [{ book: bookedtrip, trip: $scope.trip }];
                 ////console.log('355 ',formData,$scope.book)
-                TasksModel.updateTrip(formData).then(function (model) {
+                TasksModel.updateTrip(formData).then(function(model) {
 
                     // $location.path('/booking');
                 });
             };
-            $scope.removeItem = function (index) {
+            $scope.removeItem = function(index) {
                 var message = "You are about to delete " + $scope.book[index].name + ". Are you sure ?";
                 var subqty = 0;//= $scope.book.qty;
                 var modalHtml = '<div class="modal-body">' + message + '</div>';
@@ -492,10 +529,10 @@ angular.module('sailng.booking', [])
                     template: modalHtml,
                     controller: 'ModalInstanceCtrlYN'
                 });
-                modalInstance.result.then(function () {
+                modalInstance.result.then(function() {
                     //$scope.trip.taken= $scope.trip.taken-subqty;
                     $scope.book.splice(index, 1);
-                    lodash.each($scope.book, function (num, key) {
+                    lodash.each($scope.book, function(num, key) {
 
                         //subttotal =  roundToTwo(num.qty * $scope.trip.tripprice);
 
@@ -508,7 +545,7 @@ angular.module('sailng.booking', [])
                     //$scope.book[index].total = data.qty * $scope.trip.tripprice;;//$scope.book[index].qty * $scope.trip.tripprice;
                 });
             };
-            $scope.checkQty = function (data, id, lineitem, q) {
+            $scope.checkQty = function(data, id, lineitem, q) {
                 // data is new value;  lineitem is old value
                 if (is_float(data) !== true) {
                     return "must me a number";
@@ -520,12 +557,12 @@ angular.module('sailng.booking', [])
                 }
 
             };
-            is_float = function (v) {
+            is_float = function(v) {
                 return !isNaN(v) && isFinite(v) &&
-                    (typeof(v) == 'number' || v.replace(/^\s+|\s+$/g, '').length > 0);
+                    (typeof (v) == 'number' || v.replace(/^\s+|\s+$/g, '').length > 0);
             }
 
-            is_gtmac = function (data, lineitem) {
+            is_gtmac = function(data, lineitem) {
                 // var apos = lodash.findIndex($scope.book, function (file) {
                 //    return file.filing === code;
                 //});
@@ -549,28 +586,28 @@ angular.module('sailng.booking', [])
 
 
     .
-    controller('ModalInstanceCtrlCodes', ['$scope', '$modalInstance', 'items', function ($scope, $modalInstance, items) {
+    controller('ModalInstanceCtrlCodes', ['$scope', '$modalInstance', 'items', function($scope, $modalInstance, items) {
 
         $scope.items = items;
         $scope.selected = {
             item: $scope.items[0]
         };
         //alert('$scope.selected.item '+items,$scope.selected);//$scope.selected.item)
-        $scope.ok = function () {
+        $scope.ok = function() {
             $modalInstance.close($scope.selected.item);
         };
 
-        $scope.cancel = function () {
+        $scope.cancel = function() {
 
             $modalInstance.dismiss('cancel');
         };
     }])
 
-    .controller('ModalInstanceCtrlYN', ['$scope', '$modalInstance', function ($scope, $modalInstance) {
-        $scope.ok = function () {
+    .controller('ModalInstanceCtrlYN', ['$scope', '$modalInstance', function($scope, $modalInstance) {
+        $scope.ok = function() {
             $modalInstance.close();
         };
-        $scope.cancel = function () {
+        $scope.cancel = function() {
             $modalInstance.dismiss('cancel');
         };
     }]);

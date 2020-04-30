@@ -4,6 +4,7 @@
   "version": "0.2.1",
   "description": "MongoDB + ExpressJS + AngularJS + NodeJS + SailsJS MEANS Seed Project.",
   "keywords": [],
+  
   "dependencies": {
     "accounting": "^0.4.1",
     "bcrypt-nodejs": "0.0.3",

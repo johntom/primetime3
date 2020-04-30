@@ -112,11 +112,19 @@
         <div class="col-md-12">
             <div class="col-md-6">
                 <h3>{{claims.length}} Open Dates Prime Time 3 / Jenglo</h3>
-
+ <div class="col-md-2">
                 <input style="width:100px" type="text" ng-model="filterText" placeholder="Filter" class="search-query"
                        tooltip-placement="bottom" tooltip="type any date,day, time or description to filter">
-
+  </div>
+   <div class="col-md-2">
                 <button class="btn-sm btn-info" ng-click="addTrip()" tooltip="add a trip" ng-hide="currentUser.role!=4">Add Trip
+                </div>
+                 <div class="col-md-3">
+                <button class="btn-sm btn-info" ng-click="filterTrips()" tooltip="filterTrips>=today" ng-hide="currentUser.role!=4">Filter Trips >=today
+               </div>
+                <div class="col-md-3">
+                <button class="btn-sm btn-info" ng-click="filterAllTrips()" tooltip="filterAllTrips" ng-hide="currentUser.role!=4">Filter Trips from day1
+               </div>
                 </button>
             </div>
             <div class="col-md-3">

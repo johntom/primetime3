@@ -16,8 +16,8 @@ function getNextAvail(name) {
 
     function getAll() {
         var deferred = Q.defer();
-        Counters.find({id: name})
-            .exec(function (error, counter) {
+        Counters.find({ id: name })
+            .exec(function(error, counter) {
                 if (error) {
                     deferred.reject(err);
                     //console.log(' Billing err', error);
@@ -36,7 +36,7 @@ function getNextAvail(name) {
 
 module.exports = {
 
-    createPDF: function (req, poid) {
+    createPDF: function(req, poid) {
 
         var form = req.body;
         var book = form[0].book;
@@ -61,7 +61,7 @@ module.exports = {
         doc.registerFont('Palatino', './api/fonts/PalatinoBold.ttf');
         doc.registerFont('cambria', './api/fonts/Cambria.ttc');
         var startcol = 45;
-//'Prime Time 3/Jenglo '
+        //'Prime Time 3/Jenglo '
         doc.font('Palatino').fontSize(22).fillColor("grey").text(trip.Owner, startcol, 65).font('Palatino').fontSize(11).text('party fishing from Orient Point', startcol + 260, 74);//95 104
         potext = '';
         doc.font('Palatino').fontSize(10).text(potext, startcol, 200, {
@@ -130,23 +130,23 @@ module.exports = {
             .text('name', 70, linePos)
             .text('phone', 190, linePos)
             .text('total', 445, linePos)
-            .text('deposit', 485, linePos, {width: 40, align: 'right'})
-            .text('balance', 540, linePos, {width: 40, align: 'right'});
+            .text('deposit', 485, linePos, { width: 40, align: 'right' })
+            .text('balance', 540, linePos, { width: 40, align: 'right' });
 
         linePos += 20;
         //var upform = {}; name phone email qty total deposit deposit
 
         // dont use balance use po.total-po.deposit
-        details.forEach(function (po) {
+        details.forEach(function(po) {
             var liDesc;
 
             doc.font('Palatino').fontSize(10).text(po.qty, 45, linePos)
-                .text(po.name, 70, linePos, {width: 120, align: 'left'})
-                .text(po.phone, 190, linePos, {width: 240, align: 'left'})
-                .text(accounting.formatMoney(po.total), 430, linePos, {width: 50, align: 'right'})
-                .text(accounting.formatMoney(po.deposit), 480, linePos, {width: 50, align: 'right'})
+                .text(po.name, 70, linePos, { width: 120, align: 'left' })
+                .text(po.phone, 190, linePos, { width: 240, align: 'left' })
+                .text(accounting.formatMoney(po.total), 430, linePos, { width: 50, align: 'right' })
+                .text(accounting.formatMoney(po.deposit), 480, linePos, { width: 50, align: 'right' })
 
-                .text(accounting.formatMoney(po.total - po.deposit), 530, linePos, {width: 50, align: 'right'});
+                .text(accounting.formatMoney(po.total - po.deposit), 530, linePos, { width: 50, align: 'right' });
             linePos = doc.y + 20;
         });
         linePos = doc.y + 100;// 100
@@ -215,46 +215,50 @@ module.exports = {
 
     },
     //db.tasks.find({Start:{ $gte : new ISODate("2015-05-06T20:15:31Z")} }).sort({Start: 1})
-    getList: function (req, res) {
-        console.log('getListOrig=======THIS IS USED FROM ROUTES===========')
-        var params = req.params.all();
+     getListNew: function (req, res) {
+       var params = req.params.all();
         var start;
+   //     var form = req.body;
+     console.log('getListNew=======THIS IS USED FROM ROUTES=====form,params======',params.id,params)
+     if (params.id !== undefined) {
+            if (params.id === '1') {
 
-        // gt and dates from yesterday
-        if (req.user !== undefined) {
-            // cjeck for role = 4
-            start = new Date('1/1/2015');
-            start = moment().format('mm/dd/yyyy');
+                start = new Date();
+                start.setHours(0, 0, 0, 0);
+            }
 
-        } else {
-            start = new Date();
-            start.setHours(0, 0, 0, 0);
-        }
-        //var end = new Date();
-        //end.setHours(23,59,59,999);
-        //
-        //  Tasks.find().sort({Start: 1})
+            if (params.id === '0') {
+                start = new Date('1/1/2015');
+                start = moment().format('mm/dd/yyyy');
+            }
+        };
+        // else {
 
-//        var ddate_str1 = new Date('01/04/2014');
-//        var ddate_str2 = new Date('02/04/2014');
-////console.log('findAllWrapped get ddate_str1/2', ddate_str1, ddate_str2)
-//// Po.find( {'POID':{$gt: gtnum } })
-////   Po.find( { "Date": {$gte: date_str1,$lte: date_str2} } )
-////Po.find( {'POID': gtnum  })
-////db.po.find({ "Date": {$gte: ddate_str1, $lte: ddate_str2} }) .sort('POID -1')
-////   db.po.find( { POID:{$gt:26531} } ).forEach( function(po) {
-//        db.po.find( { Date:{$gte: ddate_str1, $lte: ddate_str2} } ).forEach( function(po) {
+        //     if (req.user !== undefined) {
+        //         // cjeck for role = 4
+        //         start = new Date('1/1/2015');
+        //         start = moment().format('mm/dd/yyyy');
 
+        //     } else {
+        //         start = new Date();
+        //         start.setHours(0, 0, 0, 0);
+        //     }
 
-        Tasks.find({Start: {$gte: start}}).sort({Start: 1})
-//        Tasks.find().sort({Start: 1})
+        // }
 
-            .exec(function (error, tasks) {
+        console.log(' start ', start);//moment(start).format('mm/dd/yyyy'))
+
+      
+
+        Tasks.find({ Start: { $gte: start } }).sort({ Start: 1 })
+            //        Tasks.find().sort({Start: 1})
+
+            .exec(function(error, tasks) {
                 if (error) {
                 } else {
                     //console.log('posts====================================',tasks)
                     // res.send({data:tasks});// object
-                    tasks.forEach(function (mess) {
+                    tasks.forEach(function(mess) {
                         mess.cdate = moment(mess.Start).format("MM/DD/YYYY");
                         mess.cday = moment(mess.Start).format("dddd");
                         mess.comboday = mess.cdate + ' ' + mess.cday;
@@ -269,42 +273,171 @@ module.exports = {
                         if (mess.spots === undefined) {
                             switch (mess.TripType) {
 
-                                case  1:
+                                case 1:
                                     mess.spots = 20;
                                     mess.tripdesc = 'Seasonal Bottom';
                                     mess.tripprice = 100;
                                     break
-                                case  2:
+                                case 2:
                                     mess.spots = 16;
                                     mess.tripdesc = 'Rodbender';
                                     mess.tripprice = 125;
                                     break
-                                case  3:
+                                case 3:
                                     mess.spots = 12;
                                     mess.tripdesc = 'PT Bass/Blues ';
                                     mess.tripprice = 125;
                                     break
-                                case  4:
+                                case 4:
                                     mess.spots = 10;
                                     mess.tripdesc = 'JG Bass/Blues';
                                     mess.tripprice = 125;
                                     break
-                                case  5:
+                                case 5:
                                     mess.spots = 16;
                                     mess.tripdesc = 'Block Island';
                                     mess.tripprice = 150;
                                     break
-                                case  6:
+                                case 6:
                                     mess.spots = 20;
                                     mess.tripdesc = 'Sundown Bottom';
                                     mess.tripprice = 75;
                                     break
-                                case  7:
+                                case 7:
                                     mess.spots = 10;
                                     mess.tripdesc = 'Limited Special';
                                     mess.tripprice = 150;
                                     break
-                                case  8:
+                                case 8:
+                                    mess.spots = 10;
+                                    mess.tripdesc = 'Private Charter';
+                                    mess.tripprice = 150;
+                                    break
+                                //default:
+                                //    result[key] = num;
+                            }
+                        }
+                    });
+
+                   
+                    res.send(tasks);// array
+                }
+            });
+    },
+    
+    
+    getList: function(req, res) {
+      
+        var params = req.params.all();
+        var start;
+        var form = req.body;
+  console.log('getListOrig=======THIS IS USED FROM ROUTES=====form,params======',form,params)
+        // gt and dates from yesterday
+
+        if (params.startDate !== undefined) {
+            if (params.startDate === 1) {
+
+                start = new Date();
+                start.setHours(0, 0, 0, 0);
+            }
+
+            if (params.startDate === 0) {
+                start = new Date('1/1/2015');
+                start = moment().format('mm/dd/yyyy');
+            }
+        } else {
+
+            if (req.user !== undefined) {
+                // cjeck for role = 4
+                start = new Date('1/1/2015');
+                start = moment().format('mm/dd/yyyy');
+
+            } else {
+                start = new Date();
+                start.setHours(0, 0, 0, 0);
+            }
+
+
+
+        }
+
+        console.log(' start ', start);//moment(start).format('mm/dd/yyyy'))
+
+        //var end = new Date();
+        //end.setHours(23,59,59,999);
+        //
+        //  Tasks.find().sort({Start: 1})
+
+        //        var ddate_str1 = new Date('01/04/2014');
+        //        var ddate_str2 = new Date('02/04/2014');
+        ////console.log('findAllWrapped get ddate_str1/2', ddate_str1, ddate_str2)
+        //// Po.find( {'POID':{$gt: gtnum } })
+        ////   Po.find( { "Date": {$gte: date_str1,$lte: date_str2} } )
+        ////Po.find( {'POID': gtnum  })
+        ////db.po.find({ "Date": {$gte: ddate_str1, $lte: ddate_str2} }) .sort('POID -1')
+        ////   db.po.find( { POID:{$gt:26531} } ).forEach( function(po) {
+        //        db.po.find( { Date:{$gte: ddate_str1, $lte: ddate_str2} } ).forEach( function(po) {
+
+
+        Tasks.find({ Start: { $gte: start } }).sort({ Start: 1 })
+            //        Tasks.find().sort({Start: 1})
+
+            .exec(function(error, tasks) {
+                if (error) {
+                } else {
+                    //console.log('posts====================================',tasks)
+                    // res.send({data:tasks});// object
+                    tasks.forEach(function(mess) {
+                        mess.cdate = moment(mess.Start).format("MM/DD/YYYY");
+                        mess.cday = moment(mess.Start).format("dddd");
+                        mess.comboday = mess.cdate + ' ' + mess.cday;
+
+                        mess.ctime = moment(mess.Start).format("H:mm A");
+                        mess.diff = moment(mess.Start).fromNow(true); // 4 years
+                        mess.mth = moment(mess.Start).format("MMMM"); // 4 years
+                        if (mess.taken === undefined) mess.taken = 0;
+                        if (mess.OwnerID === 1) mess.Owner = 'Prime Time 3';
+                        if (mess.OwnerID === 2) mess.Owner = 'Jenglo';
+                        if (mess.details === undefined) mess.details = [];
+                        if (mess.spots === undefined) {
+                            switch (mess.TripType) {
+
+                                case 1:
+                                    mess.spots = 20;
+                                    mess.tripdesc = 'Seasonal Bottom';
+                                    mess.tripprice = 100;
+                                    break
+                                case 2:
+                                    mess.spots = 16;
+                                    mess.tripdesc = 'Rodbender';
+                                    mess.tripprice = 125;
+                                    break
+                                case 3:
+                                    mess.spots = 12;
+                                    mess.tripdesc = 'PT Bass/Blues ';
+                                    mess.tripprice = 125;
+                                    break
+                                case 4:
+                                    mess.spots = 10;
+                                    mess.tripdesc = 'JG Bass/Blues';
+                                    mess.tripprice = 125;
+                                    break
+                                case 5:
+                                    mess.spots = 16;
+                                    mess.tripdesc = 'Block Island';
+                                    mess.tripprice = 150;
+                                    break
+                                case 6:
+                                    mess.spots = 20;
+                                    mess.tripdesc = 'Sundown Bottom';
+                                    mess.tripprice = 75;
+                                    break
+                                case 7:
+                                    mess.spots = 10;
+                                    mess.tripdesc = 'Limited Special';
+                                    mess.tripprice = 150;
+                                    break
+                                case 8:
                                     mess.spots = 10;
                                     mess.tripdesc = 'Private Charter';
                                     mess.tripprice = 150;
@@ -323,7 +456,7 @@ module.exports = {
                 }
             });
     },
-    create: function (req, res) {
+    create: function(req, res) {
         console.log('in create', req.params.all())
         var OwnerID = req.param('OwnerID');
         //if (OwnerID === 'Primetime3') {
@@ -355,7 +488,7 @@ module.exports = {
 
         // TODO: upon message creation, how to populate the user here, so the associated user gets sent back as a property of the message
         Tasks.create(model)
-            .exec(function (err, rec) {
+            .exec(function(err, rec) {
                 if (err) {
                     return console.log(err);
                 }
@@ -369,7 +502,7 @@ module.exports = {
     },
 
 
-    createorKendo: function (req, res) {
+    createorKendo: function(req, res) {
         console.log('in create', req.params.all())
         var id = req.param("TaskID");
         console.log('===PostsController::update==============================', id)
@@ -379,10 +512,10 @@ module.exports = {
             var form = req.body;
             console.log('===PostsController::update==============================', id, form)
 
-            Tasks.update({"TaskID": id}, form)
-                .exec(function (err, updated) {
+            Tasks.update({ "TaskID": id }, form)
+                .exec(function(err, updated) {
                     if (err) {
-                        return {data: 'error ' + err}//  console.log(err);
+                        return { data: 'error ' + err }//  console.log(err);
                     }
                     else {
                         console.log('=======updated[0]', updated[0])
@@ -390,7 +523,7 @@ module.exports = {
                         //if (updated[0].id !== undefined) {
                         //    Billing.publishUpdate(updated[0].id, updated[0]);
                         //}
-                        res.json({data: updated[0]});//'fini'});//model);
+                        res.json({ data: updated[0] });//'fini'});//model);
                     }
                 });
         } else {
@@ -407,17 +540,17 @@ module.exports = {
                 RecurrenceException: req.param('RecurrenceException'),
                 OwnerID: req.param('OwnerID'),
                 IsAllDay: req.param('IsAllDay'),
-                maxAvail: {from: "maxAvail"},
-                taken: {from: "taken"}
+                maxAvail: { from: "maxAvail" },
+                taken: { from: "taken" }
 
             };
 
-            getNextAvail("TaskID").then(function (results) {
+            getNextAvail("TaskID").then(function(results) {
                 var ss = parseInt(results[0].seq);
                 ss++;
                 console.log('===update=======================results============', id, ss, results[0]);
 
-                Counters.update(results[0].id, {seq: ss}).exec(function update(err, cm) {
+                Counters.update(results[0].id, { seq: ss }).exec(function update(err, cm) {
                     if (err) {
 
                     }
@@ -437,7 +570,7 @@ module.exports = {
         }
     },
 
-    update: function (req, res) {
+    update: function(req, res) {
         var id = req.param("TaskID");
 
         var params = req.params.all();
@@ -452,10 +585,10 @@ module.exports = {
         //var id = form.trip.id;
         // delete detail where qty = 0;
         if (id !== 0) {
-            Tasks.update({"TaskID": id}, params)
-                .exec(function (err, updated) {
+            Tasks.update({ "TaskID": id }, params)
+                .exec(function(err, updated) {
                     if (err) {
-                        return {data: 'error ' + err}//  console.log(err);
+                        return { data: 'error ' + err }//  console.log(err);
                     }
                     else {
                         console.log('=======updated[0]', updated[0])
@@ -463,12 +596,12 @@ module.exports = {
                         //if (updated[0].id !== undefined) {
                         //    Billing.publishUpdate(updated[0].id, updated[0]);
                         //}
-                        res.json({data: updated[0]});//'fini'});//model);
+                        res.json({ data: updated[0] });//'fini'});//model);
                     }
                 });
         }
     },
-    updateTrip: function (req, res) {
+    updateTrip: function(req, res) {
         // var id = req.param("TaskID");
 
         //var params = req.params.all();
@@ -498,21 +631,21 @@ module.exports = {
         upform.OwnerID = trip.OwnerID;
         upform.Title = trip.Title;
         upform.tripdesc = trip.tripdesc;
-//if ( upform.OwnerID===1){
-//    upform.Owner = 'Prime Time 3';
-//}
-//        else{
-//    upform.Owner ='Jenglo';
-//}
+        //if ( upform.OwnerID===1){
+        //    upform.Owner = 'Prime Time 3';
+        //}
+        //        else{
+        //    upform.Owner ='Jenglo';
+        //}
 
 
         console.log('===================trip.details=========================\n', trip.details);
         // delete detail where qty = 0;
         if (id !== 0) {
             Tasks.update(id, upform)
-                .exec(function (err, updated) {
+                .exec(function(err, updated) {
                     if (err) {
-                        return {data: 'error ' + err}//  console.log(err);
+                        return { data: 'error ' + err }//  console.log(err);
                     }
                     else {
                         //   console.log('=======updated[0]', updated[0])
@@ -522,13 +655,13 @@ module.exports = {
                         //}TasksController
 
                         module.exports.createPDF(req, form);
-                        res.json({data: updated[0]});//'fini'});//model);
+                        res.json({ data: updated[0] });//'fini'});//model);
                     }
                 });
         }
     },
 
-    updateBookingNew: function (req, res) {
+    updateBookingNew: function(req, res) {
         // / this is used when we create a new booking  this is really adding a detail booking
         var params = req.params.all();
         //    model = _.omit(model, '$$hashKey');
@@ -552,25 +685,25 @@ module.exports = {
         if (id !== 0) {
             //Tasks.update({"TaskID": id}, form)
             Tasks.update(id, upform)
-                .exec(function (err, updated) {
+                .exec(function(err, updated) {
                     if (err) {
-                        return {data: 'error ' + err}//  console.log(err);
+                        return { data: 'error ' + err }//  console.log(err);
                     }
                     else {
                         // console.log('=======updated[0]', updated[0])
                         //if (updated[0].id !== undefined) {
                         //    Billing.publishUpdate(updated[0].id, updated[0]);
                         //}
-                        res.json({data: updated[0]});//'fini'});//model);
+                        res.json({ data: updated[0] });//'fini'});//model);
                     }
                 });
         }
     },
-    destroy: function (req, res) {
+    destroy: function(req, res) {
         //  var taskid = parseInt(req.param('id'));
-     //   var vid = parseInt(req.param('id'));
+        //   var vid = parseInt(req.param('id'));
         var vid = req.param('id');
-        console.log('in destroy', vid,req.params.all());
+        console.log('in destroy', vid, req.params.all());
         //
         //if (!taskid) {
         //    return res.badRequest('No taskid provided.');
@@ -602,7 +735,7 @@ module.exports = {
         //    console.log('=model=======', model.id)
 
         console.log('=destroy=======', vid)
-        Tasks.destroy(vid, function (err) {
+        Tasks.destroy(vid, function(err) {
             if (err) {
                 console.log('=err=======', err)
                 return res.serverError(err);

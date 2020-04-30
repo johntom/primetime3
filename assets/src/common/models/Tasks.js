@@ -26,12 +26,14 @@ angular.module('models.tasks', ['lodash', 'services', 'ngSails'])
             });
             return deferred.promise;
         },
-        this.getAll = function () {
+        
+         
+        
+        this.getAll = function (form) {
             var deferred = $q.defer();
             var Tasks = Restangular.all(urlRest);
-            Tasks.customGET().then(function (tasks) {
+            Tasks.customGET(form).then(function (tasks) {
                 console.log('tasks:: ', tasks)
-
                 deferred.resolve(tasks);
             });
             return deferred.promise;

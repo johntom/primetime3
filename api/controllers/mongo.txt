@@ -17,103 +17,104 @@ http://localhost:8013/api/tasks
 //2) copy from C:\Firebird\Data\DentalData\*.csv to c:\mongodb
 //3)C:\Program Files\MongoDB 2.6 Standard\bin
 cd c:\data\db (this is where csv is copied to)
-mongoimport --db primetime --collection tasksImport --type csv --file pt3.csv --headerline
+date	boat	start	end	triptypeid																					
 mongoimport --db primetime --collection contactsImport --type csv --file ConstantContact.csv --headerline
 
+mongoimport --db primetime --collection tasksJul --type csv --file pt3.csv --headerline
 
+march 2016
+date,boat,start,end,triptyped
+5/1/2016,1,7:00:00,15:00:00,1
+-- clear data tasksImport
+mongoimport --db primetime --collection tasksImport --type csv --file pt3.csv --headerline
 
-
-===========================================================
+============================s===============================
 -- mongo shell
- var na = 0;
+ //     db.tasksJul.find().forEach( function(task) {
+// jul 2015 data import format
+// date	boat	start	end	triptypeid	
+// 9/1/2015	1	7:00	15:00	1	
+
+     var na = 0;
      var dct = 0;
      db.tasksImport.find().forEach( function(task) {
        tasknew={};
        var str = task.date;
+       // printjson('str '+str)
        var res = str.split("/");
        var a = res[2];
        var b = res[0];
        var c = res[1];
        var mth = parseInt(b);
        var day = parseInt(c);
-
        if (b.length===1) {b='0'+b};
        if (c.length===1) {c='0'+c};
        var idate = a+'-'+b+'-'+c;
-
-
-       //printjson(' date '+task.date +' idate '+idate);
+       printjson(' date '+task.date +' idate '+idate);
        var starttime = task.start;
+       printjson('starttime:'+starttime)
        var stime = starttime.split(":");
        var a1 = stime[0];
-      var fixtime= a1
-      //printjson(' fixtime '+a1);
-
+       printjson('a1:'+a1)
+       var fixtime= a1
        var aa1 = parseInt(a1);
        aa1+=4;
+       printjson('aa1 '+aa1)
        var b1 = stime[1];
-       var c1 = stime[2];
-
+       printjson('b1 '+b1)
+       printjson('stime '+stime[1])
+       ////////////
+      // var c1 = stime[2];
+       var c1='00';
        if (aa1.length===1) {aa1='0'+aa1};
        if (b1.length===1) {b1='0'+b1};
-       if (c1.length===1) {c1='0'+c1};
+     //  if (c1.length===1) {c1='0'+c1};
        var newStime = aa1+':'+b1+':'+c1;
-
        var dt = ISODate(idate+"T"+newStime+".000Z"); // "2015-03-19T06:01:17.171Z");
        tasknew.Start =dt;
-   // printjson(' tasknew.newStime :'+newStime+' '+newStime);//tasknew.Start);
-
-
+      // printjson(' tasknew.newStime :'+newStime+' '+newStime);//tasknew.Start);
        var stre = task.end;
        var restime = stre.split(":");
-       var a1 = restime[0];
-       var b1 = restime[1];
-       var c1 = restime[2];
-      // var aa = parseInt(a1);//+(12*1)
-
-
-       var aa2 = parseInt(a1);
+       var za1 = restime[0];
+       var zb1 = restime[1];
+       var zc1 = restime[2];
+    
+       var aa2 = parseInt(za1);
        aa2+=4;
-      //if (aa2>23) { aa2=aa2-24};
         if((mth===5) && (day>15) && (task.triptypeid===2) ) {
-    //  printjson('=========== mthnum '+mth+' '+day+' '+task.triptypeid);
              var new2 = parseInt(a1);
-       new2+=5;
+        new2+=5;
             aa2=new2;
          }
-
-       var b1 = stime[1];
-       var c1 = stime[2];
-
+       var zb1 = stime[1];
+       //var zc1 = stime[2];
+       var zc1 = '00';  
        if (aa2.length===1) {aa2='0'+aa2};
-
-       var dte = ISODate(idate+"T"+aa2+':'+b1+':'+c1+':'+".000Z"); // "2015-03-19T06:01:17.171Z");
+       var dte = ISODate(idate+"T"+aa2+':'+zb1+':'+zc1+':'+".000Z"); // "2015-03-19T06:01:17.171Z");
        tasknew.End = dte;
-      // printjson(' tasknew.End :'+a1+': '+tasknew.End +' stre '+stre);
-
+       printjson(' tasknew.End :'+a1+': '+tasknew.End +' stre '+stre);
        var d='';
-       if (task["boat 1=pt3,2=jenglo"]===1){d='Prime Time 3'} else {d='Jenglo'}
-       // if (task.boat===2){d='Jenglo'};
-         na+=1;
-         tasknew.OwnerID=parseInt(task["boat 1=pt3,2=jenglo"]);
-         tasknew.TaskID=parseInt(na);
-         tasknew.Title=d+' '+ task["price per head"]+ ' per head ';
-        //      tasknew.StartTimezone=null;
-        //      tasknew.EndTimezone=null;
-         tasknew.StartTimezone='';
-         tasknew.EndTimezone='';
-
-
-         tasknew.RecurrenceRule=null;
-         tasknew.RecurrenceID=null;
-         tasknew.RecurrenceException=null;
-         tasknew.IsAllDay=false;
-         tasknew.TripType= task.triptypeid;
+       //if (task["boat 1=pt3,2=jenglo"]===1){d='Prime Time 3'} else {d='Jenglo'}
+       if (task["boat"]===1){d='Prime Time 3'} else {d='Jenglo'}
+       na+=1;
+       tasknew.OwnerID=parseInt(task["boat"]);
+       tasknew.TaskID=parseInt(na);
+       tasknew.Title=d+' '+ task["price per head"]+ ' per head ';
+       //      tasknew.StartTimezone=null;
+       //      tasknew.EndTimezone=null;
+        tasknew.StartTimezone='';
+        tasknew.EndTimezone='';
+        tasknew.RecurrenceRule=null;
+        tasknew.RecurrenceID=null;
+        tasknew.RecurrenceException=null;
+        tasknew.IsAllDay=false;
+        tasknew.TripType= task.triptypeid;
+       
+       ///////////
        if((mth===8)  && (task.triptypeid===2) && (fixtime==='15') && (tasknew.OwnerID===2)) {
           printjson('=========== mthnum '+mth+' '+task.triptypeid+' '+' '+stime+' '+tasknew.OwnerID);
           tasknew.TripType= 4;
-
-         }
+        }
 
         db.tasks.save(tasknew);
      });
