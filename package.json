@@ -47,7 +47,7 @@
     "sails-generate-auth": "~0.1.2",
     "sails-mongo": "~0.10.1",
     "skipper": "^0.5.5",
-    "validator": "~3.5.1",
+    "validator": "~13.1.1",
     "walk": "^2.3.9",
     "winston": "^1.0.0"
   },
